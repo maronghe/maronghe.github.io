@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>LoganMa&#39;s Blog</title>
+    <link>https://maronghe.github.io/</link>
+    <description>Recent content on LoganMa&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 22 Mar 2020 15:48:01 +0800</lastBuildDate>
+    
+	<atom:link href="https://maronghe.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>#1 第一篇博客 &amp; 回顾我的大学</title>
+      <link>https://maronghe.github.io/archives/2020/03/1/</link>
+      <pubDate>Sun, 22 Mar 2020 15:48:01 +0800</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/03/1/</guid>
+      <description>​ 2020年3月21日晚，参加了Go夜读两周年的回顾。也是第82期的Go夜读share。虽然加入这个大家庭才不长时间，学习Golang这门语</description>
+    </item>
+    
+  </channel>
+</rss>
