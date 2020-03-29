@@ -5,10 +5,19 @@
     <link>https://maronghe.github.io/</link>
     <description>Recent content on LoganMa&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 22 Mar 2020 15:48:01 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 29 Mar 2020 23:43:01 +0800</lastBuildDate>
     
 	<atom:link href="https://maronghe.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>#2 [采坑指南] json.Unmarshal后interface{}成map[string]interface{}</title>
+      <link>https://maronghe.github.io/archives/2020/03/2/</link>
+      <pubDate>Sun, 29 Mar 2020 23:43:01 +0800</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/03/2/</guid>
+      <description>​ 可能大家工作中都会遇到类型断言，即接口类型断言是否为某种strcut类型i.(A)或某种struct的指针类型i.(*A)。 那么当一个想要</description>
+    </item>
     
     <item>
       <title>#1 第一篇博客 &amp; 回顾我的大学</title>
