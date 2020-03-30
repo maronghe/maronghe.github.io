@@ -33,7 +33,7 @@
 <meta itemprop="description" content="​ 可能大家工作中都会遇到类型断言，即接口类型断言是否为某种strcut类型i.(A)或某种struct的指针类型i.(*A)。 那么当一个想要">
 <meta itemprop="datePublished" content="2020-03-29T23:43:01&#43;08:00" />
 <meta itemprop="dateModified" content="2020-03-29T23:43:01&#43;08:00" />
-<meta itemprop="wordCount" content="635">
+<meta itemprop="wordCount" content="627">
 
 
 
@@ -79,15 +79,15 @@
   <div id="contentBody">
     <p>​	可能大家工作中都会遇到类型断言，即接口类型断言是否为某种strcut类型<code>i.(A)</code>或某种struct的指针类型<code>i.(*A)</code>。</p>
 <p>那么当一个想要一个<code>interface{}</code>类型既想转换成多种类型，且多种类型并不属于同一种。这句话说的可能比较绕圈，下面举个例子来看下。</p>
-<p>![image-20200329232756358](/Users/logan/Library/Application Support/typora-user-images/image-20200329232756358.png)</p>
+<p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gdbs3lnvfqj30sm0humz9.jpg" alt=""></p>
 <p>当有两个SA和SB，当我们想要从字符串翻转成结构体时。我们可以</p>
-<p>![image-20200329232929443](/Users/logan/Library/Application Support/typora-user-images/image-20200329232929443.png)</p>
+<p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gdbs4kh13cj30xq0icq4o.jpg" alt=""></p>
 <p>没问题，输出结果是</p>
 <pre><code>sa {logan 18 Beijing}
 PASS
 </code></pre><p>但是当结构体内容时由其他结构体，以<code>interface{}</code>类型进行返回时，那么情景可能如下。</p>
-<p>![image-20200329233206136](/Users/logan/Library/Application Support/typora-user-images/image-20200329233206136.png)</p>
-<p>![image-20200329233237726](/Users/logan/Library/Application Support/typora-user-images/image-20200329233237726.png)</p>
+<p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gdbs52mbhoj30kk05qdgc.jpg" alt=""></p>
+<p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gdbs5kk96wj30u00x4wm8.jpg" alt=""></p>
 <p>如果50和51行都注释掉了的话，那么结果会输出</p>
 <pre><code>it2 data type is map[string]interface {}
 ti3 type assertion error, it isn't type SA 
