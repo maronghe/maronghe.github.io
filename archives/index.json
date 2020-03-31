@@ -1,5 +1,14 @@
 [
     {
+        "ref": "https://maronghe.github.io/archives/2020/03/2/",
+        "title": "#2 [采坑指南] json.Unmarshal后interface{}成map[string]interface{}",
+        "section": "archives",
+        "tags": null,
+        "date" : "2020.03.29",
+        "body": "​\t可能大家工作中都会遇到类型断言，即接口类型断言是否为某种strcut类型i.(A)或某种struct的指针类型i.(*A)。\n那么当一个想要一个interface{}类型既想转换成多种类型，且多种类型并不属于同一种。这句话说的可能比较绕圈，下面举个例子来看下。\n当有两个SA和SB，当我们想要从字符串翻转成结构体时。我们可以\n没问题，输出结果是\nsa {logan 18 Beijing} PASS 但是当结构体内容时由其他结构体，以interface{}类型进行返回时，那么情景可能如下。\n如果50和51行都注释掉了的话，那么结果会输出\nit2 data type is map[string]interface {} ti3 type assertion error, it isn't type SA ti4 type assertion error, it isn't type SB ti5 is map[addr:Beijing age:18 name:logan] PASS 意味着data转换成了map[string]interface{}如果转换成map[string]interface{}类型后，那么想要key中的value还需要继续类型断言。\n为什么会转成map[string]interface{}呢？因为对象底层类型，当unmarshal时并不知道对象底层类型。\n那么，是否有一种希望转成的类型当我们的确希望转换成某种类型，如SA或SB。\n答案是需要告诉结构类型的底层类型是什么，才可做此类型的类型断言。\n解开注释50或51行后，则输出结果成为\nit2 data type is *main.SB ti3 type assertion error, it isn't type SA ti4 is \u0026amp;{logan 18 } ti5 type assertion error, it isn't type map[string]interface{} PASS 总结：当我们希望类型断言的结构体中是一个interface{}类型时，希望转换成某种我们希望的类型，要进行底层类型的转换。那么就要给Data进行赋值类型。则断言方可成功。\n 参考内容\n  https://github.com/maronghe/todo-list/issues/5 https://stackoverflow.com/questions/43325288/golang-convert-interface-to-struct/43325450 https://play.golang.org/p/6fOr0rFV_e1  "
+    }
+,
+    {
         "ref": "https://maronghe.github.io/archives/2020/03/1/",
         "title": "#1 第一篇博客 \u0026 回顾我的大学",
         "section": "archives",
