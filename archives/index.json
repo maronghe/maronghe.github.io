@@ -1,5 +1,14 @@
 [
     {
+        "ref": "https://maronghe.github.io/archives/2020/03/13/",
+        "title": "13 Go 导包（Import）顺序",
+        "section": "archives",
+        "tags": null,
+        "date" : "2020.04.06",
+        "body": "1.包存在哪里？\n​\t看段代码，想必大家都知道GoPath和GoRoot的是什么了。（GoPath = 你的工作空间路径 ，GoRoot = Go的安装路径）\nimport ( . \u0026#34;fmt\u0026#34; \u0026#34;os\u0026#34; ) func init() { Printf(\u0026#34;Go Root %s \\n\u0026#34;, os.Getenv(\u0026#34;GOROOT\u0026#34;)) // Go Root /usr/local/Cellar/go/1.14/libexec  Printf(\u0026#34;Go Path %s \\n\u0026#34;, os.Getenv(\u0026#34;GOPATH\u0026#34;)) // Go Path /Users/logan/go } 通过 . 对 \u0026ldquo;fmt\u0026rdquo; 进行别名，则不需要使用 fmt.Printf(\u0026quot;...\u0026quot;)了，但一个包中只能有一个.别名否则会报错。同时可以配置多个GoPath用 : 分割，例如 GOPATH=/Users/logan/go:~/myworkspace\n2.扫描包的顺序？\nimport ( \u0026#34;fmt\u0026#34; \u0026#34;net/http\u0026#34; ) 如果搜索net/http包时，搜索顺序如下:\n/usr/local/Cellar/go/1.14/libexec/src/net/http /Users/logan/go/src/net/http ~/myworkspace/src/net/http 3.包的导入顺序？及var、const、init()加载顺序。\n包导入顺序如图所示，同时可知先初始化const、其次为var、之后为init()，注意同时可以有多个init方法，从上到下依次执行。\n4.包重名了怎么办？\nimport ( \u0026#34;runtime\u0026#34; \u0026#34;strings\u0026#34; strings2 \u0026#34;strings\u0026#34; \u0026#34;testing\u0026#34; ) func TestImport(t *testing.T){ strings.PrintlnHello(\u0026#34;Logan\u0026#34;) strings2.Compare(\u0026#34;a\u0026#34;,\u0026#34;b\u0026#34;) } 如果包重名了，只能起别名，否则不能识别出是哪个包中的方法需要引用。\n5.包导入的”奇淫技巧“\n​\t_导入 及 远程包\n_ \u0026#34;github.com/go-sql-driver/mysql\u0026#34; // 导入mysql驱动 仅需要依赖执行github.com/go-sql-driver/mysql中的初始化init()函数\n编译期加载  var ( // 常量，数值、字符(runes)、字符串或布尔值等 \ti = 1\u0026lt;\u0026lt;3 ) 运行期加载，如：  math.Sin(math.Pi/4)  参考连接：\n https://www.cnblogs.com/f-ck-need-u/p/9847554.html  "
+    }
+,
+    {
         "ref": "https://maronghe.github.io/archives/2020/03/11/",
         "title": "#11 Session与Cookie的区别",
         "section": "archives",
