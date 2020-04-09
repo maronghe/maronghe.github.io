@@ -5,10 +5,19 @@
     <link>https://maronghe.github.io/</link>
     <description>Recent content on LoganMa&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 29 Mar 2020 23:43:01 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 06 Apr 2020 15:48:01 +0800</lastBuildDate>
     
 	<atom:link href="https://maronghe.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>#11 Session与Cookie的区别</title>
+      <link>https://maronghe.github.io/archives/2020/03/11/</link>
+      <pubDate>Mon, 06 Apr 2020 15:48:01 +0800</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/03/11/</guid>
+      <description>Session 和 Cookie 看法 首先HTTP协议是无状态的，当我们开发的一些对状态有要求的接口时，Cookie和Session弥补了这一块的能力。 Cookie 对于HTTP协</description>
+    </item>
     
     <item>
       <title>#2 [采坑指南] json.Unmarshal后interface{}成map[string]interface{}</title>
@@ -35,15 +44,6 @@
       
       <guid>https://maronghe.github.io/archives/2020/03/10/</guid>
       <description>title: &amp;ldquo;#10 Study Recording&amp;rdquo; date: 2020-04-3T12:39:01+08:00 draft: true Q : 怎样知道一个变量分配到堆上还是栈上？ A :编译器首先尝试分配到栈上，但如果编译器不能保证函数返回值是否被引用，那么编译器会</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://maronghe.github.io/archives/2020/03/11/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://maronghe.github.io/archives/2020/03/11/</guid>
-      <description>title: &amp;ldquo;#11 Session 和 Cookie的看法&amp;rdquo; date: 2020-04-06 T15:28:01+08:00 draft: false Session 和 Cookie 看法 首先HTTP协议是无状态的，当我们开发的一些对状态有要求的接口时，Cookie和</description>
     </item>
     
   </channel>
