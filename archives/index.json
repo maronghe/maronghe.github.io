@@ -1,5 +1,14 @@
 [
     {
+        "ref": "https://maronghe.github.io/archives/2020/03/14/",
+        "title": "#14 Docker In Hour",
+        "section": "archives",
+        "tags": null,
+        "date" : "2020.04.17",
+        "body": " Docker\n 一个统一环境dev/qa/app/beta/cloud的容器、容器是相互隔离的。\nDocker是容器技术，解决软件跨环境的迁移的问题。\nDocker安装后，在本地一守护进程(Daemon)的方式后台运行。\n-\u0026gt; docker -v Docker version 19.03.8, build afacb8b 本地部署的分为image和container，image相当于类，container相当于对象，一个类可以创建多个对象。\nimage 可来自于docker官方Repository Docker Hub 和 private Repository或阿里云镜像 TODO\n镜像命令\ndocker images // 查看当前已安装的镜像列表 docker search [redis] // 搜索redis镜像 docker pull [redis]:[version] // 不指定version默认下载latest docker rmi [imageId]/[redis]:[version] 容器命令\ndocker ps // 查看运行的容器docker ps -a // 查看所有的容器docker -run -it[d] --name=[name] /bin/sh // 运行docker -i持续运行 -t分配终端（交互式） -d后台运行（守护式） /bin/sh mac defaultdocker exec [name] /bin/sh // 进入某一运行的容器中docer [start][stop][rm][inspect] [container-name] // 启动、停止、移除、查看详情数据卷容器\ndocker run -it --name c3 -v /volume centos:latest // 创建名为c3的并带有一个/volume的数据卷容器 centos docker run -it --name c1 --volumes-from c3 centos:latest // 创建c1从c3挂载 docker run -it --name c2 --volumes-from c3 centos:latest // 创建c2从c3挂载  Docker的本质\n  创建新的镜像\n 1.容器转为镜像\ndocker commit 容器id 镜像名字:版本号 docker save -o 压缩文件名称 镜像名字:版本号 docker load -i 压缩文件名称 Dockerfile  FROM centos:latest MAINTAINER maronghe \u0026lt;loganma0209@gmail.com\u0026gt; RUN yum install -y vim # 安装 vim WORKDIR /usr #设置默认目录为/usr CMD /bin/bash docker build -f centos_dockerfile -t logan_centos:0.0.1 .\t// build dockerfile 创建镜像 容器复用宿主机的内核。\n总结：\n"
+    }
+,
+    {
         "ref": "https://maronghe.github.io/archives/2020/03/13/",
         "title": "#13 Go 导包（Import）顺序",
         "section": "archives",
@@ -42,5 +51,14 @@
         "tags": null,
         "date" : "0001.01.01",
         "body": "title: \u0026ldquo;#10 Study Recording\u0026rdquo; date: 2020-04-3T12:39:01+08:00 draft: true\n   Q : 怎样知道一个变量分配到堆上还是栈上？\nA :编译器首先尝试分配到栈上，但如果编译器不能保证函数返回值是否被引用，那么编译器会分配到堆上。如果一个对象太大了。也会分配到GC堆上。当今的编译器来说，如果一个使用变量的地址，该对象时分配堆上的候选对象，但是逃逸分析后可以识别如果改对象未超过函数的返回范围，那么该变量也可能保存在栈上\nR : https://golang.org/doc/faq#stack_or_heap\n  new 和 make 有什么区别\nA : new(T)： 分配内存 但初始化仅为0值并返回其指针T和*T（值）。\n​\tnew(File) =\u0026gt; \u0026amp;File{} // 初始化0值\n​\tmake(T,args) 仅用于创建 map slice channel，并返回非0值（not zeroed）的类型T（非 *T）\nR : https://golang.org/doc/effective_go.html#allocation_new\n​\thttps://golang.org/doc/effective_go.html#allocation_make\n  Go 的内存分配器是基于TCMalloc的一种分配器（TC Malloc Thread-Cached Malloc）\n​\tYouTube Link, GopherCon UK 2018\n 申请内存顺序    4.Go是一种基于epoll的多路复用IO模型，其TCPListener是对netFD进行封装。\n Sudog的资源池：每个P都有自己的缓冲池和全局调度器缓存池。\n 当本地的sudog的缓冲区为0时，加锁去全局调度器sudog的缓冲池去取全局的一半。 否则新创建一个sudog。    go语言编译后成汇编语言。\ngo tool compile -S file.go\n  "
+    }
+,
+    {
+        "ref": "https://maronghe.github.io/archives/2020/03/untitled/",
+        "title": "",
+        "section": "archives",
+        "tags": null,
+        "date" : "0001.01.01",
+        "body": " 自我介绍\n ​\t莫愁前方无知己，天下谁人不识君。\n​\t面试官您好，我叫马荣贺，毕业于\u0026hellip;\u0026hellip;..，目前就职于蓝信移动有限公司，从事服务端研发相关的工作。工作日常负责项目的评审、研发及后期的维护。\n​\t学习就要有节奏，有方向的进行。给自己顶一个短期计划，如三天，一周，半个月等。不能为了面试而学习这样只会让自己在临近工作做不下去，或想找工作之气临时抱佛脚。游戏切记成瘾！\n​\t学习是要有自我分析理解的过程，看网上的某些教程视频，人家仅会给你他理解到的内容，可能会有些不准确，也可能会有些偏差，当他给你讲述的同时，你可能理解有偏差。这样的话，你与其他人交流时，由于没有自己分析和摸索知识的过程，会显得格外的“虚”，不懂原理，不知其所以然。\n​\t所以学习还是要通过自己的一点一滴积累，寻求权威的认证，最不断地求知精神。同样在生活中多应该问问自己：“为什么？”，为什么这样做就可以，多思考，多探索。学习后要有些输出如博客等。也可以与组内和朋友交流，如果你能给其他人以通俗易懂的方式讲明白了。那么就证明你明白了。\n​\t分析问题的过程：\n  为什么这么做？\n  解决了哪些问题？\n  逻辑和技术难点？\n  自己做出了哪些事情？\n如：『原因』系统为了解决用户的客户端APP连接会话不在线，同样可以将消息发送到对方手机上。「解决方案」从而引入了手机厂商的Push服务，可在用户登录时，端上调用手机厂商提供的结构，创建自己的手机的设备Token，将Token上传到自己的Server去维护。则服务端在发消息的同时可确定是否要发送系统Push来通知用户客户端。「性能提升」通过Push的接口的性能测试，可判别出Push服务的性能，从而发现性能瓶颈，解决和优化。\n   计算机组成原理 操作系统 数据结构与算法 计算机网络（） 数据库原理 Go语言实现原理及新特性 Docker、K8S容器化、Service Mesh Redis、Kafka、ZK、ES、Nginx、Kibana、jenkins中间件 分布式、RPC、微服务链路追踪 网络安全攻击 性能测试 自定义协议  "
     }
 ]
