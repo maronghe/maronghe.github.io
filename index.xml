@@ -5,10 +5,19 @@
     <link>https://maronghe.github.io/</link>
     <description>Recent content on LoganMa&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 06 Apr 2020 16:08:53 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 17 Apr 2020 16:08:53 +0800</lastBuildDate>
     
 	<atom:link href="https://maronghe.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>#14 Docker In Hour</title>
+      <link>https://maronghe.github.io/archives/2020/03/14/</link>
+      <pubDate>Fri, 17 Apr 2020 16:08:53 +0800</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/03/14/</guid>
+      <description>Docker 一个统一环境dev/qa/app/beta/cloud的容器、容器是相互隔离的。 Docker是容器技术，解决软件跨环境的迁移的问题。 Doc</description>
+    </item>
     
     <item>
       <title>#13 Go 导包（Import）顺序</title>
@@ -53,6 +62,15 @@
       
       <guid>https://maronghe.github.io/archives/2020/03/10/</guid>
       <description>title: &amp;ldquo;#10 Study Recording&amp;rdquo; date: 2020-04-3T12:39:01+08:00 draft: true Q : 怎样知道一个变量分配到堆上还是栈上？ A :编译器首先尝试分配到栈上，但如果编译器不能保证函数返回值是否被引用，那么编译器会</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://maronghe.github.io/archives/2020/03/untitled/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/03/untitled/</guid>
+      <description>自我介绍 ​ 莫愁前方无知己，天下谁人不识君。 ​ 面试官您好，我叫马荣贺，毕业于&amp;hellip;&amp;hellip;..，目前就职于蓝信移动有限公司，</description>
     </item>
     
   </channel>

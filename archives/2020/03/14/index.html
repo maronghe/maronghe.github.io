@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>
+      
+          #14 Docker In Hour - LoganMa&#39;s Blog
+      
+  </title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="马荣贺(Logan Ma)" />
+  <link rel="shortcut icon" type="image/x-icon" href="https://maronghe.github.io/img/horseface.ico">
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://maronghe.github.io/style.min.a50e85be2191b7446e684667eb002377b10f833f329c30d9b701ea188a664750.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+  
+  
+
+  <meta property="og:title" content="#14 Docker In Hour" />
+<meta property="og:description" content="Docker 一个统一环境dev/qa/app/beta/cloud的容器、容器是相互隔离的。 Docker是容器技术，解决软件跨环境的迁移的问题。 Doc" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://maronghe.github.io/archives/2020/03/14/" />
+<meta property="article:published_time" content="2020-04-17T16:08:53+08:00" />
+<meta property="article:modified_time" content="2020-04-17T16:08:53+08:00" />
+<meta itemprop="name" content="#14 Docker In Hour">
+<meta itemprop="description" content="Docker 一个统一环境dev/qa/app/beta/cloud的容器、容器是相互隔离的。 Docker是容器技术，解决软件跨环境的迁移的问题。 Doc">
+<meta itemprop="datePublished" content="2020-04-17T16:08:53&#43;08:00" />
+<meta itemprop="dateModified" content="2020-04-17T16:08:53&#43;08:00" />
+<meta itemprop="wordCount" content="585">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:image" content="https://maronghe.github.io//img/loganma.jpeg"/>
+<meta name="twitter:title" content="#14 Docker In Hour"/>
+<meta name="twitter:description" content="Docker 一个统一环境dev/qa/app/beta/cloud的容器、容器是相互隔离的。 Docker是容器技术，解决软件跨环境的迁移的问题。 Doc"/>
+
+  <!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+  <![endif]-->
+
+  <!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <![endif]-->
+
+  </head>
+
+  <body>
+    
+  <h1>#14 Docker In Hour</h1>
+  <header>
+  
+  <div class="avatar">
+    <img class="avatarMask" src="https://maronghe.github.io//img/loganma.jpeg">
+    <a href="https://maronghe.github.io/"><img src="https://maronghe.github.io//img/avatar-border.svg"></a>
+  </div>
+  
+  <h2><a class="author" href="https://maronghe.github.io/">马荣贺(Logan Ma)</a></h2>
+</header>
+
+  
+  
+  <p class="date">April 17, 2020</p>
+  
+  <div id="tags">
+    <ul>
+      
+    </ul>
+  </div>
+  
+  <div id="contentBody">
+    <blockquote>
+<p>Docker</p>
+</blockquote>
+<p>一个统一环境dev/qa/app/beta/cloud的容器、容器是相互隔离的。</p>
+<p>Docker是容器技术，解决软件跨环境的迁移的问题。</p>
+<p>Docker安装后，在本地一守护进程<code>(Daemon)</code>的方式后台运行。</p>
+<pre><code>-&gt; docker -v
+Docker version 19.03.8, build afacb8b
+</code></pre><p>本地部署的分为<code>image</code>和<code>container</code>，<code>image</code>相当于类，<code>container</code>相当于对象，一个类可以创建多个对象。</p>
+<p><code>image</code> 可来自于<code>docker</code>官方<code>Repository</code> <a href="https://hub.docker.com/">Docker Hub</a> 和 <code>private Repository</code>或<a href="">阿里云镜像</a> TODO</p>
+<p>镜像命令</p>
+<pre><code>docker images // 查看当前已安装的镜像列表
+docker search [redis] // 搜索redis镜像
+docker pull [redis]:[version] // 不指定version默认下载latest
+docker rmi [imageId]/[redis]:[version]
+</code></pre><p>容器命令</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile">docker ps // 查看运行的容器<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>docker ps -a // 查看所有的容器<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>docker -run -it<span style="color:#f92672">[</span>d<span style="color:#f92672">]</span> --name<span style="color:#f92672">=[</span>name<span style="color:#f92672">]</span> /bin/sh // 运行docker -i持续运行 -t分配终端（交互式） -d后台运行（守护式） /bin/sh mac default<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>docker exec <span style="color:#f92672">[</span>name<span style="color:#f92672">]</span> /bin/sh // 进入某一运行的容器中<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>docer <span style="color:#f92672">[</span>start<span style="color:#f92672">][</span>stop<span style="color:#f92672">][</span>rm<span style="color:#f92672">][</span>inspect<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>container-name<span style="color:#f92672">]</span> // 启动、停止、移除、查看详情<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>数据卷容器</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gduftyrdm5j30r40dijvn.jpg" alt=""></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">docker</span> <span style="color:#a6e22e">run</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">it</span> <span style="color:#f92672">--</span><span style="color:#a6e22e">name</span> <span style="color:#a6e22e">c3</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">v</span> <span style="color:#f92672">/</span><span style="color:#a6e22e">volume</span> <span style="color:#a6e22e">centos</span>:<span style="color:#a6e22e">latest</span> <span style="color:#75715e">// 创建名为c3的并带有一个/volume的数据卷容器 centos
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">docker</span> <span style="color:#a6e22e">run</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">it</span> <span style="color:#f92672">--</span><span style="color:#a6e22e">name</span> <span style="color:#a6e22e">c1</span> <span style="color:#f92672">--</span><span style="color:#a6e22e">volumes</span><span style="color:#f92672">-</span><span style="color:#a6e22e">from</span> <span style="color:#a6e22e">c3</span> <span style="color:#a6e22e">centos</span>:<span style="color:#a6e22e">latest</span> <span style="color:#75715e">// 创建c1从c3挂载
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">docker</span> <span style="color:#a6e22e">run</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">it</span> <span style="color:#f92672">--</span><span style="color:#a6e22e">name</span> <span style="color:#a6e22e">c2</span> <span style="color:#f92672">--</span><span style="color:#a6e22e">volumes</span><span style="color:#f92672">-</span><span style="color:#a6e22e">from</span> <span style="color:#a6e22e">c3</span> <span style="color:#a6e22e">centos</span>:<span style="color:#a6e22e">latest</span> <span style="color:#75715e">// 创建c2从c3挂载
+</span></code></pre></div><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gdufurololj31ha0s0gtb.jpg" alt=""></p>
+<blockquote>
+<p>Docker的本质</p>
+</blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gdui65r616j31900gmakw.jpg" alt=""></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gdui788oajj30pi0mydpt.jpg" alt=""></p>
+<blockquote>
+<p>创建新的镜像</p>
+</blockquote>
+<p>1.容器转为镜像</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker commit 容器id 镜像名字:版本号
+docker save -o 压缩文件名称 镜像名字:版本号
+docker load -i 压缩文件名称
+</code></pre></div><ol start="2">
+<li>Dockerfile</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">FROM centos:latest
+
+MAINTAINER maronghe &lt;loganma0209@gmail.com&gt;
+
+RUN yum install -y vim <span style="color:#75715e"># 安装 vim</span>
+WORKDIR /usr <span style="color:#75715e">#设置默认目录为/usr</span>
+
+CMD /bin/bash
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker build -f centos_dockerfile -t logan_centos:0.0.1 .	// build dockerfile 创建镜像
+</code></pre></div><p>容器复用宿主机的内核。</p>
+<p>总结：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gdujjnekwvj31la0u0k81.jpg" alt=""></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gdujm2ojabj316k0u017l.jpg" alt=""></p>
+
+  </div>
+  <footer>
+  <p>
+  &copy; 2020 马荣贺(Logan Ma).
+  </p>
+</footer>
+
+
+  </body>
+</html>
