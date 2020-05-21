@@ -75,6 +75,51 @@
     
     <item>
       <title></title>
+      <link>https://maronghe.github.io/archives/2020/03/18/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/03/18/</guid>
+      <description>创建路径/data本地： mkdir -p /Users/logan/dev/workspace/mysql-docker/data3307 mkdir -p /Users/logan/dev/workspace/mysql-docker/data3308 创建配置文件： vim /Users/logan/dev/workspace/mysql-docker/my3307.cnf # msyql 3307的配置： [mysqld] pid-file = /var/run/mysqld/mysqld.pid socket = /var/run/mysqld/mysqld.sock datadir = /var/lib/mysql server-id = 1 log_bin = mysql-bin binlog_format = ROW expire_logs_days = 30 vim /Users/logan/dev/workspace/mysql-docker/my3308.cnf # msyql 3308的配置</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://maronghe.github.io/archives/2020/03/19/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/03/19/</guid>
+      <description>docker run --name myredis -p 6380:6379 -d -v /Users/logan/dev/workspace/redis-docker:/data redis:latest --appendonly yes .... 127.0.0.1:6380&amp;gt; zadd zlist 128 hhhh (integer) 1 127.0.0.1:6380&amp;gt; object encoding zlist &amp;#34;ziplist&amp;#34; 127.0.0.1:6380&amp;gt; ZCARD zlist (integer) 128 127.0.0.1:6380&amp;gt; zadd zlist 140 hqhhh (integer) 1 127.0.0.1:6380&amp;gt; object encoding zlist &amp;#34;skiplist&amp;#34; 127.0.0.1:6380&amp;gt; ZCARD zlist (integer) 129 .... 结论，超过128之后或超过单node64字节</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://maronghe.github.io/archives/2020/03/20/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/03/20/</guid>
+      <description>DIstributed Cron Job In Micor 定时任务几乎在所有的项目后台存在，可能在特定是时间执行一次或周期性的执行。 单机 ​ 在单机中的服务中，一般定时任务是直截了当和简单的。</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://maronghe.github.io/archives/2020/03/21/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/03/21/</guid>
+      <description>8根 地址总线只有八位 即 1字节 【0,255】 256 是8根地址总线的最大寻址空间 32根 32位 4G 最大寻址空间 每次操作4字节 （机器字长）就需要32位数据</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://maronghe.github.io/archives/2020/03/lx/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/03/lx/</guid>
+      <description>项目启动 main.go -&amp;gt; 1.初始化qLog （日志地址、队列大小、并发标识、最小日志级别） 2.init etcd 3. init infra-components ？ 4.init project config（cmd -&amp;gt; etcd -&amp;gt; default） ope</description>
+    </item>
+    
+    <item>
+      <title></title>
       <link>https://maronghe.github.io/archives/2020/03/untitled/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
