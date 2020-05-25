@@ -99,7 +99,7 @@
 <span style="color:#960050;background-color:#1e0010">~</span><span style="color:#f92672">/</span><span style="color:#a6e22e">myworkspace</span><span style="color:#f92672">/</span><span style="color:#a6e22e">src</span><span style="color:#f92672">/</span><span style="color:#a6e22e">net</span><span style="color:#f92672">/</span><span style="color:#a6e22e">http</span>
 </code></pre></div><p>3.包的导入顺序？及var、const、init()加载顺序。</p>
 <p>包导入顺序如图所示，同时可知先初始化const、其次为var、之后为init()，<strong>注意同时可以有多个init方法，从上到下依次执行。</strong></p>
-<p><img src="https://img2018.cnblogs.com/blog/733013/201810/733013-20181023224911978-1960747966.png" alt="img"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1geat63nag2j30rm0bxtcw.jpg" alt="img"></p>
 <p>4.包重名了怎么办？</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">import</span> (
    <span style="color:#e6db74">&#34;runtime&#34;</span>

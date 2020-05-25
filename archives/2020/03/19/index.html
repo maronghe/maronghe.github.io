@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>
+      
+           - LoganMa&#39;s Blog
+      
+  </title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="马荣贺(Logan Ma)" />
+  <link rel="shortcut icon" type="image/x-icon" href="https://maronghe.github.io/img/horseface.ico">
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://maronghe.github.io/style.min.a50e85be2191b7446e684667eb002377b10f833f329c30d9b701ea188a664750.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+  
+  
+
+  <meta property="og:title" content="" />
+<meta property="og:description" content="docker run --name myredis -p 6380:6379 -d -v /Users/logan/dev/workspace/redis-docker:/data redis:latest --appendonly yes .... 127.0.0.1:6380&gt; zadd zlist 128 hhhh (integer) 1 127.0.0.1:6380&gt; object encoding zlist &#34;ziplist&#34; 127.0.0.1:6380&gt; ZCARD zlist (integer) 128 127.0.0.1:6380&gt; zadd zlist 140 hqhhh (integer) 1 127.0.0.1:6380&gt; object encoding zlist &#34;skiplist&#34; 127.0.0.1:6380&gt; ZCARD zlist (integer) 129 .... 结论，超过128之后或超过单node64字节" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://maronghe.github.io/archives/2020/03/19/" />
+
+<meta itemprop="name" content="">
+<meta itemprop="description" content="docker run --name myredis -p 6380:6379 -d -v /Users/logan/dev/workspace/redis-docker:/data redis:latest --appendonly yes .... 127.0.0.1:6380&gt; zadd zlist 128 hhhh (integer) 1 127.0.0.1:6380&gt; object encoding zlist &#34;ziplist&#34; 127.0.0.1:6380&gt; ZCARD zlist (integer) 128 127.0.0.1:6380&gt; zadd zlist 140 hqhhh (integer) 1 127.0.0.1:6380&gt; object encoding zlist &#34;skiplist&#34; 127.0.0.1:6380&gt; ZCARD zlist (integer) 129 .... 结论，超过128之后或超过单node64字节">
+
+<meta itemprop="wordCount" content="191">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:image" content="https://maronghe.github.io//img/loganma.jpeg"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="docker run --name myredis -p 6380:6379 -d -v /Users/logan/dev/workspace/redis-docker:/data redis:latest --appendonly yes .... 127.0.0.1:6380&gt; zadd zlist 128 hhhh (integer) 1 127.0.0.1:6380&gt; object encoding zlist &#34;ziplist&#34; 127.0.0.1:6380&gt; ZCARD zlist (integer) 128 127.0.0.1:6380&gt; zadd zlist 140 hqhhh (integer) 1 127.0.0.1:6380&gt; object encoding zlist &#34;skiplist&#34; 127.0.0.1:6380&gt; ZCARD zlist (integer) 129 .... 结论，超过128之后或超过单node64字节"/>
+
+  <!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+  <![endif]-->
+
+  <!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <![endif]-->
+
+  </head>
+
+  <body>
+    
+  <h1></h1>
+  <header>
+  
+  <div class="avatar">
+    <img class="avatarMask" src="https://maronghe.github.io//img/loganma.jpeg">
+    <a href="https://maronghe.github.io/"><img src="https://maronghe.github.io//img/avatar-border.svg"></a>
+  </div>
+  
+  <h2><a class="author" href="https://maronghe.github.io/">马荣贺(Logan Ma)</a></h2>
+</header>
+
+  
+  
+  <p class="date">January 1, 0001</p>
+  
+  <div id="tags">
+    <ul>
+      
+    </ul>
+  </div>
+  
+  <div id="contentBody">
+    <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker run --name myredis -p 6380:6379 -d -v /Users/logan/dev/workspace/redis-docker:/data redis:latest --appendonly yes
+
+
+....
+127.0.0.1:6380&gt; zadd zlist <span style="color:#ae81ff">128</span> hhhh
+<span style="color:#f92672">(</span>integer<span style="color:#f92672">)</span> <span style="color:#ae81ff">1</span>
+127.0.0.1:6380&gt; object encoding zlist
+<span style="color:#e6db74">&#34;ziplist&#34;</span>
+127.0.0.1:6380&gt; ZCARD zlist
+<span style="color:#f92672">(</span>integer<span style="color:#f92672">)</span> <span style="color:#ae81ff">128</span>
+127.0.0.1:6380&gt; zadd zlist <span style="color:#ae81ff">140</span> hqhhh
+<span style="color:#f92672">(</span>integer<span style="color:#f92672">)</span> <span style="color:#ae81ff">1</span>
+127.0.0.1:6380&gt; object encoding zlist
+<span style="color:#e6db74">&#34;skiplist&#34;</span>
+127.0.0.1:6380&gt; ZCARD zlist
+<span style="color:#f92672">(</span>integer<span style="color:#f92672">)</span> <span style="color:#ae81ff">129</span>  
+....
+结论，超过128之后或超过单node64字节就会变成skiplist
+那么在128内是ziplist的，但是在129以后就会变成skiplist以平均Log<span style="color:#f92672">(</span>N<span style="color:#f92672">)</span>的（最坏O<span style="color:#f92672">(</span>n<span style="color:#f92672">)</span>）时间复杂度查询。
+
+
+
+
+
+</code></pre></div><p>Q：</p>
+<ol>
+<li>为什么ziplist可以节省空间？以一种时间换空间的思想。</li>
+<li>String (int ,embstr,row)</li>
+<li>List (ziplist, linkedlist)</li>
+<li>Hash (ziplist, hashtable)</li>
+<li>Set (inset, hashtable)</li>
+<li>Zset (ziplist, skiplist)</li>
+</ol>
+
+  </div>
+  <footer>
+  <p>
+  &copy; 2020 马荣贺(Logan Ma).
+  </p>
+</footer>
+
+
+  </body>
+</html>
