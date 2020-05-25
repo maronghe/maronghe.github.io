@@ -111,6 +111,15 @@
     
     <item>
       <title></title>
+      <link>https://maronghe.github.io/archives/2020/03/https/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/03/https/</guid>
+      <description>前端工程化 HTTP 2.0 HTTPs HTTP 1.0 1.1 1.1 // HTTPs = HTTP + SSL HTTP 2.0 首部压缩 多路复用 二进制分帧 服务端推送 cookie header -》 20 ok 2 byte 22 = 2 + 20 ​ http 1.1 client &amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash; server http -&amp;gt; tcp tcp 3 4 1.0 短连接 1.1 长链</description>
+    </item>
+    
+    <item>
+      <title></title>
       <link>https://maronghe.github.io/archives/2020/03/lx/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
