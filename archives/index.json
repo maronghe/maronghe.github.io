@@ -99,12 +99,21 @@
     }
 ,
     {
+        "ref": "https://maronghe.github.io/archives/2020/03/https/",
+        "title": "",
+        "section": "archives",
+        "tags": null,
+        "date" : "0001.01.01",
+        "body": "前端工程化 HTTP 2.0 HTTPs HTTP 1.0 1.1\n1.1\n// HTTPs = HTTP + SSL\nHTTP 2.0\n 首部压缩 多路复用 二进制分帧 服务端推送  cookie header -》 20\nok 2 byte\n22 = 2 + 20\n​ http 1.1\nclient \u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash;\u0026mdash; server\nhttp -\u0026gt; tcp\ntcp 3 4\n1.0 短连接\n1.1 长链接 connection = keep-alive\nConnect\n1 - \u0026gt;\n\u0026lt;\u0026ndash;\n-\u0026gt;\n\u0026lt;-\n..\nclose\n1.1\nheader + cookie 20\nbody = 2\n\u0026mdash;\u0026gt; 占网络带宽 -\u0026gt;\n2 / 22\nHeader 压缩\n 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2\n  首部压缩 服务端推送   index.html\nindex.js\nindex.css\n2.0\nIndex.html \u0026lt;\u0026mdash;- index.js\n​ \u0026lt;\u0026mdash;- index.css\n![image-20200524113116006](/Users/logan/Library/Application Support/typora-user-images/image-20200524113116006.png)\nhttp server\nClient Server\ndata \u0026mdash;\u0026ndash; \u0026gt; (data) \u0026mdash;- \u0026gt; data\n对称加密的秘钥 abc\ndata + abc -\u0026gt; 291j39hcfwqj \u0026mdash;\u0026mdash;\u0026mdash;\u0026gt; 291j39hcfwqj \u0026mdash;\u0026mdash;\u0026raquo;\u0026gt; 291j39hcfwqj + abc = \u0026gt; data 加密、解密\nclient -\u0026gt; server\nserver create 秘钥abc -\u0026gt;\nclient \u0026lt; \u0026mdash;- 秘钥abc \u0026mdash;- server\n非对称加密\n「 public a 、 private a 」 data + public a =\u0026gt; 2n31fuuqn1nf\n2n31fuuqn1nf + private a \u0026mdash;\u0026gt; data\nabc ——》 abc -————》 abc 非对称加密\ntcp 消耗内存 2K 4G\nN Request - \u0026gt; N tcp\n     1 tcp -\u0026gt; M request\nTODO\nhttp 1.0 1.1有证书么？\n"
+    }
+,
+    {
         "ref": "https://maronghe.github.io/archives/2020/03/lx/",
         "title": "",
         "section": "archives",
         "tags": null,
         "date" : "0001.01.01",
-        "body": "项目启动\nmain.go -\u0026gt; 1.初始化qLog （日志地址、队列大小、并发标识、最小日志级别） 2.init etcd 3. init infra-components ？ 4.init project config（cmd -\u0026gt; etcd -\u0026gt; default） openHost、appHost、authHost app白名单（redirect、cors） init router -\u0026gt; pathPrefix/api/v1 和 allowOrigin （可信域名） init mongo、mysql、redis、crontab、openLog、s3等 https 需要配置 tls证书和tls私钥 数据存储\n8 bit -\u0026gt; 1 byte (0xab) // 8位 = 1字节 short 16 bit -\u0026gt; 2 byte int 32 bite -\u0026gt; 4 byte int64 64 bite -\u0026gt; 8 byte "
+        "body": "项目启动\nmain.go -\u0026gt; 1.初始化qLog （日志地址、队列大小、并发标识、最小日志级别） 2.init etcd 3. init infra-components ？ 4.init project config（cmd -\u0026gt; etcd -\u0026gt; default） openHost、appHost、authHost app白名单（redirect、cors） init router -\u0026gt; pathPrefix/api/v1 和 allowOrigin （可信域名） init mongo、mysql、redis、crontab、openLog、s3等 https 需要配置 tls证书和tls私钥 数据存储\n8 bit -\u0026gt; 1 byte (0xab) // 8位 = 1字节 short 16 bit -\u0026gt; 2 byte int 32 bite -\u0026gt; 4 byte int64 64 bite -\u0026gt; 8 byte  并发、并行\n  单核CPU中每个任务通过时间片或主动让出执行权来实现业务切换。（并发） 多核CPU在一个进程中使多个线程并行同时运行，达到并行。   进程、线程、携程\n  进程是操作系统的资源分配的基本单位，有独立运行空间。 线程是CPU调度基本单位，线程依附于进程存在，并共享父进程的资源。 协程是用户态的轻量级线程，协程的调度完全是用户控制，其切换时不需要进入内核切换，所以无内核开销。   线程上下文切换\n ​\t上下文切换代价是昂贵的，在CPU上交换线程会花费很多时间。延迟在50-100us之间，硬件平均在每个核心上执行是12op/us所以一次切换可能会花费600-1200指令延迟。\n 工作窃取\n 本地-\u0026gt; (为空时)全局-\u0026gt; 本地 ( WSS )\n 减少阻塞\n   由于Atomic、Mutex、Channel等导致GoRoutine阻塞\n调度器把当前的G切换出去，重新安排LRQ的其他GoRoutine。\n  由于网络请求或IO操作导致G阻塞。\nGo提供了NetPoller（网络轮询器）来处理网络请求和网络IO问题，通过epoll来实现多路复用。\n将G放入NetPoller队列中，避免创建新M，G再放回LRQ中等待执行。\n  syscall时（无法使用NetPoller）而进行系统调用的GoRoutine阻塞了当前的M\n1.13之前G和M会绑定（IO同步调用阻塞M），将M与P分离，同时也将G带走，然后调度器引入新的M2和来服务P，此时LRQ中继续执行G。阻塞后G1可以移回LRQ，M1以待重复使用。\n  GoRoutine执行Sleep导致M阻塞\n将G放入Timer等待队列中，继续执行LRQ的下一个G。等待执行契机放入LRQ执行。\n  "
     }
 ,
     {
