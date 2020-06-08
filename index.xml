@@ -145,5 +145,23 @@
       <description>自我介绍 ​ 莫愁前方无知己，天下谁人不识君。 ​ 面试官您好，我叫马荣贺，毕业于&amp;hellip;&amp;hellip;..，目前就职于蓝信移动有限公司，</description>
     </item>
     
+    <item>
+      <title></title>
+      <link>https://maronghe.github.io/archives/2020/leetcode/go/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/leetcode/go/</guid>
+      <description>Go 调度器 线程池的缺陷 G -&amp;gt; Create -&amp;gt; Pool -&amp;gt; G(Block) -&amp;gt; Pool !增大! -&amp;gt; Thread ! -&amp;gt; CPU竞争 -&amp;gt;消费能力有上限 或 下降 Go中为了大量线程进行CPU竞争从而自己实现调</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://maronghe.github.io/archives/2020/leetcode/tcp/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/leetcode/tcp/</guid>
+      <description>TCP Header 默认为20字节， Header中提供各种各样的头部选项，以至于使其长度大于20字节。 连接建立超时 netstat -nat | awk &#39;{print $6}&#39; | sort | uniq -c | sort -n</description>
+    </item>
+    
   </channel>
 </rss>
