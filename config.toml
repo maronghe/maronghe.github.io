@@ -2,7 +2,7 @@ baseurl = "https://maronghe.github.io/"
 title = "LoganMa's Blog"
 theme = "pulp"
 canonifyurls = true
-hasCJKLanguage = true
+asCJKLanguage = true
 # pygmentsCodefences = true
 # pygmentsUseClasses = true
 # googleAnalytics = "{your tracking code}"
@@ -32,12 +32,12 @@ hasCJKLanguage = true
     url = "/archives/"
     weight = 10
 
-#[[menu.main]]
-#    identifier = "twitter"
-#    # name = "Twitter"
-#    pre = "<i class='fab fa-twitter fa-lg'></i>"
-#    url = "https://twitter.com/username"
-#    weight = 20
+[[menu.main]]
+    identifier = "readings"
+    # name = "Twitter"
+    pre = "<i class='fab fa-twitter fa-lg'></i>"
+    url = "https://github.com/maronghe/Readings/blob/master/README.md"
+    weight = 20
 
 [[menu.main]]
     identifier = "github"
