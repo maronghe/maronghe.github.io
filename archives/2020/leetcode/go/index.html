@@ -24,21 +24,33 @@
   
 
   <meta property="og:title" content="" />
-<meta property="og:description" content="Go 调度器 线程池的缺陷 G -&gt; Create -&gt; Pool -&gt; G(Block) -&gt; Pool !增大! -&gt; Thread ! -&gt; CPU竞争 -&gt;消费能力有上限 或 下降 Go中为了大量线程进行CPU竞争从而自己实现调" />
+<meta property="og:description" content="Go 调度器
+  线程池的缺陷
+G -&gt; Create -&gt; Pool -&gt; G(Block) -&gt; Pool !增大! -&gt; Thread ! -&gt; CPU竞争 -&gt;消费能力有上限 或 下降
+  Go中为了大量线程进行CPU竞争从而自己实现调度
+ G是调度单位 将准备好的G分配给线程进行排队调度。 PMG 模型  P有本地LRQ M持有P才能运行G P默认与CPU核数相同 M一般 &gt;= P       " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://maronghe.github.io/archives/2020/leetcode/go/" />
 
 <meta itemprop="name" content="">
-<meta itemprop="description" content="Go 调度器 线程池的缺陷 G -&gt; Create -&gt; Pool -&gt; G(Block) -&gt; Pool !增大! -&gt; Thread ! -&gt; CPU竞争 -&gt;消费能力有上限 或 下降 Go中为了大量线程进行CPU竞争从而自己实现调">
+<meta itemprop="description" content="Go 调度器
+  线程池的缺陷
+G -&gt; Create -&gt; Pool -&gt; G(Block) -&gt; Pool !增大! -&gt; Thread ! -&gt; CPU竞争 -&gt;消费能力有上限 或 下降
+  Go中为了大量线程进行CPU竞争从而自己实现调度
+ G是调度单位 将准备好的G分配给线程进行排队调度。 PMG 模型  P有本地LRQ M持有P才能运行G P默认与CPU核数相同 M一般 &gt;= P       ">
 
-<meta itemprop="wordCount" content="130">
+<meta itemprop="wordCount" content="32">
 
 
 
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:image" content="https://maronghe.github.io//img/loganma.jpeg"/>
 <meta name="twitter:title" content=""/>
-<meta name="twitter:description" content="Go 调度器 线程池的缺陷 G -&gt; Create -&gt; Pool -&gt; G(Block) -&gt; Pool !增大! -&gt; Thread ! -&gt; CPU竞争 -&gt;消费能力有上限 或 下降 Go中为了大量线程进行CPU竞争从而自己实现调"/>
+<meta name="twitter:description" content="Go 调度器
+  线程池的缺陷
+G -&gt; Create -&gt; Pool -&gt; G(Block) -&gt; Pool !增大! -&gt; Thread ! -&gt; CPU竞争 -&gt;消费能力有上限 或 下降
+  Go中为了大量线程进行CPU竞争从而自己实现调度
+ G是调度单位 将准备好的G分配给线程进行排队调度。 PMG 模型  P有本地LRQ M持有P才能运行G P默认与CPU核数相同 M一般 &gt;= P       "/>
 
   <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>

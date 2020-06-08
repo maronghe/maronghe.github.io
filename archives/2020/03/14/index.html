@@ -24,23 +24,47 @@
   
 
   <meta property="og:title" content="#14 Docker In Hour" />
-<meta property="og:description" content="Docker 一个统一环境dev/qa/app/beta/cloud的容器、容器是相互隔离的。 Docker是容器技术，解决软件跨环境的迁移的问题。 Doc" />
+<meta property="og:description" content="Docker
+ 一个统一环境dev/qa/app/beta/cloud的容器、容器是相互隔离的。
+Docker是容器技术，解决软件跨环境的迁移的问题。
+Docker安装后，在本地一守护进程(Daemon)的方式后台运行。
+-&gt; docker -v Docker version 19.03.8, build afacb8b 本地部署的分为image和container，image相当于类，container相当于对象，一个类可以创建多个对象。
+image 可来自于docker官方Repository Docker Hub 和 private Repository或阿里云镜像 TODO
+镜像命令
+docker images // 查看当前已安装的镜像列表 docker search [redis] // 搜索redis镜像 docker pull [redis]:[version] // 不指定version默认下载latest docker rmi [imageId]/[redis]:[version] 容器命令
+docker ps // 查看运行的容器docker ps -a // 查看所有的容器docker -run -it[d] --name=[name] /bin/sh // 运行docker -i持续运行 -t分配终端（交互式） -d后台运行（守护式） /bin/sh mac defaultdocker exec [name] /bin/sh // 进入某一运行的容器中docer [start][stop][rm][inspect] [container-name] // 启动、停止、移除、查看详情数据卷容器" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://maronghe.github.io/archives/2020/03/14/" />
 <meta property="article:published_time" content="2020-04-17T16:08:53+08:00" />
 <meta property="article:modified_time" content="2020-04-17T16:08:53+08:00" />
 <meta itemprop="name" content="#14 Docker In Hour">
-<meta itemprop="description" content="Docker 一个统一环境dev/qa/app/beta/cloud的容器、容器是相互隔离的。 Docker是容器技术，解决软件跨环境的迁移的问题。 Doc">
+<meta itemprop="description" content="Docker
+ 一个统一环境dev/qa/app/beta/cloud的容器、容器是相互隔离的。
+Docker是容器技术，解决软件跨环境的迁移的问题。
+Docker安装后，在本地一守护进程(Daemon)的方式后台运行。
+-&gt; docker -v Docker version 19.03.8, build afacb8b 本地部署的分为image和container，image相当于类，container相当于对象，一个类可以创建多个对象。
+image 可来自于docker官方Repository Docker Hub 和 private Repository或阿里云镜像 TODO
+镜像命令
+docker images // 查看当前已安装的镜像列表 docker search [redis] // 搜索redis镜像 docker pull [redis]:[version] // 不指定version默认下载latest docker rmi [imageId]/[redis]:[version] 容器命令
+docker ps // 查看运行的容器docker ps -a // 查看所有的容器docker -run -it[d] --name=[name] /bin/sh // 运行docker -i持续运行 -t分配终端（交互式） -d后台运行（守护式） /bin/sh mac defaultdocker exec [name] /bin/sh // 进入某一运行的容器中docer [start][stop][rm][inspect] [container-name] // 启动、停止、移除、查看详情数据卷容器">
 <meta itemprop="datePublished" content="2020-04-17T16:08:53&#43;08:00" />
 <meta itemprop="dateModified" content="2020-04-17T16:08:53&#43;08:00" />
-<meta itemprop="wordCount" content="585">
+<meta itemprop="wordCount" content="148">
 
 
 
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:image" content="https://maronghe.github.io//img/loganma.jpeg"/>
 <meta name="twitter:title" content="#14 Docker In Hour"/>
-<meta name="twitter:description" content="Docker 一个统一环境dev/qa/app/beta/cloud的容器、容器是相互隔离的。 Docker是容器技术，解决软件跨环境的迁移的问题。 Doc"/>
+<meta name="twitter:description" content="Docker
+ 一个统一环境dev/qa/app/beta/cloud的容器、容器是相互隔离的。
+Docker是容器技术，解决软件跨环境的迁移的问题。
+Docker安装后，在本地一守护进程(Daemon)的方式后台运行。
+-&gt; docker -v Docker version 19.03.8, build afacb8b 本地部署的分为image和container，image相当于类，container相当于对象，一个类可以创建多个对象。
+image 可来自于docker官方Repository Docker Hub 和 private Repository或阿里云镜像 TODO
+镜像命令
+docker images // 查看当前已安装的镜像列表 docker search [redis] // 搜索redis镜像 docker pull [redis]:[version] // 不指定version默认下载latest docker rmi [imageId]/[redis]:[version] 容器命令
+docker ps // 查看运行的容器docker ps -a // 查看所有的容器docker -run -it[d] --name=[name] /bin/sh // 运行docker -i持续运行 -t分配终端（交互式） -d后台运行（守护式） /bin/sh mac defaultdocker exec [name] /bin/sh // 进入某一运行的容器中docer [start][stop][rm][inspect] [container-name] // 启动、停止、移除、查看详情数据卷容器"/>
 
   <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>

@@ -24,23 +24,23 @@
   
 
   <meta property="og:title" content="523" />
-<meta property="og:description" content="// 523. 连续的子数组和 package s // (rem &#43; n*k) % k = rem func checkSubarraySum(nums []int, k int) bool { m := make(map[int]int) m[0] = -1 sum := 0 for i := 0; i &lt; len(nums); i&#43;&#43; { sum &#43;= nums[i] if k != 0 { sum = sum % k } if n, ok := m[sum]; ok { if i-n &gt; 1 {" />
+<meta property="og:description" content="// 523. 连续的子数组和 package s // (rem &#43; n*k) % k = rem func checkSubarraySum(nums []int, k int) bool { m := make(map[int]int) m[0] = -1 sum := 0 for i := 0; i &lt; len(nums); i&#43;&#43; { sum &#43;= nums[i] if k != 0 { sum = sum % k } if n, ok := m[sum]; ok { if i-n &gt; 1 { return true } } else { m[sum] = i } } return false } https://leetcode-cn." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://maronghe.github.io/archives/2020/leetcode/523/" />
 <meta property="article:published_time" content="2020-05-27T00:28:36+08:00" />
 <meta property="article:modified_time" content="2020-05-27T00:28:36+08:00" />
 <meta itemprop="name" content="523">
-<meta itemprop="description" content="// 523. 连续的子数组和 package s // (rem &#43; n*k) % k = rem func checkSubarraySum(nums []int, k int) bool { m := make(map[int]int) m[0] = -1 sum := 0 for i := 0; i &lt; len(nums); i&#43;&#43; { sum &#43;= nums[i] if k != 0 { sum = sum % k } if n, ok := m[sum]; ok { if i-n &gt; 1 {">
+<meta itemprop="description" content="// 523. 连续的子数组和 package s // (rem &#43; n*k) % k = rem func checkSubarraySum(nums []int, k int) bool { m := make(map[int]int) m[0] = -1 sum := 0 for i := 0; i &lt; len(nums); i&#43;&#43; { sum &#43;= nums[i] if k != 0 { sum = sum % k } if n, ok := m[sum]; ok { if i-n &gt; 1 { return true } } else { m[sum] = i } } return false } https://leetcode-cn.">
 <meta itemprop="datePublished" content="2020-05-27T00:28:36&#43;08:00" />
 <meta itemprop="dateModified" content="2020-05-27T00:28:36&#43;08:00" />
-<meta itemprop="wordCount" content="85">
+<meta itemprop="wordCount" content="79">
 
 
 
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:image" content="https://maronghe.github.io//img/loganma.jpeg"/>
 <meta name="twitter:title" content="523"/>
-<meta name="twitter:description" content="// 523. 连续的子数组和 package s // (rem &#43; n*k) % k = rem func checkSubarraySum(nums []int, k int) bool { m := make(map[int]int) m[0] = -1 sum := 0 for i := 0; i &lt; len(nums); i&#43;&#43; { sum &#43;= nums[i] if k != 0 { sum = sum % k } if n, ok := m[sum]; ok { if i-n &gt; 1 {"/>
+<meta name="twitter:description" content="// 523. 连续的子数组和 package s // (rem &#43; n*k) % k = rem func checkSubarraySum(nums []int, k int) bool { m := make(map[int]int) m[0] = -1 sum := 0 for i := 0; i &lt; len(nums); i&#43;&#43; { sum &#43;= nums[i] if k != 0 { sum = sum % k } if n, ok := m[sum]; ok { if i-n &gt; 1 { return true } } else { m[sum] = i } } return false } https://leetcode-cn."/>
 
   <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>

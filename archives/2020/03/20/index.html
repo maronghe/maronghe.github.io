@@ -24,21 +24,48 @@
   
 
   <meta property="og:title" content="" />
-<meta property="og:description" content="DIstributed Cron Job In Micor 定时任务几乎在所有的项目后台存在，可能在特定是时间执行一次或周期性的执行。 单机 ​ 在单机中的服务中，一般定时任务是直截了当和简单的。" />
+<meta property="og:description" content="DIstributed Cron Job In Micor
+定时任务几乎在所有的项目后台存在，可能在特定是时间执行一次或周期性的执行。
+ 单机
+ ​	在单机中的服务中，一般定时任务是直截了当和简单的。
+但是在多节点中的定时任务，通常可能有===任务重复执行和单点故障问题===。
+1.一些’伙计‘将定时任务从守护进程中移到Web服务中并暴露API或RPC接口，然后触发器通过操作系统执行任务。或通过负载均衡，去请求一个节点。但是还是有单点故障问题。
+但是还是能同时解决 重复执行 和 单点故障问题。这正是面临的经典问题 ： Leader选举。
+Micor 可以创建定时任务
+// get etcd node list from registry  etcdList := service.Options().Registry.Options().Addrs // build leader  lead := etcd.NewLeader(leader.Nodes(etcdList...)) cron := sync.NewCron(sync.WithLeader(lead)) cron.Schedule( task.Schedule{Interval: 10 * time.Second}, task.Command{Name: &#34;foo&#34;, Func: func() error { log.Info(&#34;finish command foo&#34;) return nil }}, ) Note： 其依赖 Etcd、zookeeper等分布式选举中间件。其实之前自己实现的通过Redis实现的分布式锁的逻辑，也是一个自我周期性获取Heath Check 和 抢占获取锁（选举当Leader）的过程。
+task.Schedule =&gt; 就两个内容 -&gt; // Schedule represents a time or interval at which a task should run type Schedule struct { // When to start the schedule." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://maronghe.github.io/archives/2020/03/20/" />
 
 <meta itemprop="name" content="">
-<meta itemprop="description" content="DIstributed Cron Job In Micor 定时任务几乎在所有的项目后台存在，可能在特定是时间执行一次或周期性的执行。 单机 ​ 在单机中的服务中，一般定时任务是直截了当和简单的。">
+<meta itemprop="description" content="DIstributed Cron Job In Micor
+定时任务几乎在所有的项目后台存在，可能在特定是时间执行一次或周期性的执行。
+ 单机
+ ​	在单机中的服务中，一般定时任务是直截了当和简单的。
+但是在多节点中的定时任务，通常可能有===任务重复执行和单点故障问题===。
+1.一些’伙计‘将定时任务从守护进程中移到Web服务中并暴露API或RPC接口，然后触发器通过操作系统执行任务。或通过负载均衡，去请求一个节点。但是还是有单点故障问题。
+但是还是能同时解决 重复执行 和 单点故障问题。这正是面临的经典问题 ： Leader选举。
+Micor 可以创建定时任务
+// get etcd node list from registry  etcdList := service.Options().Registry.Options().Addrs // build leader  lead := etcd.NewLeader(leader.Nodes(etcdList...)) cron := sync.NewCron(sync.WithLeader(lead)) cron.Schedule( task.Schedule{Interval: 10 * time.Second}, task.Command{Name: &#34;foo&#34;, Func: func() error { log.Info(&#34;finish command foo&#34;) return nil }}, ) Note： 其依赖 Etcd、zookeeper等分布式选举中间件。其实之前自己实现的通过Redis实现的分布式锁的逻辑，也是一个自我周期性获取Heath Check 和 抢占获取锁（选举当Leader）的过程。
+task.Schedule =&gt; 就两个内容 -&gt; // Schedule represents a time or interval at which a task should run type Schedule struct { // When to start the schedule.">
 
-<meta itemprop="wordCount" content="2758">
+<meta itemprop="wordCount" content="954">
 
 
 
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:image" content="https://maronghe.github.io//img/loganma.jpeg"/>
 <meta name="twitter:title" content=""/>
-<meta name="twitter:description" content="DIstributed Cron Job In Micor 定时任务几乎在所有的项目后台存在，可能在特定是时间执行一次或周期性的执行。 单机 ​ 在单机中的服务中，一般定时任务是直截了当和简单的。"/>
+<meta name="twitter:description" content="DIstributed Cron Job In Micor
+定时任务几乎在所有的项目后台存在，可能在特定是时间执行一次或周期性的执行。
+ 单机
+ ​	在单机中的服务中，一般定时任务是直截了当和简单的。
+但是在多节点中的定时任务，通常可能有===任务重复执行和单点故障问题===。
+1.一些’伙计‘将定时任务从守护进程中移到Web服务中并暴露API或RPC接口，然后触发器通过操作系统执行任务。或通过负载均衡，去请求一个节点。但是还是有单点故障问题。
+但是还是能同时解决 重复执行 和 单点故障问题。这正是面临的经典问题 ： Leader选举。
+Micor 可以创建定时任务
+// get etcd node list from registry  etcdList := service.Options().Registry.Options().Addrs // build leader  lead := etcd.NewLeader(leader.Nodes(etcdList...)) cron := sync.NewCron(sync.WithLeader(lead)) cron.Schedule( task.Schedule{Interval: 10 * time.Second}, task.Command{Name: &#34;foo&#34;, Func: func() error { log.Info(&#34;finish command foo&#34;) return nil }}, ) Note： 其依赖 Etcd、zookeeper等分布式选举中间件。其实之前自己实现的通过Redis实现的分布式锁的逻辑，也是一个自我周期性获取Heath Check 和 抢占获取锁（选举当Leader）的过程。
+task.Schedule =&gt; 就两个内容 -&gt; // Schedule represents a time or interval at which a task should run type Schedule struct { // When to start the schedule."/>
 
   <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>

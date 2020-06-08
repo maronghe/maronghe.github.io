@@ -24,21 +24,42 @@
   
 
   <meta property="og:title" content="" />
-<meta property="og:description" content="创建路径/data本地： mkdir -p /Users/logan/dev/workspace/mysql-docker/data3307 mkdir -p /Users/logan/dev/workspace/mysql-docker/data3308 创建配置文件： vim /Users/logan/dev/workspace/mysql-docker/my3307.cnf # msyql 3307的配置： [mysqld] pid-file = /var/run/mysqld/mysqld.pid socket = /var/run/mysqld/mysqld.sock datadir = /var/lib/mysql server-id = 1 log_bin = mysql-bin binlog_format = ROW expire_logs_days = 30 vim /Users/logan/dev/workspace/mysql-docker/my3308.cnf # msyql 3308的配置" />
+<meta property="og:description" content="创建路径/data本地：
+mkdir -p /Users/logan/dev/workspace/mysql-docker/data3307
+mkdir -p /Users/logan/dev/workspace/mysql-docker/data3308
+创建配置文件：
+vim /Users/logan/dev/workspace/mysql-docker/my3307.cnf
+# msyql 3307的配置： [mysqld] pid-file	= /var/run/mysqld/mysqld.pid socket	= /var/run/mysqld/mysqld.sock datadir	= /var/lib/mysql server-id = 1 log_bin = mysql-bin binlog_format = ROW expire_logs_days = 30 vim /Users/logan/dev/workspace/mysql-docker/my3308.cnf
+# msyql 3308的配置： [mysqld] pid-file	= /var/run/mysqld/mysqld.pid socket	= /var/run/mysqld/mysqld.sock datadir	= /var/lib/mysql server-id = 2 log_bin = mysql-bin binlog_format = ROW expire_logs_days = 30 创建容器：
+docker run -d -p 3308:3306 -v /Users/logan/dev/workspace/mysql-docker/my3308.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf -v /Users/logan/dev/workspace/mysql-docker/data3308:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 --name mysql-3308 mysql:5." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://maronghe.github.io/archives/2020/03/18/" />
 
 <meta itemprop="name" content="">
-<meta itemprop="description" content="创建路径/data本地： mkdir -p /Users/logan/dev/workspace/mysql-docker/data3307 mkdir -p /Users/logan/dev/workspace/mysql-docker/data3308 创建配置文件： vim /Users/logan/dev/workspace/mysql-docker/my3307.cnf # msyql 3307的配置： [mysqld] pid-file = /var/run/mysqld/mysqld.pid socket = /var/run/mysqld/mysqld.sock datadir = /var/lib/mysql server-id = 1 log_bin = mysql-bin binlog_format = ROW expire_logs_days = 30 vim /Users/logan/dev/workspace/mysql-docker/my3308.cnf # msyql 3308的配置">
+<meta itemprop="description" content="创建路径/data本地：
+mkdir -p /Users/logan/dev/workspace/mysql-docker/data3307
+mkdir -p /Users/logan/dev/workspace/mysql-docker/data3308
+创建配置文件：
+vim /Users/logan/dev/workspace/mysql-docker/my3307.cnf
+# msyql 3307的配置： [mysqld] pid-file	= /var/run/mysqld/mysqld.pid socket	= /var/run/mysqld/mysqld.sock datadir	= /var/lib/mysql server-id = 1 log_bin = mysql-bin binlog_format = ROW expire_logs_days = 30 vim /Users/logan/dev/workspace/mysql-docker/my3308.cnf
+# msyql 3308的配置： [mysqld] pid-file	= /var/run/mysqld/mysqld.pid socket	= /var/run/mysqld/mysqld.sock datadir	= /var/lib/mysql server-id = 2 log_bin = mysql-bin binlog_format = ROW expire_logs_days = 30 创建容器：
+docker run -d -p 3308:3306 -v /Users/logan/dev/workspace/mysql-docker/my3308.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf -v /Users/logan/dev/workspace/mysql-docker/data3308:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 --name mysql-3308 mysql:5.">
 
-<meta itemprop="wordCount" content="291">
+<meta itemprop="wordCount" content="162">
 
 
 
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:image" content="https://maronghe.github.io//img/loganma.jpeg"/>
 <meta name="twitter:title" content=""/>
-<meta name="twitter:description" content="创建路径/data本地： mkdir -p /Users/logan/dev/workspace/mysql-docker/data3307 mkdir -p /Users/logan/dev/workspace/mysql-docker/data3308 创建配置文件： vim /Users/logan/dev/workspace/mysql-docker/my3307.cnf # msyql 3307的配置： [mysqld] pid-file = /var/run/mysqld/mysqld.pid socket = /var/run/mysqld/mysqld.sock datadir = /var/lib/mysql server-id = 1 log_bin = mysql-bin binlog_format = ROW expire_logs_days = 30 vim /Users/logan/dev/workspace/mysql-docker/my3308.cnf # msyql 3308的配置"/>
+<meta name="twitter:description" content="创建路径/data本地：
+mkdir -p /Users/logan/dev/workspace/mysql-docker/data3307
+mkdir -p /Users/logan/dev/workspace/mysql-docker/data3308
+创建配置文件：
+vim /Users/logan/dev/workspace/mysql-docker/my3307.cnf
+# msyql 3307的配置： [mysqld] pid-file	= /var/run/mysqld/mysqld.pid socket	= /var/run/mysqld/mysqld.sock datadir	= /var/lib/mysql server-id = 1 log_bin = mysql-bin binlog_format = ROW expire_logs_days = 30 vim /Users/logan/dev/workspace/mysql-docker/my3308.cnf
+# msyql 3308的配置： [mysqld] pid-file	= /var/run/mysqld/mysqld.pid socket	= /var/run/mysqld/mysqld.sock datadir	= /var/lib/mysql server-id = 2 log_bin = mysql-bin binlog_format = ROW expire_logs_days = 30 创建容器：
+docker run -d -p 3308:3306 -v /Users/logan/dev/workspace/mysql-docker/my3308.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf -v /Users/logan/dev/workspace/mysql-docker/data3308:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 --name mysql-3308 mysql:5."/>
 
   <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>

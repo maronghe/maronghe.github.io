@@ -24,23 +24,56 @@
   
 
   <meta property="og:title" content="#2 [采坑指南] json.Unmarshal后interface{}成map[string]interface{}" />
-<meta property="og:description" content="​ 可能大家工作中都会遇到类型断言，即接口类型断言是否为某种strcut类型i.(A)或某种struct的指针类型i.(*A)。 那么当一个想要" />
+<meta property="og:description" content="​	可能大家工作中都会遇到类型断言，即接口类型断言是否为某种strcut类型i.(A)或某种struct的指针类型i.(*A)。
+那么当一个想要一个interface{}类型既想转换成多种类型，且多种类型并不属于同一种。这句话说的可能比较绕圈，下面举个例子来看下。
+当有两个SA和SB，当我们想要从字符串翻转成结构体时。我们可以
+没问题，输出结果是
+sa {logan 18 Beijing} PASS 但是当结构体内容时由其他结构体，以interface{}类型进行返回时，那么情景可能如下。
+如果50和51行都注释掉了的话，那么结果会输出
+it2 data type is map[string]interface {} ti3 type assertion error, it isn&#39;t type SA ti4 type assertion error, it isn&#39;t type SB ti5 is map[addr:Beijing age:18 name:logan] PASS 意味着data转换成了map[string]interface{}如果转换成map[string]interface{}类型后，那么想要key中的value还需要继续类型断言。
+为什么会转成map[string]interface{}呢？因为对象底层类型，当unmarshal时并不知道对象底层类型。
+那么，是否有一种希望转成的类型当我们的确希望转换成某种类型，如SA或SB。
+答案是需要告诉结构类型的底层类型是什么，才可做此类型的类型断言。
+解开注释50或51行后，则输出结果成为
+it2 data type is *main.SB ti3 type assertion error, it isn&#39;t type SA ti4 is &amp;{logan 18 } ti5 type assertion error, it isn&#39;t type map[string]interface{} PASS 总结：当我们希望类型断言的结构体中是一个interface{}类型时，希望转换成某种我们希望的类型，要进行底层类型的转换。那么就要给Data进行赋值类型。则断言方可成功。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://maronghe.github.io/archives/2020/03/2/" />
 <meta property="article:published_time" content="2020-03-29T23:43:01+08:00" />
 <meta property="article:modified_time" content="2020-03-29T23:43:01+08:00" />
 <meta itemprop="name" content="#2 [采坑指南] json.Unmarshal后interface{}成map[string]interface{}">
-<meta itemprop="description" content="​ 可能大家工作中都会遇到类型断言，即接口类型断言是否为某种strcut类型i.(A)或某种struct的指针类型i.(*A)。 那么当一个想要">
+<meta itemprop="description" content="​	可能大家工作中都会遇到类型断言，即接口类型断言是否为某种strcut类型i.(A)或某种struct的指针类型i.(*A)。
+那么当一个想要一个interface{}类型既想转换成多种类型，且多种类型并不属于同一种。这句话说的可能比较绕圈，下面举个例子来看下。
+当有两个SA和SB，当我们想要从字符串翻转成结构体时。我们可以
+没问题，输出结果是
+sa {logan 18 Beijing} PASS 但是当结构体内容时由其他结构体，以interface{}类型进行返回时，那么情景可能如下。
+如果50和51行都注释掉了的话，那么结果会输出
+it2 data type is map[string]interface {} ti3 type assertion error, it isn&#39;t type SA ti4 type assertion error, it isn&#39;t type SB ti5 is map[addr:Beijing age:18 name:logan] PASS 意味着data转换成了map[string]interface{}如果转换成map[string]interface{}类型后，那么想要key中的value还需要继续类型断言。
+为什么会转成map[string]interface{}呢？因为对象底层类型，当unmarshal时并不知道对象底层类型。
+那么，是否有一种希望转成的类型当我们的确希望转换成某种类型，如SA或SB。
+答案是需要告诉结构类型的底层类型是什么，才可做此类型的类型断言。
+解开注释50或51行后，则输出结果成为
+it2 data type is *main.SB ti3 type assertion error, it isn&#39;t type SA ti4 is &amp;{logan 18 } ti5 type assertion error, it isn&#39;t type map[string]interface{} PASS 总结：当我们希望类型断言的结构体中是一个interface{}类型时，希望转换成某种我们希望的类型，要进行底层类型的转换。那么就要给Data进行赋值类型。则断言方可成功。">
 <meta itemprop="datePublished" content="2020-03-29T23:43:01&#43;08:00" />
 <meta itemprop="dateModified" content="2020-03-29T23:43:01&#43;08:00" />
-<meta itemprop="wordCount" content="627">
+<meta itemprop="wordCount" content="77">
 
 
 
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:image" content="https://maronghe.github.io//img/loganma.jpeg"/>
 <meta name="twitter:title" content="#2 [采坑指南] json.Unmarshal后interface{}成map[string]interface{}"/>
-<meta name="twitter:description" content="​ 可能大家工作中都会遇到类型断言，即接口类型断言是否为某种strcut类型i.(A)或某种struct的指针类型i.(*A)。 那么当一个想要"/>
+<meta name="twitter:description" content="​	可能大家工作中都会遇到类型断言，即接口类型断言是否为某种strcut类型i.(A)或某种struct的指针类型i.(*A)。
+那么当一个想要一个interface{}类型既想转换成多种类型，且多种类型并不属于同一种。这句话说的可能比较绕圈，下面举个例子来看下。
+当有两个SA和SB，当我们想要从字符串翻转成结构体时。我们可以
+没问题，输出结果是
+sa {logan 18 Beijing} PASS 但是当结构体内容时由其他结构体，以interface{}类型进行返回时，那么情景可能如下。
+如果50和51行都注释掉了的话，那么结果会输出
+it2 data type is map[string]interface {} ti3 type assertion error, it isn&#39;t type SA ti4 type assertion error, it isn&#39;t type SB ti5 is map[addr:Beijing age:18 name:logan] PASS 意味着data转换成了map[string]interface{}如果转换成map[string]interface{}类型后，那么想要key中的value还需要继续类型断言。
+为什么会转成map[string]interface{}呢？因为对象底层类型，当unmarshal时并不知道对象底层类型。
+那么，是否有一种希望转成的类型当我们的确希望转换成某种类型，如SA或SB。
+答案是需要告诉结构类型的底层类型是什么，才可做此类型的类型断言。
+解开注释50或51行后，则输出结果成为
+it2 data type is *main.SB ti3 type assertion error, it isn&#39;t type SA ti4 is &amp;{logan 18 } ti5 type assertion error, it isn&#39;t type map[string]interface{} PASS 总结：当我们希望类型断言的结构体中是一个interface{}类型时，希望转换成某种我们希望的类型，要进行底层类型的转换。那么就要给Data进行赋值类型。则断言方可成功。"/>
 
   <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>

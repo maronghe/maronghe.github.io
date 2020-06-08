@@ -24,23 +24,50 @@
   
 
   <meta property="og:title" content="#15 二叉搜索树（BST）In Go" />
-<meta property="og:description" content="二叉搜索树（Binary Search Tree In Go） ​ 二搜索树叉树特点： 极端情况下会退化成链表。 中序遍历是递增的。 父节点的左孩子都小于父节点，又孩子都大于父" />
+<meta property="og:description" content="二叉搜索树（Binary Search Tree In Go）
+ ​	二搜索树叉树特点：
+  极端情况下会退化成链表。
+  中序遍历是递增的。
+  父节点的左孩子都小于父节点，又孩子都大于父节点
+  时间复杂度：
+  Talk is cheap, show me the code
+源码：https://github.com/maronghe/basego/blob/master/ds/binary_search_tree.go
+binary_search_tree.go
+/* * Copyright (c) 2020 RongHe Ma. * Recording from daily work flow. */ package ds import ( &#34;fmt&#34; ) // BST Node type Node struct { data int count int left *Node right *Node } func NewBinarySearchTree(data int) *Node { return &amp;Node{data, 1, nil, nil} } func (node *Node)Insert(data int) *Node { return _insert(node,data) } func _insert(root *Node, data int) *Node{ if root == nil { return NewBinarySearchTree(data) } if root." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://maronghe.github.io/archives/2020/03/15/" />
 <meta property="article:published_time" content="2020-04-19T16:08:53+08:00" />
 <meta property="article:modified_time" content="2020-04-19T16:08:53+08:00" />
 <meta itemprop="name" content="#15 二叉搜索树（BST）In Go">
-<meta itemprop="description" content="二叉搜索树（Binary Search Tree In Go） ​ 二搜索树叉树特点： 极端情况下会退化成链表。 中序遍历是递增的。 父节点的左孩子都小于父节点，又孩子都大于父">
+<meta itemprop="description" content="二叉搜索树（Binary Search Tree In Go）
+ ​	二搜索树叉树特点：
+  极端情况下会退化成链表。
+  中序遍历是递增的。
+  父节点的左孩子都小于父节点，又孩子都大于父节点
+  时间复杂度：
+  Talk is cheap, show me the code
+源码：https://github.com/maronghe/basego/blob/master/ds/binary_search_tree.go
+binary_search_tree.go
+/* * Copyright (c) 2020 RongHe Ma. * Recording from daily work flow. */ package ds import ( &#34;fmt&#34; ) // BST Node type Node struct { data int count int left *Node right *Node } func NewBinarySearchTree(data int) *Node { return &amp;Node{data, 1, nil, nil} } func (node *Node)Insert(data int) *Node { return _insert(node,data) } func _insert(root *Node, data int) *Node{ if root == nil { return NewBinarySearchTree(data) } if root.">
 <meta itemprop="datePublished" content="2020-04-19T16:08:53&#43;08:00" />
 <meta itemprop="dateModified" content="2020-04-19T16:08:53&#43;08:00" />
-<meta itemprop="wordCount" content="568">
+<meta itemprop="wordCount" content="356">
 
 
 
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:image" content="https://maronghe.github.io//img/loganma.jpeg"/>
 <meta name="twitter:title" content="#15 二叉搜索树（BST）In Go"/>
-<meta name="twitter:description" content="二叉搜索树（Binary Search Tree In Go） ​ 二搜索树叉树特点： 极端情况下会退化成链表。 中序遍历是递增的。 父节点的左孩子都小于父节点，又孩子都大于父"/>
+<meta name="twitter:description" content="二叉搜索树（Binary Search Tree In Go）
+ ​	二搜索树叉树特点：
+  极端情况下会退化成链表。
+  中序遍历是递增的。
+  父节点的左孩子都小于父节点，又孩子都大于父节点
+  时间复杂度：
+  Talk is cheap, show me the code
+源码：https://github.com/maronghe/basego/blob/master/ds/binary_search_tree.go
+binary_search_tree.go
+/* * Copyright (c) 2020 RongHe Ma. * Recording from daily work flow. */ package ds import ( &#34;fmt&#34; ) // BST Node type Node struct { data int count int left *Node right *Node } func NewBinarySearchTree(data int) *Node { return &amp;Node{data, 1, nil, nil} } func (node *Node)Insert(data int) *Node { return _insert(node,data) } func _insert(root *Node, data int) *Node{ if root == nil { return NewBinarySearchTree(data) } if root."/>
 
   <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
