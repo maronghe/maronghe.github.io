@@ -1,13 +1,78 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on LoganMa&#39;s Blog</title>
+    <title>Tags on Logan</title>
     <link>https://maronghe.github.io/tags/</link>
-    <description>Recent content in Tags on LoganMa&#39;s Blog</description>
+    <description>Recent content in Tags on Logan</description>
     <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 22 Mar 2020 18:07:13 +0200</lastBuildDate>
     
 	<atom:link href="https://maronghe.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>theme</title>
+      <link>https://maronghe.github.io/tags/theme/</link>
+      <pubDate>Sun, 22 Mar 2020 18:07:13 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/tags/theme/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>hugo</title>
+      <link>https://maronghe.github.io/tags/hugo/</link>
+      <pubDate>Tue, 30 May 2017 16:56:43 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/tags/hugo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>static sites</title>
+      <link>https://maronghe.github.io/tags/static-sites/</link>
+      <pubDate>Tue, 30 May 2017 16:56:43 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/tags/static-sites/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ipsum</title>
+      <link>https://maronghe.github.io/tags/ipsum/</link>
+      <pubDate>Tue, 28 Jun 2016 13:07:31 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/tags/ipsum/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>go</title>
+      <link>https://maronghe.github.io/tags/go/</link>
+      <pubDate>Fri, 02 Oct 2015 21:49:20 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/tags/go/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>golang</title>
+      <link>https://maronghe.github.io/tags/golang/</link>
+      <pubDate>Fri, 02 Oct 2015 21:49:20 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/tags/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>programming</title>
+      <link>https://maronghe.github.io/tags/programming/</link>
+      <pubDate>Fri, 02 Oct 2015 21:49:20 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/tags/programming/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

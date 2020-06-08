@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Archives on Logan</title>
+    <link>https://maronghe.github.io/archives/</link>
+    <description>Recent content in Archives on Logan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 27 May 2020 00:28:36 +0800</lastBuildDate>
+    
+	<atom:link href="https://maronghe.github.io/archives/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>523</title>
+      <link>https://maronghe.github.io/archives/2020/leetcode/523/</link>
+      <pubDate>Wed, 27 May 2020 00:28:36 +0800</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/leetcode/523/</guid>
+      <description>// 523. 连续的子数组和 package s // (rem + n*k) % k = rem func checkSubarraySum(nums []int, k int) bool { m := make(map[int]int) m[0] = -1 sum := 0 for i := 0; i &amp;lt; len(nums); i++ { sum += nums[i] if k != 0 { sum = sum % k } if n, ok := m[sum]; ok { if i-n &amp;gt; 1 { return true } } else { m[sum] = i } } return false } https://leetcode-cn.</description>
+    </item>
+    
+    <item>
+      <title>#15 二叉搜索树（BST）In Go</title>
+      <link>https://maronghe.github.io/archives/2020/03/15/</link>
+      <pubDate>Sun, 19 Apr 2020 16:08:53 +0800</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/03/15/</guid>
+      <description>二叉搜索树（Binary Search Tree In Go）
+ ​	二搜索树叉树特点：
+  极端情况下会退化成链表。
+  中序遍历是递增的。
+  父节点的左孩子都小于父节点，又孩子都大于父节点
+  时间复杂度：
+  Talk is cheap, show me the code
+源码：https://github.com/maronghe/basego/blob/master/ds/binary_search_tree.go
+binary_search_tree.go
+/* * Copyright (c) 2020 RongHe Ma. * Recording from daily work flow. */ package ds import ( &amp;#34;fmt&amp;#34; ) // BST Node type Node struct { data int count int left *Node right *Node } func NewBinarySearchTree(data int) *Node { return &amp;amp;Node{data, 1, nil, nil} } func (node *Node)Insert(data int) *Node { return _insert(node,data) } func _insert(root *Node, data int) *Node{ if root == nil { return NewBinarySearchTree(data) } if root.</description>
+    </item>
+    
+    <item>
+      <title>#14 Docker In Hour</title>
+      <link>https://maronghe.github.io/archives/2020/03/14/</link>
+      <pubDate>Fri, 17 Apr 2020 16:08:53 +0800</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/03/14/</guid>
+      <description>Docker
+ 一个统一环境dev/qa/app/beta/cloud的容器、容器是相互隔离的。
+Docker是容器技术，解决软件跨环境的迁移的问题。
+Docker安装后，在本地一守护进程(Daemon)的方式后台运行。
+-&amp;gt; docker -v Docker version 19.03.8, build afacb8b 本地部署的分为image和container，image相当于类，container相当于对象，一个类可以创建多个对象。
+image 可来自于docker官方Repository Docker Hub 和 private Repository或阿里云镜像 TODO
+镜像命令
+docker images // 查看当前已安装的镜像列表 docker search [redis] // 搜索redis镜像 docker pull [redis]:[version] // 不指定version默认下载latest docker rmi [imageId]/[redis]:[version] 容器命令
+docker ps // 查看运行的容器docker ps -a // 查看所有的容器docker -run -it[d] --name=[name] /bin/sh // 运行docker -i持续运行 -t分配终端（交互式） -d后台运行（守护式） /bin/sh mac defaultdocker exec [name] /bin/sh // 进入某一运行的容器中docer [start][stop][rm][inspect] [container-name] // 启动、停止、移除、查看详情数据卷容器</description>
+    </item>
+    
+    <item>
+      <title>#13 Go 导包（Import）顺序</title>
+      <link>https://maronghe.github.io/archives/2020/03/13/</link>
+      <pubDate>Mon, 06 Apr 2020 16:08:53 +0800</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/03/13/</guid>
+      <description>1.包存在哪里？
+​	看段代码，想必大家都知道GoPath和GoRoot的是什么了。（GoPath = 你的工作空间路径 ，GoRoot = Go的安装路径）
+import ( . &amp;#34;fmt&amp;#34; &amp;#34;os&amp;#34; ) func init() { Printf(&amp;#34;Go Root %s \n&amp;#34;, os.Getenv(&amp;#34;GOROOT&amp;#34;)) // Go Root /usr/local/Cellar/go/1.14/libexec  Printf(&amp;#34;Go Path %s \n&amp;#34;, os.Getenv(&amp;#34;GOPATH&amp;#34;)) // Go Path /Users/logan/go } 通过 . 对 &amp;ldquo;fmt&amp;rdquo; 进行别名，则不需要使用 fmt.Printf(&amp;quot;...&amp;quot;)了，但一个包中只能有一个.别名否则会报错。同时可以配置多个GoPath用 : 分割，例如 GOPATH=/Users/logan/go:~/myworkspace
+2.扫描包的顺序？
+import ( &amp;#34;fmt&amp;#34; &amp;#34;net/http&amp;#34; ) 如果搜索net/http包时，搜索顺序如下:
+/usr/local/Cellar/go/1.14/libexec/src/net/http /Users/logan/go/src/net/http ~/myworkspace/src/net/http 3.包的导入顺序？及var、const、init()加载顺序。
+包导入顺序如图所示，同时可知先初始化const、其次为var、之后为init()，注意同时可以有多个init方法，从上到下依次执行。
+4.包重名了怎么办？
+import ( &amp;#34;runtime&amp;#34; &amp;#34;strings&amp;#34; strings2 &amp;#34;strings&amp;#34; &amp;#34;testing&amp;#34; ) func TestImport(t *testing.T){ strings.</description>
+    </item>
+    
+    <item>
+      <title>#11 Session与Cookie的区别</title>
+      <link>https://maronghe.github.io/archives/2020/03/11/</link>
+      <pubDate>Mon, 06 Apr 2020 15:48:01 +0800</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/03/11/</guid>
+      <description>Session 和 Cookie 看法
+ 首先HTTP协议是无状态的，当我们开发的一些对状态有要求的接口时，Cookie和Session弥补了这一块的能力。
+Cookie
+  对于HTTP协议来说，Cookie只是请求头中的一个字段且与其他字段没什么区别。
+  浏览器对Cookie做了默认的支持并限制了Cookie的[同源策略]，即同域才能访问Cookie的内容。
+如当我们做SSO（单点登录），一般可以把Cookie种在可访问的一级域名下。
+  Session
+  Session是服务器为每个Web用户分配的独立状态存储空间。
+若用户的数据存放在存在某个单点服务器上时，当以七层或四层转发时，请求到后端集群的时候，就存在Session命中的问题（分布式Session问题），这时候需要有中心的方式去统一管理Session，比如存储在DB或缓存中。
+  SessionID：可以由标准OAuth 2.0 来实现最终换取 token 即 sessionId ，并持有过期时间自动刷新逻辑。
+  总结：
+​	Cookie 和 Session 都是辅助HTTP协议无状态性产生的。</description>
+    </item>
+    
+    <item>
+      <title>#2 [采坑指南] json.Unmarshal后interface{}成map[string]interface{}</title>
+      <link>https://maronghe.github.io/archives/2020/03/2/</link>
+      <pubDate>Sun, 29 Mar 2020 23:43:01 +0800</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/03/2/</guid>
+      <description>​	可能大家工作中都会遇到类型断言，即接口类型断言是否为某种strcut类型i.(A)或某种struct的指针类型i.(*A)。
+那么当一个想要一个interface{}类型既想转换成多种类型，且多种类型并不属于同一种。这句话说的可能比较绕圈，下面举个例子来看下。
+当有两个SA和SB，当我们想要从字符串翻转成结构体时。我们可以
+没问题，输出结果是
+sa {logan 18 Beijing} PASS 但是当结构体内容时由其他结构体，以interface{}类型进行返回时，那么情景可能如下。
+如果50和51行都注释掉了的话，那么结果会输出
+it2 data type is map[string]interface {} ti3 type assertion error, it isn&#39;t type SA ti4 type assertion error, it isn&#39;t type SB ti5 is map[addr:Beijing age:18 name:logan] PASS 意味着data转换成了map[string]interface{}如果转换成map[string]interface{}类型后，那么想要key中的value还需要继续类型断言。
+为什么会转成map[string]interface{}呢？因为对象底层类型，当unmarshal时并不知道对象底层类型。
+那么，是否有一种希望转成的类型当我们的确希望转换成某种类型，如SA或SB。
+答案是需要告诉结构类型的底层类型是什么，才可做此类型的类型断言。
+解开注释50或51行后，则输出结果成为
+it2 data type is *main.SB ti3 type assertion error, it isn&#39;t type SA ti4 is &amp;amp;{logan 18 } ti5 type assertion error, it isn&#39;t type map[string]interface{} PASS 总结：当我们希望类型断言的结构体中是一个interface{}类型时，希望转换成某种我们希望的类型，要进行底层类型的转换。那么就要给Data进行赋值类型。则断言方可成功。</description>
+    </item>
+    
+    <item>
+      <title>#1 第一篇博客 &amp; 回顾我的大学</title>
+      <link>https://maronghe.github.io/archives/2020/03/1/</link>
+      <pubDate>Sun, 22 Mar 2020 15:48:01 +0800</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/03/1/</guid>
+      <description>​	2020年3月21日晚，参加了Go夜读两周年的回顾。也是第82期的Go夜读share。虽然加入这个大家庭才不长时间，学习Golang这门语言也不是很久，因为之前做Java相关的工作。后期因为组织架构调整，公司要用Go去重写Java的服务，正因为如此，好些人都去转Go或离职。我也踏上了学习Golang的旅程。
+ 自述大学
+ ​	我的大学专业是IOT，也就是物联网工程，一个软硬件都需要掌握的一个专业，我也相信是未来的趋势。但我从事了软件开发行业，也不知道算不算上所谓的”科班出身“。
+​	大学大一度过的很”轻松加愉快“，仅参加了学校的《舞蹈社》（很奇怪，为什么一个Coder会参加舞蹈社，这可能与上高中之前的认知比较少有关吧，暂不讨论）。相反学习Software的知识比较少。
+​	大二的我知道毕业时不能以在大学玩得好才能找到一份好工作的。后来经过我的DB老师的指导，自学了Java、JSP，记得当时大二的寒假，跟着老师去图书馆借了一本JSP相关的书籍，回家“啃”了起来。殊不知对于一个高中贪玩，大学以为“解放”了自己的我来说，啃书是多么的痛苦。正如我所料，我的进度比较慢，相当于把一本书分了40多份，每份是一天的消化的量。看完即完成了任务。这也是我自学之路的一个开始，但如今的我深知，如果自学都学不会的话，也不适合做Coder相关的工作。下学习又学了Java，DB等，但是看起来都只是学了个表面。
+​	大三跟着老师做了个项目，名为《在线考试系统》，可想而知，在线考试系统即为学校教师出题，学生答题等一系列的相关的操作。这个项目做起来，很多的是在写业务，写逻辑。对于Spring原理来讲根本就没去了解。当时只记得一句话，‘在出校门的时候，自己有项目经历和没有项目经历完全是不一样的’。所以，乐此不疲的把这个项目做来做去。最终主要的功能也都做完了。相反，自己的DB底层原理，数据结构及算法和框架原理性的知识都被忽略了。后期才知道，毕业的春招和秋招对于应届生来讲，就考的是算法和数据结构和一些底层的原理知识。那么我一年多都是白干了么？不会吧？可能吧。不后悔不怪罪，这也是一个人渐渐成熟的体现吧。
+​	大四有的同学继续考研，有的去找工作。我就是陷入了找工作的道路上。记得面试了20天左右。一个offer都没有收到，也正是我在家里的时候，IBM人力资源部给我打电话邀请我参加面试。我遍立刻答应了。一想IBM是外企大厂，以后说出去也有面子（当时无知的我）。可惜只是一个边缘部门吧。没学到什么知识，只了解的外企的文化（不加班就是个最大的特点）。所以，我觉得不能无为了，遍自学起了Java原理、设计模式、DB底层结构、Hadoop（HDFS、MapReduce）等。每日坚持9点去上班，23点才下班让的决心（当时我正式上班时间为下午2点到晚上11点，也腾出很多自学的时间）。后来请假去北京面试一周，最后也是来到了现在的公司，工作至今。
+ 未来的展望和建议
+ ​	最后，想说这路上自己的认知发生的不断的变化。眼光看的也越来越长远了起来。想建议未来的我和其他的人，要把眼光放长远了。自己的路只能自己走，不要想着依赖谁，不要做“拿来党”，每个人都是时间都是有限的，不要辜负年轻时的自己。趁着年轻，多折腾折腾。
+2020-03-22 18:07:13 于北京 马荣贺 Logan Ma</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://maronghe.github.io/archives/2020/03/10/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/03/10/</guid>
+      <description>title: &amp;ldquo;#10 Study Recording&amp;rdquo; date: 2020-04-3T12:39:01+08:00 draft: true
+   Q : 怎样知道一个变量分配到堆上还是栈上？
+A :编译器首先尝试分配到栈上，但如果编译器不能保证函数返回值是否被引用，那么编译器会分配到堆上。如果一个对象太大了。也会分配到GC堆上。当今的编译器来说，如果一个使用变量的地址，该对象时分配堆上的候选对象，但是逃逸分析后可以识别如果改对象未超过函数的返回范围，那么该变量也可能保存在栈上
+R : https://golang.org/doc/faq#stack_or_heap
+  new 和 make 有什么区别
+A : new(T)： 分配内存 但初始化仅为0值并返回其指针T和*T（值）。
+​	new(File) =&amp;gt; &amp;amp;File{} // 初始化0值
+​	make(T,args) 仅用于创建 map slice channel，并返回非0值（not zeroed）的类型T（非 *T）
+R : https://golang.org/doc/effective_go.html#allocation_new
+​	https://golang.org/doc/effective_go.html#allocation_make
+  Go 的内存分配器是基于TCMalloc的一种分配器（TC Malloc Thread-Cached Malloc）
+​	YouTube Link, GopherCon UK 2018
+ 申请内存顺序    4.Go是一种基于epoll的多路复用IO模型，其TCPListener是对netFD进行封装。
+ Sudog的资源池：每个P都有自己的缓冲池和全局调度器缓存池。</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://maronghe.github.io/archives/2020/03/18/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/03/18/</guid>
+      <description>创建路径/data本地：
+mkdir -p /Users/logan/dev/workspace/mysql-docker/data3307
+mkdir -p /Users/logan/dev/workspace/mysql-docker/data3308
+创建配置文件：
+vim /Users/logan/dev/workspace/mysql-docker/my3307.cnf
+# msyql 3307的配置： [mysqld] pid-file	= /var/run/mysqld/mysqld.pid socket	= /var/run/mysqld/mysqld.sock datadir	= /var/lib/mysql server-id = 1 log_bin = mysql-bin binlog_format = ROW expire_logs_days = 30 vim /Users/logan/dev/workspace/mysql-docker/my3308.cnf
+# msyql 3308的配置： [mysqld] pid-file	= /var/run/mysqld/mysqld.pid socket	= /var/run/mysqld/mysqld.sock datadir	= /var/lib/mysql server-id = 2 log_bin = mysql-bin binlog_format = ROW expire_logs_days = 30 创建容器：
+docker run -d -p 3308:3306 -v /Users/logan/dev/workspace/mysql-docker/my3308.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf -v /Users/logan/dev/workspace/mysql-docker/data3308:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 --name mysql-3308 mysql:5.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://maronghe.github.io/archives/2020/03/19/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/03/19/</guid>
+      <description>docker run --name myredis -p 6380:6379 -d -v /Users/logan/dev/workspace/redis-docker:/data redis:latest --appendonly yes .... 127.0.0.1:6380&amp;gt; zadd zlist 128 hhhh (integer) 1 127.0.0.1:6380&amp;gt; object encoding zlist &amp;#34;ziplist&amp;#34; 127.0.0.1:6380&amp;gt; ZCARD zlist (integer) 128 127.0.0.1:6380&amp;gt; zadd zlist 140 hqhhh (integer) 1 127.0.0.1:6380&amp;gt; object encoding zlist &amp;#34;skiplist&amp;#34; 127.0.0.1:6380&amp;gt; ZCARD zlist (integer) 129 .... 结论，超过128之后或超过单node64字节就会变成skiplist 那么在128内是ziplist的，但是在129以后就会变成skiplist以平均Log(N)的（最坏O(n)）时间复杂度查询。 Q：
+ 为什么ziplist可以节省空间？以一种时间换空间的思想。 String (int ,embstr,row) List (ziplist, linkedlist) Hash (ziplist, hashtable) Set (inset, hashtable) Zset (ziplist, skiplist)  </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://maronghe.github.io/archives/2020/03/20/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/03/20/</guid>
+      <description>DIstributed Cron Job In Micor
+定时任务几乎在所有的项目后台存在，可能在特定是时间执行一次或周期性的执行。
+ 单机
+ ​	在单机中的服务中，一般定时任务是直截了当和简单的。
+但是在多节点中的定时任务，通常可能有===任务重复执行和单点故障问题===。
+1.一些’伙计‘将定时任务从守护进程中移到Web服务中并暴露API或RPC接口，然后触发器通过操作系统执行任务。或通过负载均衡，去请求一个节点。但是还是有单点故障问题。
+但是还是能同时解决 重复执行 和 单点故障问题。这正是面临的经典问题 ： Leader选举。
+Micor 可以创建定时任务
+// get etcd node list from registry  etcdList := service.Options().Registry.Options().Addrs // build leader  lead := etcd.NewLeader(leader.Nodes(etcdList...)) cron := sync.NewCron(sync.WithLeader(lead)) cron.Schedule( task.Schedule{Interval: 10 * time.Second}, task.Command{Name: &amp;#34;foo&amp;#34;, Func: func() error { log.Info(&amp;#34;finish command foo&amp;#34;) return nil }}, ) Note： 其依赖 Etcd、zookeeper等分布式选举中间件。其实之前自己实现的通过Redis实现的分布式锁的逻辑，也是一个自我周期性获取Heath Check 和 抢占获取锁（选举当Leader）的过程。
+task.Schedule =&amp;gt; 就两个内容 -&amp;gt; // Schedule represents a time or interval at which a task should run type Schedule struct { // When to start the schedule.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://maronghe.github.io/archives/2020/03/21/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/03/21/</guid>
+      <description>8根 地址总线只有八位 即 1字节 【0,255】 256 是8根地址总线的最大寻址空间
+32根 32位 4G 最大寻址空间
+每次操作4字节 （机器字长）就需要32位数据总线
+​ 8字节 64位
+内存并行访问 提高响应速度。得到逻辑连续内存。
+若想从 1 字节读取8个字节。CPU额外处理先读1-7 + 8 ，读取两次，会影响性能。
+所以编译器会把各种类型放在合适的地址、合适的长度。-》 内存对齐。
+每个类型都会有一个对应的 对齐边界。（要求数据存储地址，以及占用的字节数，都要是对其边界的倍数）
+Int16 2 字节
+Int32 4 字节
+不同平台对齐边界不同。**数据类型对其边界 = min（类型大小，平台最大对齐边界）
+为什么不采用 平台最大对齐边界或采用类型大小呢？
+原因：1.内存浪费 或
+​	2.读取两次进行拼接
+ 3. 内存浪费更少，（32位 4 字节 存储 int64）如下图所示。 4. ![](https://tva1.sinaimg.cn/large/007S8ZIlly1geyzbrdlk9j30lh0dqgn2.jpg)  结构体 内存对齐边界，取结构体中最大的类型对齐值，取最大的。
+要求1：
+1.	存储结构体地址，是对齐边界的倍数。 2.	存储地址addr ，当成地址0，然后用相对地址 计算自己的位置应当放在哪。  如果内存未对齐，
+​	1.内存浪费
+​	2.读取两次进行拼接
+结构体的大小保证是内存对齐的整数倍之后，才能保证数组中每个都是内存对齐的。
+结构体如果补充过大的话，就可能会重新内存对齐。以节省空间。</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://maronghe.github.io/archives/2020/03/https/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/03/https/</guid>
+      <description>前端工程化 HTTP 2.0 HTTPs HTTP 1.0 1.1
+1.1
+// HTTPs = HTTP + SSL
+HTTP 2.0
+ 首部压缩 多路复用 二进制分帧 服务端推送  cookie header -》 20
+ok 2 byte
+22 = 2 + 20
+​ http 1.1
+client &amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash; server
+http -&amp;gt; tcp
+tcp 3 4
+1.0 短连接
+1.1 长链接 connection = keep-alive
+Connect
+1 - &amp;gt;
+&amp;lt;&amp;ndash;
+-&amp;gt;
+&amp;lt;-
+..
+close
+1.1
+header + cookie 20
+body = 2</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://maronghe.github.io/archives/2020/03/lx/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/03/lx/</guid>
+      <description>项目启动
+main.go -&amp;gt; 1.初始化qLog （日志地址、队列大小、并发标识、最小日志级别） 2.init etcd 3. init infra-components ？ 4.init project config（cmd -&amp;gt; etcd -&amp;gt; default） openHost、appHost、authHost app白名单（redirect、cors） init router -&amp;gt; pathPrefix/api/v1 和 allowOrigin （可信域名） init mongo、mysql、redis、crontab、openLog、s3等 https 需要配置 tls证书和tls私钥 数据存储
+8 bit -&amp;gt; 1 byte (0xab) // 8位 = 1字节 short 16 bit -&amp;gt; 2 byte int 32 bite -&amp;gt; 4 byte int64 64 bite -&amp;gt; 8 byte  并发、并行
+  单核CPU中每个任务通过时间片或主动让出执行权来实现业务切换。（并发） 多核CPU在一个进程中使多个线程并行同时运行，达到并行。   进程、线程、携程</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://maronghe.github.io/archives/2020/03/untitled/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/03/untitled/</guid>
+      <description> 自我介绍
+ ​	莫愁前方无知己，天下谁人不识君。
+​	面试官您好，我叫马荣贺，毕业于&amp;hellip;&amp;hellip;..，目前就职于蓝信移动有限公司，从事服务端研发相关的工作。工作日常负责项目的评审、研发及后期的维护。
+​	学习就要有节奏，有方向的进行。给自己顶一个短期计划，如三天，一周，半个月等。不能为了面试而学习这样只会让自己在临近工作做不下去，或想找工作之气临时抱佛脚。游戏切记成瘾！
+​	学习是要有自我分析理解的过程，看网上的某些教程视频，人家仅会给你他理解到的内容，可能会有些不准确，也可能会有些偏差，当他给你讲述的同时，你可能理解有偏差。这样的话，你与其他人交流时，由于没有自己分析和摸索知识的过程，会显得格外的“虚”，不懂原理，不知其所以然。
+​	所以学习还是要通过自己的一点一滴积累，寻求权威的认证，最不断地求知精神。同样在生活中多应该问问自己：“为什么？”，为什么这样做就可以，多思考，多探索。学习后要有些输出如博客等。也可以与组内和朋友交流，如果你能给其他人以通俗易懂的方式讲明白了。那么就证明你明白了。
+​	分析问题的过程：
+  为什么这么做？
+  解决了哪些问题？
+  逻辑和技术难点？
+  自己做出了哪些事情？
+如：『原因』系统为了解决用户的客户端APP连接会话不在线，同样可以将消息发送到对方手机上。「解决方案」从而引入了手机厂商的Push服务，可在用户登录时，端上调用手机厂商提供的结构，创建自己的手机的设备Token，将Token上传到自己的Server去维护。则服务端在发消息的同时可确定是否要发送系统Push来通知用户客户端。「性能提升」通过Push的接口的性能测试，可判别出Push服务的性能，从而发现性能瓶颈，解决和优化。
+   计算机组成原理 操作系统 数据结构与算法 计算机网络（） 数据库原理 Go语言实现原理及新特性 Docker、K8S容器化、Service Mesh Redis、Kafka、ZK、ES、Nginx、Kibana、jenkins中间件 分布式、RPC、微服务链路追踪 网络安全攻击 性能测试 自定义协议  </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://maronghe.github.io/archives/2020/leetcode/go/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/leetcode/go/</guid>
+      <description>Go 调度器
+  线程池的缺陷
+G -&amp;gt; Create -&amp;gt; Pool -&amp;gt; G(Block) -&amp;gt; Pool !增大! -&amp;gt; Thread ! -&amp;gt; CPU竞争 -&amp;gt;消费能力有上限 或 下降
+  Go中为了大量线程进行CPU竞争从而自己实现调度
+ G是调度单位 将准备好的G分配给线程进行排队调度。 PMG 模型  P有本地LRQ M持有P才能运行G P默认与CPU核数相同 M一般 &amp;gt;= P       </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://maronghe.github.io/archives/2020/leetcode/tcp/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://maronghe.github.io/archives/2020/leetcode/tcp/</guid>
+      <description>TCP Header 默认为20字节， Header中提供各种各样的头部选项，以至于使其长度大于20字节。  连接建立超时  netstat -nat | awk &#39;{print $6}&#39; | sort | uniq -c | sort -n </description>
+    </item>
+    
+  </channel>
+</rss>
