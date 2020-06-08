@@ -24,21 +24,30 @@
   
 
   <meta property="og:title" content="" />
-<meta property="og:description" content="项目启动 main.go -&gt; 1.初始化qLog （日志地址、队列大小、并发标识、最小日志级别） 2.init etcd 3. init infra-components ？ 4.init project config（cmd -&gt; etcd -&gt; default） ope" />
+<meta property="og:description" content="项目启动
+main.go -&gt; 1.初始化qLog （日志地址、队列大小、并发标识、最小日志级别） 2.init etcd 3. init infra-components ？ 4.init project config（cmd -&gt; etcd -&gt; default） openHost、appHost、authHost app白名单（redirect、cors） init router -&gt; pathPrefix/api/v1 和 allowOrigin （可信域名） init mongo、mysql、redis、crontab、openLog、s3等 https 需要配置 tls证书和tls私钥 数据存储
+8 bit -&gt; 1 byte (0xab) // 8位 = 1字节 short 16 bit -&gt; 2 byte int 32 bite -&gt; 4 byte int64 64 bite -&gt; 8 byte  并发、并行
+  单核CPU中每个任务通过时间片或主动让出执行权来实现业务切换。（并发） 多核CPU在一个进程中使多个线程并行同时运行，达到并行。   进程、线程、携程" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://maronghe.github.io/archives/2020/03/lx/" />
 
 <meta itemprop="name" content="">
-<meta itemprop="description" content="项目启动 main.go -&gt; 1.初始化qLog （日志地址、队列大小、并发标识、最小日志级别） 2.init etcd 3. init infra-components ？ 4.init project config（cmd -&gt; etcd -&gt; default） ope">
+<meta itemprop="description" content="项目启动
+main.go -&gt; 1.初始化qLog （日志地址、队列大小、并发标识、最小日志级别） 2.init etcd 3. init infra-components ？ 4.init project config（cmd -&gt; etcd -&gt; default） openHost、appHost、authHost app白名单（redirect、cors） init router -&gt; pathPrefix/api/v1 和 allowOrigin （可信域名） init mongo、mysql、redis、crontab、openLog、s3等 https 需要配置 tls证书和tls私钥 数据存储
+8 bit -&gt; 1 byte (0xab) // 8位 = 1字节 short 16 bit -&gt; 2 byte int 32 bite -&gt; 4 byte int64 64 bite -&gt; 8 byte  并发、并行
+  单核CPU中每个任务通过时间片或主动让出执行权来实现业务切换。（并发） 多核CPU在一个进程中使多个线程并行同时运行，达到并行。   进程、线程、携程">
 
-<meta itemprop="wordCount" content="898">
+<meta itemprop="wordCount" content="88">
 
 
 
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:image" content="https://maronghe.github.io//img/loganma.jpeg"/>
 <meta name="twitter:title" content=""/>
-<meta name="twitter:description" content="项目启动 main.go -&gt; 1.初始化qLog （日志地址、队列大小、并发标识、最小日志级别） 2.init etcd 3. init infra-components ？ 4.init project config（cmd -&gt; etcd -&gt; default） ope"/>
+<meta name="twitter:description" content="项目启动
+main.go -&gt; 1.初始化qLog （日志地址、队列大小、并发标识、最小日志级别） 2.init etcd 3. init infra-components ？ 4.init project config（cmd -&gt; etcd -&gt; default） openHost、appHost、authHost app白名单（redirect、cors） init router -&gt; pathPrefix/api/v1 和 allowOrigin （可信域名） init mongo、mysql、redis、crontab、openLog、s3等 https 需要配置 tls证书和tls私钥 数据存储
+8 bit -&gt; 1 byte (0xab) // 8位 = 1字节 short 16 bit -&gt; 2 byte int 32 bite -&gt; 4 byte int64 64 bite -&gt; 8 byte  并发、并行
+  单核CPU中每个任务通过时间片或主动让出执行权来实现业务切换。（并发） 多核CPU在一个进程中使多个线程并行同时运行，达到并行。   进程、线程、携程"/>
 
   <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
