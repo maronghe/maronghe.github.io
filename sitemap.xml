@@ -13,11 +13,6 @@
   </url>
   
   <url>
-    <loc>https://maronghe.github.io/</loc>
-    <lastmod>2020-05-27T00:28:36+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://maronghe.github.io/archives/2020/03/15/</loc>
     <lastmod>2020-04-19T16:08:53+08:00</lastmod>
   </url>
@@ -43,8 +38,183 @@
   </url>
   
   <url>
+    <loc>https://maronghe.github.io/author/</loc>
+    <lastmod>2020-03-22T18:07:13+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/categories/</loc>
+    <lastmod>2020-03-22T18:07:13+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/categories/life/</loc>
+    <lastmod>2020-03-22T18:07:13+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/post/</loc>
+    <lastmod>2020-03-22T18:07:13+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/post/test3/</loc>
+    <lastmod>2020-03-22T18:07:13+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/tags/</loc>
+    <lastmod>2020-03-22T18:07:13+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/tags/theme/</loc>
+    <lastmod>2020-03-22T18:07:13+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/author/%E9%A9%AC%E8%8D%A3%E8%B4%BA/</loc>
+    <lastmod>2020-03-22T18:07:13+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://maronghe.github.io/archives/2020/03/1/</loc>
     <lastmod>2020-03-22T15:48:01+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/about/</loc>
+    <lastmod>2017-06-07T15:36:00+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/contact/</loc>
+    <lastmod>2017-06-07T15:36:00+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/</loc>
+    <lastmod>2017-06-07T15:36:00+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/tags/hugo/</loc>
+    <lastmod>2017-05-30T16:56:43+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/categories/new-york/</loc>
+    <lastmod>2017-05-30T16:56:43+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/categories/other-destinations/</loc>
+    <lastmod>2017-05-30T16:56:43+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/tags/static-sites/</loc>
+    <lastmod>2017-05-30T16:56:43+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/post/this-post-has-no-body/</loc>
+    <lastmod>2017-05-30T16:56:43+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/post/hugo-travelify-theme-features/</loc>
+    <lastmod>2016-06-28T13:07:31+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/tags/ipsum/</loc>
+    <lastmod>2016-06-28T13:07:31+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/categories/lorem/</loc>
+    <lastmod>2016-06-28T13:07:31+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/post/migrate-from-jekyll/</loc>
+    <lastmod>2015-10-10T13:07:31+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/tags/go/</loc>
+    <lastmod>2015-10-02T21:49:20+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/tags/golang/</loc>
+    <lastmod>2015-10-02T21:49:20+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/post/linked-post/</loc>
+    <lastmod>2015-10-02T21:49:20+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/tags/programming/</loc>
+    <lastmod>2015-10-02T21:49:20+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/categories/programming/</loc>
+    <lastmod>2015-10-02T21:49:20+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/post/go-is-for-lovers/</loc>
+    <lastmod>2015-09-17T13:47:08+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/author/test2/</loc>
+    <lastmod>2015-09-17T13:47:08+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/post/hugo-is-for-lovers/</loc>
+    <lastmod>2015-08-03T13:39:46+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/categories/pseudo/</loc>
+    <lastmod>2015-08-03T13:39:46+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/author/test1/</loc>
+    <lastmod>2015-08-03T13:39:46+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/post/creating-a-new-theme/</loc>
+    <lastmod>2015-06-24T13:50:46+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/post/test1/</loc>
+    <lastmod>2015-06-24T13:50:46+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/post/test2/</loc>
+    <lastmod>2015-06-24T13:50:46+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/post/test4/</loc>
+    <lastmod>2015-06-24T13:50:46+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://maronghe.github.io/categories/starting/</loc>
+    <lastmod>2015-06-24T13:50:46+02:00</lastmod>
   </url>
   
   <url>
@@ -88,11 +258,7 @@
   </url>
   
   <url>
-    <loc>https://maronghe.github.io/categories/</loc>
-  </url>
-  
-  <url>
-    <loc>https://maronghe.github.io/tags/</loc>
+    <loc>https://maronghe.github.io/series/</loc>
   </url>
   
 </urlset>
