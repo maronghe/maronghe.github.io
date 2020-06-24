@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>
+      
+           - Logan
+      
+  </title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="马荣贺" />
+  <link rel="shortcut icon" type="image/x-icon" href="https://maronghe.github.io/img/">
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://maronghe.github.io/style.min.a50e85be2191b7446e684667eb002377b10f833f329c30d9b701ea188a664750.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+  
+  
+
+  <meta property="og:title" content="" />
+<meta property="og:description" content="项目启动
+main.go -&gt; 1.初始化qLog （日志地址、队列大小、并发标识、最小日志级别） 2.init etcd 3. init infra-components ？ 4.init project config（cmd -&gt; etcd -&gt; default） openHost、appHost、authHost app白名单（redirect、cors） init router -&gt; pathPrefix/api/v1 和 allowOrigin （可信域名） init mongo、mysql、redis、crontab、openLog、s3等 https 需要配置 tls证书和tls私钥 数据存储
+8 bit -&gt; 1 byte (0xab) // 8位 = 1字节 short 16 bit -&gt; 2 byte int 32 bite -&gt; 4 byte int64 64 bite -&gt; 8 byte  并发、并行
+  单核CPU中每个任务通过时间片或主动让出执行权来实现业务切换。（并发） 多核CPU在一个进程中使多个线程并行同时运行，达到并行。   进程、线程、携程" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://maronghe.github.io/archives/2020/03/lx/" />
+
+<meta itemprop="name" content="">
+<meta itemprop="description" content="项目启动
+main.go -&gt; 1.初始化qLog （日志地址、队列大小、并发标识、最小日志级别） 2.init etcd 3. init infra-components ？ 4.init project config（cmd -&gt; etcd -&gt; default） openHost、appHost、authHost app白名单（redirect、cors） init router -&gt; pathPrefix/api/v1 和 allowOrigin （可信域名） init mongo、mysql、redis、crontab、openLog、s3等 https 需要配置 tls证书和tls私钥 数据存储
+8 bit -&gt; 1 byte (0xab) // 8位 = 1字节 short 16 bit -&gt; 2 byte int 32 bite -&gt; 4 byte int64 64 bite -&gt; 8 byte  并发、并行
+  单核CPU中每个任务通过时间片或主动让出执行权来实现业务切换。（并发） 多核CPU在一个进程中使多个线程并行同时运行，达到并行。   进程、线程、携程">
+
+<meta itemprop="wordCount" content="88">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:image" content="https://maronghe.github.io//img/"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="项目启动
+main.go -&gt; 1.初始化qLog （日志地址、队列大小、并发标识、最小日志级别） 2.init etcd 3. init infra-components ？ 4.init project config（cmd -&gt; etcd -&gt; default） openHost、appHost、authHost app白名单（redirect、cors） init router -&gt; pathPrefix/api/v1 和 allowOrigin （可信域名） init mongo、mysql、redis、crontab、openLog、s3等 https 需要配置 tls证书和tls私钥 数据存储
+8 bit -&gt; 1 byte (0xab) // 8位 = 1字节 short 16 bit -&gt; 2 byte int 32 bite -&gt; 4 byte int64 64 bite -&gt; 8 byte  并发、并行
+  单核CPU中每个任务通过时间片或主动让出执行权来实现业务切换。（并发） 多核CPU在一个进程中使多个线程并行同时运行，达到并行。   进程、线程、携程"/>
+
+  <!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+  <![endif]-->
+
+  <!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <![endif]-->
+
+  </head>
+
+  <body>
+    
+  <h1></h1>
+  <header>
+  
+  <div class="avatar">
+    <img class="avatarMask" src="https://maronghe.github.io//img/">
+    <a href="https://maronghe.github.io/"><img src="https://maronghe.github.io//img/avatar-border.svg"></a>
+  </div>
+  
+  <h2><a class="author" href="https://maronghe.github.io/">马荣贺</a></h2>
+</header>
+
+  
+  
+  <p class="date">January 1, 0001</p>
+  
+  <div id="tags">
+    <ul>
+      
+    </ul>
+  </div>
+  
+  <div id="contentBody">
+    <p>项目启动</p>
+<pre><code>main.go -&gt;
+1.初始化qLog （日志地址、队列大小、并发标识、最小日志级别）
+2.init etcd
+3. init infra-components ？
+4.init project config（cmd -&gt; etcd -&gt; default）
+	openHost、appHost、authHost
+	app白名单（redirect、cors）
+	
+	init router -&gt; pathPrefix/api/v1 和 allowOrigin （可信域名）
+	init mongo、mysql、redis、crontab、openLog、s3等
+	https 需要配置 tls证书和tls私钥 
+</code></pre><p>数据存储</p>
+<pre><code>8 bit -&gt; 1 byte (0xab) // 8位 = 1字节
+short 16 bit -&gt; 2 byte 
+int 32 bite -&gt; 4 byte
+int64 64 bite -&gt; 8 byte
+
+</code></pre><blockquote>
+<p>并发、并行</p>
+</blockquote>
+<ol>
+<li>单核CPU中每个任务通过时间片或主动让出执行权来实现业务切换。（并发）</li>
+<li>多核CPU在一个进程中使多个线程并行同时运行，达到并行。</li>
+</ol>
+<blockquote>
+<p>进程、线程、携程</p>
+</blockquote>
+<ol>
+<li>进程是操作系统的资源分配的基本单位，有独立运行空间。</li>
+<li>线程是CPU调度基本单位，线程依附于进程存在，并共享父进程的资源。</li>
+<li><strong>协程是用户态的轻量级线程，协程的调度完全是用户控制</strong>，其切换时不需要进入内核切换，所以无内核开销。</li>
+</ol>
+<blockquote>
+<p>线程上下文切换</p>
+</blockquote>
+<p>​	<strong>上下文切换</strong>代价是昂贵的，在CPU上交换线程会花费很多时间。延迟在50-100us之间，硬件平均在每个核心上执行是12op/us所以一次切换可能会花费600-1200指令延迟。</p>
+<blockquote>
+<p>工作窃取</p>
+</blockquote>
+<p>本地-&gt; (为空时)全局-&gt; 本地  ( WSS )</p>
+<blockquote>
+<p>减少阻塞</p>
+</blockquote>
+<ol>
+<li>
+<p>由于Atomic、Mutex、Channel等导致GoRoutine阻塞</p>
+<p>调度器把当前的G切换出去，重新安排LRQ的其他GoRoutine。</p>
+</li>
+<li>
+<p>由于网络请求或IO操作导致G阻塞。</p>
+<p>Go提供了NetPoller（网络轮询器）来处理网络请求和网络IO问题，通过epoll来实现多路复用。</p>
+<p>将G放入NetPoller队列中，避免创建新M，G再放回LRQ中等待执行。</p>
+</li>
+<li>
+<p>syscall时（无法使用NetPoller）而进行系统调用的GoRoutine阻塞了当前的M</p>
+<p>1.13之前G和M会绑定（IO同步调用阻塞M），将M与P分离，同时也将G带走，然后调度器引入新的M2和来服务P，此时LRQ中继续执行G。阻塞后G1可以移回LRQ，M1以待重复使用。</p>
+</li>
+<li>
+<p>GoRoutine执行Sleep导致M阻塞</p>
+<p>将G放入Timer等待队列中，继续执行LRQ的下一个G。等待执行契机放入LRQ执行。</p>
+</li>
+</ol>
+
+  </div>
+  <footer>
+  <p>
+  &copy;  马荣贺.
+  </p>
+</footer>
+
+
+  </body>
+</html>

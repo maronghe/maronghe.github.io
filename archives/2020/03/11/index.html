@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>
+      
+          #11 Session与Cookie的区别 - Logan
+      
+  </title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="马荣贺" />
+  <link rel="shortcut icon" type="image/x-icon" href="https://maronghe.github.io/img/">
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://maronghe.github.io/style.min.a50e85be2191b7446e684667eb002377b10f833f329c30d9b701ea188a664750.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+  
+  
+
+  <meta property="og:title" content="#11 Session与Cookie的区别" />
+<meta property="og:description" content="Session 和 Cookie 看法
+ 首先HTTP协议是无状态的，当我们开发的一些对状态有要求的接口时，Cookie和Session弥补了这一块的能力。
+Cookie
+  对于HTTP协议来说，Cookie只是请求头中的一个字段且与其他字段没什么区别。
+  浏览器对Cookie做了默认的支持并限制了Cookie的[同源策略]，即同域才能访问Cookie的内容。
+如当我们做SSO（单点登录），一般可以把Cookie种在可访问的一级域名下。
+  Session
+  Session是服务器为每个Web用户分配的独立状态存储空间。
+若用户的数据存放在存在某个单点服务器上时，当以七层或四层转发时，请求到后端集群的时候，就存在Session命中的问题（分布式Session问题），这时候需要有中心的方式去统一管理Session，比如存储在DB或缓存中。
+  SessionID：可以由标准OAuth 2.0 来实现最终换取 token 即 sessionId ，并持有过期时间自动刷新逻辑。
+  总结：
+​	Cookie 和 Session 都是辅助HTTP协议无状态性产生的。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://maronghe.github.io/archives/2020/03/11/" />
+<meta property="article:published_time" content="2020-04-06T15:48:01+08:00" />
+<meta property="article:modified_time" content="2020-04-06T15:48:01+08:00" />
+<meta itemprop="name" content="#11 Session与Cookie的区别">
+<meta itemprop="description" content="Session 和 Cookie 看法
+ 首先HTTP协议是无状态的，当我们开发的一些对状态有要求的接口时，Cookie和Session弥补了这一块的能力。
+Cookie
+  对于HTTP协议来说，Cookie只是请求头中的一个字段且与其他字段没什么区别。
+  浏览器对Cookie做了默认的支持并限制了Cookie的[同源策略]，即同域才能访问Cookie的内容。
+如当我们做SSO（单点登录），一般可以把Cookie种在可访问的一级域名下。
+  Session
+  Session是服务器为每个Web用户分配的独立状态存储空间。
+若用户的数据存放在存在某个单点服务器上时，当以七层或四层转发时，请求到后端集群的时候，就存在Session命中的问题（分布式Session问题），这时候需要有中心的方式去统一管理Session，比如存储在DB或缓存中。
+  SessionID：可以由标准OAuth 2.0 来实现最终换取 token 即 sessionId ，并持有过期时间自动刷新逻辑。
+  总结：
+​	Cookie 和 Session 都是辅助HTTP协议无状态性产生的。">
+<meta itemprop="datePublished" content="2020-04-06T15:48:01&#43;08:00" />
+<meta itemprop="dateModified" content="2020-04-06T15:48:01&#43;08:00" />
+<meta itemprop="wordCount" content="25">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:image" content="https://maronghe.github.io//img/"/>
+<meta name="twitter:title" content="#11 Session与Cookie的区别"/>
+<meta name="twitter:description" content="Session 和 Cookie 看法
+ 首先HTTP协议是无状态的，当我们开发的一些对状态有要求的接口时，Cookie和Session弥补了这一块的能力。
+Cookie
+  对于HTTP协议来说，Cookie只是请求头中的一个字段且与其他字段没什么区别。
+  浏览器对Cookie做了默认的支持并限制了Cookie的[同源策略]，即同域才能访问Cookie的内容。
+如当我们做SSO（单点登录），一般可以把Cookie种在可访问的一级域名下。
+  Session
+  Session是服务器为每个Web用户分配的独立状态存储空间。
+若用户的数据存放在存在某个单点服务器上时，当以七层或四层转发时，请求到后端集群的时候，就存在Session命中的问题（分布式Session问题），这时候需要有中心的方式去统一管理Session，比如存储在DB或缓存中。
+  SessionID：可以由标准OAuth 2.0 来实现最终换取 token 即 sessionId ，并持有过期时间自动刷新逻辑。
+  总结：
+​	Cookie 和 Session 都是辅助HTTP协议无状态性产生的。"/>
+
+  <!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+  <![endif]-->
+
+  <!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <![endif]-->
+
+  </head>
+
+  <body>
+    
+  <h1>#11 Session与Cookie的区别</h1>
+  <header>
+  
+  <div class="avatar">
+    <img class="avatarMask" src="https://maronghe.github.io//img/">
+    <a href="https://maronghe.github.io/"><img src="https://maronghe.github.io//img/avatar-border.svg"></a>
+  </div>
+  
+  <h2><a class="author" href="https://maronghe.github.io/">马荣贺</a></h2>
+</header>
+
+  
+  
+  <p class="date">April 6, 2020</p>
+  
+  <div id="tags">
+    <ul>
+      
+    </ul>
+  </div>
+  
+  <div id="contentBody">
+    <blockquote>
+<p>Session 和 Cookie 看法</p>
+</blockquote>
+<p>首先HTTP协议是无状态的，当我们开发的一些对状态有要求的接口时，<code>Cookie</code>和<code>Session</code>弥补了这一块的能力。</p>
+<p>Cookie</p>
+<ol>
+<li>
+<p>对于HTTP协议来说，<code>Cookie</code>只是请求头中的一个字段且与其他字段没什么区别。</p>
+</li>
+<li>
+<p>浏览器对Cookie做了默认的支持并限制了Cookie的[同源策略]，即同域才能访问Cookie的内容。</p>
+<p>如当我们做SSO（单点登录），一般可以把Cookie种在可访问的一级域名下。</p>
+</li>
+</ol>
+<p>Session</p>
+<ol>
+<li>
+<p>Session是服务器为每个Web用户分配的独立状态存储空间。</p>
+<p>若用户的数据存放在存在某个单点服务器上时，当以七层或四层转发时，请求到后端集群的时候，就存在Session命中的问题（分布式Session问题），这时候需要有中心的方式去统一管理Session，比如存储在DB或缓存中。</p>
+</li>
+<li>
+<p>SessionID：可以由标准OAuth 2.0 来实现最终换取 token 即 sessionId ，并持有过期时间自动刷新逻辑。</p>
+</li>
+</ol>
+<p>总结：</p>
+<p>​	Cookie 和 Session 都是辅助HTTP协议无状态性产生的。</p>
+
+  </div>
+  <footer>
+  <p>
+  &copy;  马荣贺.
+  </p>
+</footer>
+
+
+  </body>
+</html>

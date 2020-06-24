@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>
+      
+           - Logan
+      
+  </title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="马荣贺" />
+  <link rel="shortcut icon" type="image/x-icon" href="https://maronghe.github.io/img/">
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://maronghe.github.io/style.min.a50e85be2191b7446e684667eb002377b10f833f329c30d9b701ea188a664750.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+  
+  
+
+  <meta property="og:title" content="" />
+<meta property="og:description" content="前端工程化 HTTP 2.0 HTTPs HTTP 1.0 1.1
+1.1
+// HTTPs = HTTP &#43; SSL
+HTTP 2.0
+ 首部压缩 多路复用 二进制分帧 服务端推送  cookie header -》 20
+ok 2 byte
+22 = 2 &#43; 20
+​ http 1.1
+client &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; server
+http -&gt; tcp
+tcp 3 4
+1.0 短连接
+1.1 长链接 connection = keep-alive
+Connect
+1 - &gt;
+&lt;&ndash;
+-&gt;
+&lt;-
+..
+close
+1.1
+header &#43; cookie 20
+body = 2" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://maronghe.github.io/archives/2020/03/https/" />
+
+<meta itemprop="name" content="">
+<meta itemprop="description" content="前端工程化 HTTP 2.0 HTTPs HTTP 1.0 1.1
+1.1
+// HTTPs = HTTP &#43; SSL
+HTTP 2.0
+ 首部压缩 多路复用 二进制分帧 服务端推送  cookie header -》 20
+ok 2 byte
+22 = 2 &#43; 20
+​ http 1.1
+client &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; server
+http -&gt; tcp
+tcp 3 4
+1.0 短连接
+1.1 长链接 connection = keep-alive
+Connect
+1 - &gt;
+&lt;&ndash;
+-&gt;
+&lt;-
+..
+close
+1.1
+header &#43; cookie 20
+body = 2">
+
+<meta itemprop="wordCount" content="236">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:image" content="https://maronghe.github.io//img/"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="前端工程化 HTTP 2.0 HTTPs HTTP 1.0 1.1
+1.1
+// HTTPs = HTTP &#43; SSL
+HTTP 2.0
+ 首部压缩 多路复用 二进制分帧 服务端推送  cookie header -》 20
+ok 2 byte
+22 = 2 &#43; 20
+​ http 1.1
+client &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; server
+http -&gt; tcp
+tcp 3 4
+1.0 短连接
+1.1 长链接 connection = keep-alive
+Connect
+1 - &gt;
+&lt;&ndash;
+-&gt;
+&lt;-
+..
+close
+1.1
+header &#43; cookie 20
+body = 2"/>
+
+  <!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+  <![endif]-->
+
+  <!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <![endif]-->
+
+  </head>
+
+  <body>
+    
+  <h1></h1>
+  <header>
+  
+  <div class="avatar">
+    <img class="avatarMask" src="https://maronghe.github.io//img/">
+    <a href="https://maronghe.github.io/"><img src="https://maronghe.github.io//img/avatar-border.svg"></a>
+  </div>
+  
+  <h2><a class="author" href="https://maronghe.github.io/">马荣贺</a></h2>
+</header>
+
+  
+  
+  <p class="date">January 1, 0001</p>
+  
+  <div id="tags">
+    <ul>
+      
+    </ul>
+  </div>
+  
+  <div id="contentBody">
+    <pre><code>前端工程化
+HTTP 2.0 HTTPs
+</code></pre><p>HTTP 1.0 1.1</p>
+<p>1.1</p>
+<p>// HTTPs = HTTP + SSL</p>
+<p>HTTP 2.0</p>
+<ol>
+<li>首部压缩</li>
+<li>多路复用</li>
+<li>二进制分帧</li>
+<li>服务端推送</li>
+</ol>
+<p>cookie  header  -》  20</p>
+<p>ok 2 byte</p>
+<p>22  = 2 + 20</p>
+<p>​             http  1.1</p>
+<p>client &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; server</p>
+<p>http -&gt; tcp</p>
+<p>tcp 3 4</p>
+<p>1.0 短连接</p>
+<p>1.1 长链接 connection = keep-alive</p>
+<p>Connect</p>
+<p>1 - &gt;</p>
+<p>&lt;&ndash;</p>
+<p>-&gt;</p>
+<p>&lt;-</p>
+<p>..</p>
+<p>close</p>
+<p>1.1</p>
+<p>header + cookie  20</p>
+<p>body = 2</p>
+<p>&mdash;&gt; 占网络带宽 -&gt;</p>
+<p>2  / 22</p>
+<p>Header 压缩</p>
+<hr>
+<p>2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</p>
+<hr>
+<ol>
+<li>首部压缩</li>
+<li>服务端推送</li>
+<li></li>
+</ol>
+<p>index.html</p>
+<p>index.js</p>
+<p>index.css</p>
+<p>2.0</p>
+<p>Index.html
+&lt;&mdash;-         index.js</p>
+<p>​                &lt;&mdash;-         index.css</p>
+<p>![image-20200524113116006](/Users/logan/Library/Application Support/typora-user-images/image-20200524113116006.png)</p>
+<p>http                                         server</p>
+<p>Client                                       Server</p>
+<p>data    &mdash;&ndash; &gt;      (data)  &mdash;- &gt;      data</p>
+<p>对称加密的秘钥 abc</p>
+<p>data + <strong>abc</strong> -&gt; 291j39hcfwqj        &mdash;&mdash;&mdash;&gt;     291j39hcfwqj &mdash;&mdash;&raquo;&gt;     291j39hcfwqj  + <strong>abc</strong> = &gt; data    加密、解密</p>
+<p>client -&gt;   server</p>
+<p>server create           秘钥abc  -&gt;</p>
+<p>client             &lt; &mdash;-    秘钥<strong>abc</strong>   &mdash;-  server</p>
+<p>非对称加密</p>
+<p>「 public  a 、  private a 」                             data +  public a  =&gt; 2n31fuuqn1nf</p>
+<p>2n31fuuqn1nf    + private a  &mdash;&gt;  data</p>
+<p>abc             ——》 <strong>abc</strong>       -————》   abc                  非对称加密</p>
+<p>tcp 消耗内存  2K    4G</p>
+<p>N Request - &gt; N tcp</p>
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<p>1 tcp  -&gt;  M  request</p>
+<p>TODO</p>
+<p>http 1.0 1.1有证书么？</p>
+
+  </div>
+  <footer>
+  <p>
+  &copy;  马荣贺.
+  </p>
+</footer>
+
+
+  </body>
+</html>

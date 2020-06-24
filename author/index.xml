@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Author on Logan</title>
+    <link>https://maronghe.github.io/author/</link>
+    <description>Recent content in Author on Logan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 22 Mar 2020 18:07:13 +0200</lastBuildDate>
+    
+	<atom:link href="https://maronghe.github.io/author/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>马荣贺</title>
+      <link>https://maronghe.github.io/author/%E9%A9%AC%E8%8D%A3%E8%B4%BA/</link>
+      <pubDate>Sun, 22 Mar 2020 18:07:13 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/author/%E9%A9%AC%E8%8D%A3%E8%B4%BA/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>test2</title>
+      <link>https://maronghe.github.io/author/test2/</link>
+      <pubDate>Thu, 17 Sep 2015 13:47:08 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/author/test2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>test1</title>
+      <link>https://maronghe.github.io/author/test1/</link>
+      <pubDate>Mon, 03 Aug 2015 13:39:46 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/author/test1/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
