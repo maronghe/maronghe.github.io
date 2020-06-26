@@ -83,17 +83,17 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://maronghe.github.io/post/%E9%99%90%E6%B5%81/" title="#16 限流方案">#16 限流方案</a>
+                <a href="https://maronghe.github.io/post/6/" title="#6 Golang锁">#6 Golang锁</a>
             </h1>
         </header>
         <date class="post-meta meta-date">
-            2020年6月15日
+            2020年4月15日
         </date>
         
         <div class="post-content">
-            限流 定时清除 （1分钟一清除） 实现简单 对于边界值，如59秒和下一秒会有问题，会得到一个请求限制速率的2倍 滑动窗口（10秒一清除） 是定时清除的一个优化，缩小了清除粒度但是还是有问题。 漏桶算法 （桶容量 + 桶流速度） https://github.com/uber-go/ratelimit ​ - 超过桶的容量就要涉及到排队或拒绝了 不支持小流量激增 令牌桶算法（定时放……
+            Golang锁 RWMutex 读写锁： ​ 内部需要维护一个复杂的内部记录。所以适用于并发读取，修改操作比较少的情况，相反，竞争较低相较于互斥锁性能较慢。 ​ Mutex 互斥锁：不可重入 ​ 不可重入的原因：互斥量的目的是为了确保共享变量在程序执行时的关键点上能够保证不变性。不变性的其中之一是“没有gorouti……
         </div>
-        <p class="readmore"><a href="https://maronghe.github.io/post/%E9%99%90%E6%B5%81/">阅读全文</a></p>
+        <p class="readmore"><a href="https://maronghe.github.io/post/6/">阅读全文</a></p>
     </article>
     
     
@@ -101,17 +101,17 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://maronghe.github.io/post/%E6%95%B0%E7%BB%84%E5%92%8C%E5%88%87%E7%89%87/" title="#15 数组和切片">#15 数组和切片</a>
+                <a href="https://maronghe.github.io/post/5/" title="#5 GC">#5 GC</a>
             </h1>
         </header>
         <date class="post-meta meta-date">
-            2020年6月7日
+            2020年4月10日
         </date>
         
         <div class="post-content">
-            数组和切片的区别 底层结构 创建 var make []int{} slice扩容 复用底层数组 注意： array不能跟nil比较，编译报错 make只能用于 map， channel ，slice的创建，不能创建数组 var arr [5]int 创建数组，初始化为5个零 ​ 数组大小不可变，切片可变 kind 数组 array [2]int , [3]int[] slice slice []int copy 仅能用于slice，并且dst必须要有容量……
+            GC分类：追踪式、引用计数式 追踪式，分为多种不同类型，例如： 标记清扫：从根对象出发，将确定存活的对象进行标记，并清扫可以回收的对象。 标记整理：为了解决内存碎片问题而提出，在标记过程中，将对象尽可能整理到一块连续的内存上。 增量式：将标记与清扫的过程分批执行，每次执行很小的部分，从而……
         </div>
-        <p class="readmore"><a href="https://maronghe.github.io/post/%E6%95%B0%E7%BB%84%E5%92%8C%E5%88%87%E7%89%87/">阅读全文</a></p>
+        <p class="readmore"><a href="https://maronghe.github.io/post/5/">阅读全文</a></p>
     </article>
     
     
@@ -119,17 +119,17 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://maronghe.github.io/post/Defer-1.12-vs-1.13-vs-1.14/" title="#14 defer different">#14 defer different</a>
+                <a href="https://maronghe.github.io/post/4/" title="#4 最终一致性">#4 最终一致性</a>
             </h1>
         </header>
         <date class="post-meta meta-date">
-            2020年6月1日
+            2020年4月5日
         </date>
         
         <div class="post-content">
-            Defer 1.12 vs 1.13 vs 1.14 1.12之前 defer func(){} —&gt; 会被翻译成两个函数 deferproc() : 注册，defer func(){} 到g的defer链表中，头插法。defer需要进行堆分配，而且参数变量需要进行堆栈间拷贝。 runtime.deferreturn() : 执行，defer链表的中的每一项 （先注册 -》 后执行） 1 2 3 4 5 6 7 // runtime/runtime2.go type g struct { ... _panic *_panic _defer *_defer // defer 链表 ... } 步骤解析……
+            最终一致性的讨论： ​ 在如今的分布式微服务架构下的系统中，各服务之间都会存在直接或间接的调用。很难免很多的方法调用的方法失败，或因为网络波动等处理不成功。 集中方案，及其优缺点： 方案 优点 不足 saga pattern（个人理解和TCC差不多）：即当发生失败处理是需要调用回滚函数。 可以按照不同的……
         </div>
-        <p class="readmore"><a href="https://maronghe.github.io/post/Defer-1.12-vs-1.13-vs-1.14/">阅读全文</a></p>
+        <p class="readmore"><a href="https://maronghe.github.io/post/4/">阅读全文</a></p>
     </article>
     
     
@@ -137,17 +137,17 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://maronghe.github.io/post/13/" title="#13 TCP &amp; UDP">#13 TCP &amp; UDP</a>
+                <a href="https://maronghe.github.io/post/3/" title="#3 Do A Contributor For Go">#3 Do A Contributor For Go</a>
             </h1>
         </header>
         <date class="post-meta meta-date">
-            2020年5月29日
+            2020年3月31日
         </date>
         
         <div class="post-content">
-            TCP TCP三次握手机制，为什么要三次握手？ 考点： 为什么要握手？ TCP最重要的特性就是可靠性，自己发出去的数据要等到对方去确认，并回复收到了（ack），TCP是支持双工协议，所以双方都要去维护自己的序列号（seq，不从0开始，随机生成的）。因为要获取序列号（和MSS，滑动窗口），所以……
+            ​ 激动的心，颤抖的手。 ​ &mdash; 记录了我成为一名Go Contributor 的过程 趁着这个热乎劲，记录一下美好的生活。 ​ 非常开心也非常荣幸的正在成为Go的贡献者之一。这可能也是村子走出来的孩子不太懂得世面的第一步吧。 ​ 2020年03月31日上午正在看着Go Map实现原理时，突然发现Go doc中有一个参数写错……
         </div>
-        <p class="readmore"><a href="https://maronghe.github.io/post/13/">阅读全文</a></p>
+        <p class="readmore"><a href="https://maronghe.github.io/post/3/">阅读全文</a></p>
     </article>
     
     
@@ -155,17 +155,17 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://maronghe.github.io/post/12/" title="#12 二叉搜索树（BST）In Go">#12 二叉搜索树（BST）In Go</a>
+                <a href="https://maronghe.github.io/post/2/" title="#2 [采坑指南] json.Unmarshal后interface{}成map[string]interface{}">#2 [采坑指南] json.Unmarshal后interface{}成map[string]interface{}</a>
             </h1>
         </header>
         <date class="post-meta meta-date">
-            2020年5月19日
+            2020年3月29日
         </date>
         
         <div class="post-content">
-            二叉搜索树（Binary Search Tree In Go） ​ 二搜索树叉树特点： 极端情况下会退化成链表。 中序遍历是递增的。 父节点的左孩子都小于父节点，又孩子都大于父节点 时间复杂度： Talk is cheap, show me the code 源码：https://github.com/maronghe/basego/blob/master/ds/bi……
+            ​ 可能大家工作中都会遇到类型断言，即接口类型断言是否为某种strcut类型i.(A)或某种struct的指针类型i.(*A)。 那么当一个想要一个interface{}类型既想转换成多种类型，且多种类型并不属于同一种。这句话说的可能比较绕圈，下面举个例子来看下。 当有两个SA和SB，……
         </div>
-        <p class="readmore"><a href="https://maronghe.github.io/post/12/">阅读全文</a></p>
+        <p class="readmore"><a href="https://maronghe.github.io/post/2/">阅读全文</a></p>
     </article>
     
     
@@ -173,17 +173,17 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://maronghe.github.io/post/11/" title="#11 Docker In Hour">#11 Docker In Hour</a>
+                <a href="https://maronghe.github.io/post/1/" title="#1 第一篇博客 &amp; 回顾我的大学">#1 第一篇博客 &amp; 回顾我的大学</a>
             </h1>
         </header>
         <date class="post-meta meta-date">
-            2020年5月17日
+            2020年3月22日
         </date>
         
         <div class="post-content">
-            Docker 一个统一环境dev/qa/app/beta/cloud的容器、容器是相互隔离的。 Docker是容器技术，解决软件跨环境的迁移的问题。 Docker安装后，在本地一守护进程(Daemon)的方式后台运行。 -&gt; docker -v Docker version 19.03.8, build afacb8b 本地部署的分为image和container，image相当于……
+            ​ 2020年3月21日晚，参加了Go夜读两周年的回顾。也是第82期的Go夜读share。虽然加入这个大家庭才不长时间，学习Golang这门语言也不是很久，因为之前做Java相关的工作。后期因为组织架构调整，公司要用Go去重写Java的服务，正因为如此，好些人都去转Go或离职。我也……
         </div>
-        <p class="readmore"><a href="https://maronghe.github.io/post/11/">阅读全文</a></p>
+        <p class="readmore"><a href="https://maronghe.github.io/post/1/">阅读全文</a></p>
     </article>
     
     
@@ -191,71 +191,17 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://maronghe.github.io/post/10/" title="#10 Go 导包（Import）顺序">#10 Go 导包（Import）顺序</a>
+                <a href="https://maronghe.github.io/post/AboutMe/" title="关于我">关于我</a>
             </h1>
         </header>
         <date class="post-meta meta-date">
-            2020年5月6日
+            2020年3月19日
         </date>
         
         <div class="post-content">
-            1.包存在哪里？ ​ 看段代码，想必大家都知道GoPath和GoRoot的是什么了。（GoPath = 你的工作空间路径 ，GoRoot = Go的安装路径） 1 2 3 4 5 6 7 8 import ( . &#34;fmt&#34; &#34;os&#34; ) func init() { Printf(&#34;Go Root %s \n&#34;, os.Getenv(&#34;GOROOT&#34;)) // Go Root /usr/local/Cellar/go/1.14/libexec Printf(&#34;Go Path %s \n&#34;, os.Getenv(&#34;GOPATH&#34;)) // Go Path /Users/logan/go } 通过 . 对 &ldquo;fmt&rdquo; 进行别名，则不需要使用 fmt.Printf(&quot……
+            自我介绍 ​ 莫愁前方无知己，天下谁人不识君。 ​ 面试官您好，我叫马荣贺，毕业于&hellip;&hellip;..，目前就职于蓝信移动有限公司，从事服务端研发相关的工作。工作日常负责项目的评审、研发及后期的维护。 ​ 学习就要有节奏，有方向的进行。给自己顶一个短期计划，如三天，一周，半个……
         </div>
-        <p class="readmore"><a href="https://maronghe.github.io/post/10/">阅读全文</a></p>
-    </article>
-    
-    
-    
-    <article class="post">
-        <header>
-            <h1 class="post-title">
-                <a href="https://maronghe.github.io/post/9/" title="#9 Session与Cookie的区别">#9 Session与Cookie的区别</a>
-            </h1>
-        </header>
-        <date class="post-meta meta-date">
-            2020年5月2日
-        </date>
-        
-        <div class="post-content">
-            Session 和 Cookie 看法 首先HTTP协议是无状态的，当我们开发的一些对状态有要求的接口时，Cookie和Session弥补了这一块的能力。 Cookie 对于HTTP协议来说，Cookie只是请求头中的一个字段且与其他字段没什么区别。 浏览器对Cookie做了默认的支持并限制了Cookie的[同源策略]，即同……
-        </div>
-        <p class="readmore"><a href="https://maronghe.github.io/post/9/">阅读全文</a></p>
-    </article>
-    
-    
-    
-    <article class="post">
-        <header>
-            <h1 class="post-title">
-                <a href="https://maronghe.github.io/post/8/" title="#8 Study Recording">#8 Study Recording</a>
-            </h1>
-        </header>
-        <date class="post-meta meta-date">
-            2020年4月28日
-        </date>
-        
-        <div class="post-content">
-            Q : 怎样知道一个变量分配到堆上还是栈上？ A :编译器首先尝试分配到栈上，但如果编译器不能保证函数返回值是否被引用，那么编译器会分配到堆上。如果一个对象太大了。也会分配到GC堆上。当今的编译器来说，如果一个使用变量的地址，该对象时分配堆上的候选对象，但是逃逸分析后可以识别如果改对象未……
-        </div>
-        <p class="readmore"><a href="https://maronghe.github.io/post/8/">阅读全文</a></p>
-    </article>
-    
-    
-    
-    <article class="post">
-        <header>
-            <h1 class="post-title">
-                <a href="https://maronghe.github.io/post/7/" title="#7 Goalng协程和线程">#7 Goalng协程和线程</a>
-            </h1>
-        </header>
-        <date class="post-meta meta-date">
-            2020年4月21日
-        </date>
-        
-        <div class="post-content">
-            协程和线程： os线程：每几毫秒，硬件计时器会中断处理器，然后调用schedule的内核函数，挂起当前执行的线程，将状态保存到寄存器中。检查可执行线程列表并决定下一次运行的线程。并从内存中恢复寄存器信息继续执行。因为os线程是被内核锁调度，所以一个线程执行状态切换到另一个线程的执行……
-        </div>
-        <p class="readmore"><a href="https://maronghe.github.io/post/7/">阅读全文</a></p>
+        <p class="readmore"><a href="https://maronghe.github.io/post/AboutMe/">阅读全文</a></p>
     </article>
     
     
@@ -265,21 +211,21 @@
 
 <ol class="page-navigator">
     
+    <li class="prev">
+        <a href="https://maronghe.github.io/post/">上一页</a>
+    </li>
+    
 
     
-    <li  class="current">
+    <li >
         <a href="https://maronghe.github.io/post/">1</a>
     </li>
     
-    <li >
+    <li  class="current">
         <a href="https://maronghe.github.io/post/page/2/">2</a>
     </li>
     
 
-    
-    <li class="next">
-        <a href="https://maronghe.github.io/post/page/2/">下一页</a>
-    </li>
     
 </ol>
 
