@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="https://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.69.0-DEV" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>#4 最终一致性 &middot; 老干妈</title>
+  <meta name="description" content="" />
+
+  
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  
+</head>
+
+  <body class=" ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://maronghe.github.io/"><h1>老干妈</h1></a>
+      <p class="lead">
+      An elegant open source and mobile first theme for <a href="http://hugo.spf13.com">hugo</a> made by <a href="http://twitter.com/mdo">@mdo</a>. Originally made for Jekyll.
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="https://maronghe.github.io/">Home</a> </li>
+        
+      </ul>
+    </nav>
+
+    <p>&copy; 2020. All rights reserved. </p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>#4 最终一致性</h1>
+  <time datetime=2020-04-05T16:38:02&#43;0800 class="post-date">Sun, Apr 5, 2020</time>
+  <p>最终一致性的讨论：</p>
+<p>​		在如今的分布式微服务架构下的系统中，各服务之间都会存在直接或间接的调用。很难免很多的方法调用的方法失败，或因为网络波动等处理不成功。</p>
+<p>集中方案，及其优缺点：</p>
+<table>
+<thead>
+<tr>
+<th align="left">方案</th>
+<th align="left">优点</th>
+<th align="left">不足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">saga pattern（个人理解和TCC差不多）：即当发生失败处理是需要调用回滚函数。</td>
+<td align="left">可以按照不同的业务逻辑自己西实现回滚逻辑。</td>
+<td align="left">1.当系统过于庞大时候，怎么可能保证所有的服务<em><strong>都具备回滚功能</strong></em>？<!-- raw HTML omitted -->2.回滚失败后，<em><strong>需要人工处理</strong></em>，增加人工介入系统的可能。</td>
+</tr>
+<tr>
+<td align="left">可靠MQ + 失败消息落盘，定时重试 + （MQ采用HTTP POST向业务方发送请求，可避免所有服务都使用MQ Client）</td>
+<td align="left">解耦、重试</td>
+<td align="left">1.生产者的业务执行和Msg发送不是原子性。所以**_需要MQ支持事务_**。<!-- raw HTML omitted -->2.不适用于对消息有顺序性要求的场景。**_仅试用于简单的情景_**。<!-- raw HTML omitted -->3.上游失败落盘、后台发送 + 下游需要处理乱序消息问题。**_不适用于消息定制的不同逻辑_**。</td>
+</tr>
+<tr>
+<td align="left">业务模块中插入多个“桩”，每过一段时间触发状态的全量更新。那么我就找一个其它模块来持续地刷新我系统中的数据状态。从而达到“最终一致”。</td>
+<td align="left">根据最终状态判断一致性。</td>
+<td align="left">比较反技术，性能全量同步数据需要考虑性能和同步契机。</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+
+    </main>
+
+    
+      
+    
+  </body>
+</html>

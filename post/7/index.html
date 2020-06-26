@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="https://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.69.0-DEV" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>#7 Goalng协程和线程 &middot; 老干妈</title>
+  <meta name="description" content="" />
+
+  
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  
+</head>
+
+  <body class=" ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://maronghe.github.io/"><h1>老干妈</h1></a>
+      <p class="lead">
+      An elegant open source and mobile first theme for <a href="http://hugo.spf13.com">hugo</a> made by <a href="http://twitter.com/mdo">@mdo</a>. Originally made for Jekyll.
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="https://maronghe.github.io/">Home</a> </li>
+        
+      </ul>
+    </nav>
+
+    <p>&copy; 2020. All rights reserved. </p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>#7 Goalng协程和线程</h1>
+  <time datetime=2020-04-21T16:38:02&#43;0800 class="post-date">Tue, Apr 21, 2020</time>
+  <blockquote>
+<p>协程和线程：</p>
+</blockquote>
+<ol>
+<li>
+<p>os线程：每几毫秒，硬件计时器会中断处理器，然后调用schedule的内核函数，挂起当前执行的线程，将状态保存到寄存器中。检查可执行线程列表并决定下一次运行的线程。并从内存中恢复寄存器信息继续执行。因为os线程是被内核锁调度，所以一个线程执行状态切换到另一个线程的执行状态需要切换上下文。也就是说，存储用户线程的状态到寄存器，和回复寄存器中读取状态，更新调度器的速度是很慢的。因为其内部局限性很差，需要访问内存好几次，增加运行运行cpu的周期。</p>
+</li>
+<li>
+<p>协程调度：</p>
+<ol>
+<li>Go有自己的调度器，m:n，n个os线程上调度m个协程。调度器的工作和内核的调度是相似的，但调度器只关注go程序中的协程。</li>
+<li>和os线程调度不同的是，go并不是一个硬件定时器，而是被go“建筑”本身进行调度的。
+<ol>
+<li>比如一个协程执行了time.Sleep()或channel调用或mutex操作阻塞时。调度器会使其进入休眠，并开始执行另一个协程，直到时机到了再去唤醒第一个协程。因为这种调度不需要进入内核的上下文。所以重新调度一个协程要比调度一个线程的代价要低得多。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>
+<p>区别：</p>
+<ol>
+<li>线程是由系统操作系统（os）进行调度的，需要上下文切换</li>
+<li>协程一般是由开发者显式调度，避免了上下文切换，从而简化了高并发。[Go并发的实现原理]</li>
+</ol>
+</li>
+<li>
+<p>传统是多线程，共享内存来实现通信， 例如JAVA，CPP；而go采用CSP，通过通信方式来共享内存。</p>
+</li>
+<li>
+<p>Java中在访问共享变量（Map，List等）时需要加锁进行访问，从而也衍生出一种方便操作的数据类型，即线程安全的集合，例如java.util.concurrent.包中的数据结构。</p>
+</li>
+<li>
+<p>Go采用CSP，通信来共享内存方式</p>
+</li>
+<li>
+<p>Channel 实现原理</p>
+<p><a href="https://segmentfault.com/a/1190000019172554">Go channel 实现原理分析 - golang开发笔记 - SegmentFault 思否</a></p>
+<ol>
+<li>数据结构，实际上是基于<a href="https://en.wikipedia.org/wiki/Circular_buffer">RingBuffer Wiki</a>数据结构的实现
+<ol>
+<li>dataqsiz   // 缓冲区容量，循环队列</li>
+<li>qcount  // 缓冲区的元素个数</li>
+<li>Buf unsafe.Pointer // 指向缓冲区，表示一个已经发送但还未接收的数据。</li>
+<li>sendx  // 下一个可发送的地址</li>
+<li>recvx // 下一个可接收的地址</li>
+<li>sendq // 发送的sudog列表，当一个发送操作执行时，若缓冲区满了且无接收者在接送，则协程挂起，并将sudog放入sendq中  sudo G - G 代表Goroutine</li>
+<li>recvq  // 接收的sudog列表，当一个接受操作执行时。若缓冲区无数据且无发送者在等待，则协程挂起，并将sudog放入recvq中</li>
+<li>closed  // 管道是否关闭</li>
+<li>elemsize // 元素大小</li>
+<li>elemtype // *_type 元素类型</li>
+<li>lock mutex // 锁，用于hchan加锁, 限制只能一个goroutine同时访问一个channel</li>
+</ol>
+</li>
+<li>创建channel
+<ol>
+<li>创建channel时可以执行是否包含缓冲器。</li>
+</ol>
+</li>
+<li>写入数据流程
+<ol>
+<li>先判断recvq是否非空？Y - 取出goroutine，将值写入，唤醒G，gounpark</li>
+<li>N - 判断buf中是否有空位？ Y - 写入空位</li>
+<li>N - 将输入方法sendq中，park G，挂起G，等待唤醒</li>
+</ol>
+</li>
+<li>读数据
+<ol>
+<li>先判断sendq中是否非空 - N  再判断 countq &gt;0  Y - 从buf中读取一个元素执行；否则将当前的goroutine加入recvq，中等待唤醒。当唤醒时，证明有数据写入。执行结束</li>
+<li>Y - 判断是否有缓冲区 N- 从sendq中读取一个G，读取G中的数据，唤醒G，结束</li>
+<li>Y 从缓冲区队首取出数据，然后从sendq取出数据，写入缓冲区队尾中，然后唤醒G，执行，结束。</li>
+</ol>
+</li>
+<li>关闭channel 会panic
+<ol>
+<li>关闭值为nil的channel</li>
+<li>关闭已经关闭的channel</li>
+<li>向已经关闭的channel 写数据</li>
+</ol>
+</li>
+<li>常见的用法
+<ol>
+<li>单向channel，仅用来发送或接收数据
+<ol>
+<li>func readChan(chanName &lt;-chan int)  //接收数据</li>
+<li>func writeChan(chanName chan&lt;- int)  //写入数据</li>
+</ol>
+</li>
+<li>select
+<ol>
+<li>使用select 可以同时监控多个channel （多路复用）</li>
+<li>当同时满足时，select会随机选择一个读取数据。</li>
+<li>select的case语句读channel不会阻塞，尽管channel中没有数据。这个由于case语句编译后调用读channel时，会明确传入不阻塞的参数，此时读不到数据中石，不会将当前goroutine加入等待队列，而是直接返回。</li>
+</ol>
+</li>
+<li>range
+<ol>
+<li>一直读取channel中的数据，就像遍历slice一样。当没有数据可处理时，阻塞当前的goroutine，此时写channel的goroutine退出了，系统检测这种情况会发生panic，否则range将永久阻塞。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+
+</div>
+
+
+    </main>
+
+    
+      
+    
+  </body>
+</html>

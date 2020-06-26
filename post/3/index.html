@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="https://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.69.0-DEV" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>#3 Do A Contributor For Go &middot; 老干妈</title>
+  <meta name="description" content="" />
+
+  
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  
+</head>
+
+  <body class=" ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://maronghe.github.io/"><h1>老干妈</h1></a>
+      <p class="lead">
+      An elegant open source and mobile first theme for <a href="http://hugo.spf13.com">hugo</a> made by <a href="http://twitter.com/mdo">@mdo</a>. Originally made for Jekyll.
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="https://maronghe.github.io/">Home</a> </li>
+        
+      </ul>
+    </nav>
+
+    <p>&copy; 2020. All rights reserved. </p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>#3 Do A Contributor For Go</h1>
+  <time datetime=2020-03-31T22:05:22&#43;0800 class="post-date">Tue, Mar 31, 2020</time>
+  <p>​	激动的心，颤抖的手。</p>
+<p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gddgphynguj31620pe43m.jpg" alt=""></p>
+<p>​																													 &mdash; 记录了我成为一名Go Contributor 的过程</p>
+<blockquote>
+<p>趁着这个热乎劲，记录一下美好的生活。</p>
+</blockquote>
+<p>​	非常开心也非常荣幸的正在成为Go的贡献者之一。这可能也是村子走出来的孩子不太懂得世面的第一步吧。</p>
+<p>​	2020年03月31日上午正在看着Go Map实现原理时，突然发现Go doc中有一个参数写错了。也可能是修改参数时遗漏了。所以我就小心翼翼的在Go的<a href="https://github.com/golang/go">Github</a>中提出了一个小小的Issue，表明我要修改的内容。若想看问题修改了是什么的话，请<a href="https://github.com/golang/go/issues/38174">点击这里</a>，因为就是一个小小的问题，也算不上是个问题的问题。所以就不罗列于此了。</p>
+<p>​	随后我过了几个小时，有一个位Go团队的成员<a href="https://github.com/ALTree">ALTree</a>回复了我的Issue。并说这是一个问题。<code>Yeah sure. Please send a change</code>这是他的原话。</p>
+<p>​	那么接下来就是应该提交一个CL，但是我看<a href="https://go-review.googlesource.com/q/status:open">Code Review</a>上面我当我去执行</p>
+<p><code>git clone https://go.googlesource.com/go &amp;&amp; (cd go &amp;&amp; f=</code>git rev-parse &ndash;git-dir<code>/hooks/commit-msg ; mkdir -p $(dirname $f) ; curl -Lo $f https://gerrit-review.googlesource.com/tools/hooks/commit-msg ; chmod +x $f)</code> 发生了<code>fatal: unable to access 'https://go.googlesource.com/go/': Failed to connect to go.googlesource.com port 443: Operation timed out</code> 操作超时。</p>
+<p>搞了半天后，咨询了一下<a href="https://changkun.de/">欧神</a>（我的偶像），说我网络可能有问题，并且给了我成为一个Contributor的一个<a href="">教程</a>。所以按着教程，又做了下Contributor的学习。所以接下来还是应该继续处理TimeOut的问题。So I need a network helper.</p>
+
+</div>
+
+
+    </main>
+
+    
+      
+    
+  </body>
+</html>
