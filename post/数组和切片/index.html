@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="https://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.69.0-DEV" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>#15 数组和切片 &middot; 老干妈</title>
+  <meta name="description" content="" />
+
+  
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  
+</head>
+
+  <body class=" ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://maronghe.github.io/"><h1>老干妈</h1></a>
+      <p class="lead">
+      An elegant open source and mobile first theme for <a href="http://hugo.spf13.com">hugo</a> made by <a href="http://twitter.com/mdo">@mdo</a>. Originally made for Jekyll.
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="https://maronghe.github.io/">Home</a> </li>
+        
+      </ul>
+    </nav>
+
+    <p>&copy; 2020. All rights reserved. </p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>#15 数组和切片</h1>
+  <time datetime=2020-06-07T23:52:41&#43;0800 class="post-date">Sun, Jun 7, 2020</time>
+  <blockquote>
+<p>数组和切片的区别</p>
+</blockquote>
+<ol>
+<li>底层结构</li>
+<li>创建
+<ol>
+<li>var</li>
+<li>make</li>
+<li>[]int{}</li>
+</ol>
+</li>
+<li>slice扩容</li>
+<li>复用底层数组</li>
+</ol>
+<p>注意：</p>
+<ol>
+<li>array不能跟nil比较，编译报错</li>
+<li>make只能用于 map， channel ，slice的创建，不能创建数组</li>
+<li>var arr [5]int 创建数组，初始化为5个零</li>
+</ol>
+<p>​</p>
+<ol>
+<li>数组大小不可变，切片可变</li>
+<li>kind</li>
+<li>数组 array [2]int , [3]int[]</li>
+<li>slice  slice  []int</li>
+<li>copy 仅能用于slice，并且dst必须要有容量</li>
+<li>复用底部数组 t3 := t1[2:4] // 左闭右开</li>
+<li>创建
+<ol>
+<li>var arr []int // arr == nil  true</li>
+<li>make &amp;  []int{} // arr != nil  true</li>
+</ol>
+</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
+	<span style="color:#a6e22e">arr</span> <span style="color:#f92672">:=</span> [<span style="color:#ae81ff">2</span>]<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">ValueOf</span>(<span style="color:#a6e22e">arr</span>).<span style="color:#a6e22e">Kind</span>()) <span style="color:#75715e">// array
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">ValueOf</span>(<span style="color:#a6e22e">arr</span>).<span style="color:#a6e22e">Type</span>()) <span style="color:#75715e">// [2]int
+</span><span style="color:#75715e"></span>
+	<span style="color:#a6e22e">s1</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">ValueOf</span>(<span style="color:#a6e22e">s1</span>).<span style="color:#a6e22e">Kind</span>()) <span style="color:#75715e">// slice
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">ValueOf</span>(<span style="color:#a6e22e">s1</span>).<span style="color:#a6e22e">Type</span>()) <span style="color:#75715e">// []int
+</span><span style="color:#75715e"></span>
+</code></pre></div><p>slice的扩容规则三步走</p>
+<ol>
+<li>计算预估容量大小 ： 如果预估扩容后的slice的容量大于原来的容量的2倍，则预估容量为扩容后的大小。
+例如：</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">arr</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>}
+<span style="color:#a6e22e">arr</span> = append(<span style="color:#a6e22e">arr</span>, []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">5</span>}<span style="color:#f92672">...</span>)
+</code></pre></div><ol>
+<li>
+<p>原slice容量为2，扩容后为5 &gt; 4。那么预估容量为5。</p>
+</li>
+<li>
+<p>若上述不成立，若扩容后的容量大小小于原数组的2倍</p>
+<ol>
+<li>若 原来容量小于1024，则扩容翻倍  -&gt; 2 * oldCap</li>
+<li>若 原来容量大等于1024，则扩容四分之一 -&gt; 1.25 * oldCap</li>
+</ol>
+</li>
+<li>
+<p>计算扩容后需要占用的内存大小：元素大小有关，在64位机器下int为8字节</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#ae81ff">8</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">5</span> = <span style="color:#ae81ff">40</span> <span style="color:#75715e">// 需要40字节
+</span></code></pre></div></li>
+<li>
+<p>计算最终容量大小：</p>
+<p>go采用的是基于tcmalloc进行的内存分配，也就是go语言自己实现的内存分配器。</p>
+<p>其内存分配规则如下</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// 内存 划分
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">class_to_size</span> = [<span style="color:#a6e22e">_NumSizeClasses</span>]<span style="color:#66d9ef">uint16</span>{<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">16</span>, <span style="color:#ae81ff">32</span>, <span style="color:#ae81ff">48</span>, <span style="color:#ae81ff">64</span>, <span style="color:#ae81ff">80</span>, <span style="color:#ae81ff">96</span>, <span style="color:#ae81ff">112</span>, <span style="color:#ae81ff">128</span>, <span style="color:#ae81ff">144</span>, <span style="color:#ae81ff">160</span>, <span style="color:#ae81ff">176</span>, <span style="color:#ae81ff">192</span>, <span style="color:#ae81ff">208</span>, <span style="color:#ae81ff">224</span>, <span style="color:#ae81ff">240</span>, <span style="color:#ae81ff">256</span>, <span style="color:#ae81ff">288</span>, <span style="color:#ae81ff">320</span>, <span style="color:#ae81ff">352</span>, <span style="color:#ae81ff">384</span>, <span style="color:#ae81ff">416</span>, <span style="color:#ae81ff">448</span>, <span style="color:#ae81ff">480</span>, <span style="color:#ae81ff">512</span>, <span style="color:#ae81ff">576</span>, <span style="color:#ae81ff">640</span>, <span style="color:#ae81ff">704</span>, <span style="color:#ae81ff">768</span>, <span style="color:#ae81ff">896</span>, <span style="color:#ae81ff">1024</span>, <span style="color:#ae81ff">1152</span>, <span style="color:#ae81ff">1280</span>, <span style="color:#ae81ff">1408</span>, <span style="color:#ae81ff">1536</span>, <span style="color:#ae81ff">1792</span>, <span style="color:#ae81ff">2048</span>, <span style="color:#ae81ff">2304</span>, <span style="color:#ae81ff">2688</span>, <span style="color:#ae81ff">3072</span>, <span style="color:#ae81ff">3200</span>, <span style="color:#ae81ff">3456</span>, <span style="color:#ae81ff">4096</span>, <span style="color:#ae81ff">4864</span>, <span style="color:#ae81ff">5376</span>, <span style="color:#ae81ff">6144</span>, <span style="color:#ae81ff">6528</span>, <span style="color:#ae81ff">6784</span>, <span style="color:#ae81ff">6912</span>, <span style="color:#ae81ff">8192</span>, <span style="color:#ae81ff">9472</span>, <span style="color:#ae81ff">9728</span>, <span style="color:#ae81ff">10240</span>, <span style="color:#ae81ff">10880</span>, <span style="color:#ae81ff">12288</span>, <span style="color:#ae81ff">13568</span>, <span style="color:#ae81ff">14336</span>, <span style="color:#ae81ff">16384</span>, <span style="color:#ae81ff">18432</span>, <span style="color:#ae81ff">19072</span>, <span style="color:#ae81ff">20480</span>, <span style="color:#ae81ff">21760</span>, <span style="color:#ae81ff">24576</span>, <span style="color:#ae81ff">27264</span>, <span style="color:#ae81ff">28672</span>, <span style="color:#ae81ff">32768</span>}
+   
+<span style="color:#75715e">//runtime下sizeclasses.go文件
+</span></code></pre></div><p>扩容时若步骤2需要40字节大小的slice，那么内存分配器不会给40字节，而是选择大等于40字节，并最接近的大小的48字节。</p>
+<p>即</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#ae81ff">48</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">8</span>(<span style="color:#66d9ef">int</span> <span style="color:#ae81ff">64</span><span style="color:#a6e22e">位下占用的大小</span>) = <span style="color:#ae81ff">6</span> 
+</code></pre></div><p>则扩容后的容量为 6</p>
+</li>
+</ol>
+
+</div>
+
+
+    </main>
+
+    
+      
+    
+  </body>
+</html>

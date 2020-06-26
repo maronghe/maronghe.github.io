@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="https://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.69.0-DEV" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>#8 Study Recording &middot; 老干妈</title>
+  <meta name="description" content="" />
+
+  
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  
+</head>
+
+  <body class=" ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://maronghe.github.io/"><h1>老干妈</h1></a>
+      <p class="lead">
+      An elegant open source and mobile first theme for <a href="http://hugo.spf13.com">hugo</a> made by <a href="http://twitter.com/mdo">@mdo</a>. Originally made for Jekyll.
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="https://maronghe.github.io/">Home</a> </li>
+        
+      </ul>
+    </nav>
+
+    <p>&copy; 2020. All rights reserved. </p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>#8 Study Recording</h1>
+  <time datetime=2020-04-28T22:52:41&#43;0800 class="post-date">Tue, Apr 28, 2020</time>
+  <ol>
+<li>
+<p>Q : 怎样知道一个变量分配到堆上还是栈上？</p>
+<p>A :<code>编译器首先尝试分配到栈上，但如果编译器不能保证函数返回值是否被引用，那么编译器会分配到堆上。如果一个对象太大了。也会分配到GC堆上。当今的编译器来说，如果一个使用变量的地址，该对象时分配堆上的候选对象，但是逃逸分析后可以识别如果改对象未超过函数的返回范围，那么该变量也可能保存在栈上</code></p>
+<p>R : <a href="https://golang.org/doc/faq#stack_or_heap">https://golang.org/doc/faq#stack_or_heap</a></p>
+</li>
+<li>
+<p><code>new</code> 和 <code>make</code> 有什么区别</p>
+<p>A : new(T)： 分配内存 但初始化仅为0值并返回其指针T和*T（值）。</p>
+<p>​		 new(File)   =&gt;  &amp;File{} //  初始化0值</p>
+<p>​	make(T,args) 仅用于创建 map slice channel，并返回非0值（not zeroed）的类型T（非 *T）</p>
+<p>R : <a href="https://golang.org/doc/effective_go.html#allocation_new">https://golang.org/doc/effective_go.html#allocation_new</a></p>
+<p>​	 <a href="https://golang.org/doc/effective_go.html#allocation_make">https://golang.org/doc/effective_go.html#allocation_make</a></p>
+</li>
+<li>
+<p>Go 的内存分配器是基于TCMalloc的一种分配器（TC Malloc Thread-Cached Malloc）</p>
+<p>​	<a href="https://www.youtube.com/watch?v=3CR4UNMK_Is">YouTube Link, GopherCon UK 2018</a></p>
+<ol>
+<li>申请内存顺序<img src="https://tva1.sinaimg.cn/large/00831rSTly1gdhru3fpkoj311j0jmq7o.jpg" alt=""></li>
+</ol>
+</li>
+</ol>
+<p>4.Go是一种基于epoll的多路复用IO模型，其<code>TCPListener</code>是对<code>netFD</code>进行封装。</p>
+<ol start="5">
+<li>
+<p>Sudog的资源池：每个<code>P</code>都有自己的缓冲池和全局调度器缓存池。</p>
+<ol>
+<li>当本地的sudog的缓冲区为0时，加锁去全局调度器sudog的缓冲池去取全局的一半。</li>
+<li>否则新创建一个sudog。</li>
+</ol>
+</li>
+<li>
+<p>go语言编译后成汇编语言。</p>
+<p><code>go tool compile -S file.go</code></p>
+</li>
+</ol>
+
+</div>
+
+
+    </main>
+
+    
+      
+    
+  </body>
+</html>

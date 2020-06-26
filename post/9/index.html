@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="https://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.69.0-DEV" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>#9 Session与Cookie的区别 &middot; 老干妈</title>
+  <meta name="description" content="" />
+
+  
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  
+</head>
+
+  <body class=" ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://maronghe.github.io/"><h1>老干妈</h1></a>
+      <p class="lead">
+      An elegant open source and mobile first theme for <a href="http://hugo.spf13.com">hugo</a> made by <a href="http://twitter.com/mdo">@mdo</a>. Originally made for Jekyll.
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="https://maronghe.github.io/">Home</a> </li>
+        
+      </ul>
+    </nav>
+
+    <p>&copy; 2020. All rights reserved. </p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>#9 Session与Cookie的区别</h1>
+  <time datetime=2020-05-02T15:48:01&#43;0800 class="post-date">Sat, May 2, 2020</time>
+  <blockquote>
+<p>Session 和 Cookie 看法</p>
+</blockquote>
+<p>首先HTTP协议是无状态的，当我们开发的一些对状态有要求的接口时，<code>Cookie</code>和<code>Session</code>弥补了这一块的能力。</p>
+<p>Cookie</p>
+<ol>
+<li>
+<p>对于HTTP协议来说，<code>Cookie</code>只是请求头中的一个字段且与其他字段没什么区别。</p>
+</li>
+<li>
+<p>浏览器对Cookie做了默认的支持并限制了Cookie的[同源策略]，即同域才能访问Cookie的内容。</p>
+<p>如当我们做SSO（单点登录），一般可以把Cookie种在可访问的一级域名下。</p>
+</li>
+</ol>
+<p>Session</p>
+<ol>
+<li>
+<p>Session是服务器为每个Web用户分配的独立状态存储空间。</p>
+<p>若用户的数据存放在存在某个单点服务器上时，当以七层或四层转发时，请求到后端集群的时候，就存在Session命中的问题（分布式Session问题），这时候需要有中心的方式去统一管理Session，比如存储在DB或缓存中。</p>
+</li>
+<li>
+<p>SessionID：可以由标准OAuth 2.0 来实现最终换取 token 即 sessionId ，并持有过期时间自动刷新逻辑。</p>
+</li>
+</ol>
+<p>总结：</p>
+<p>​	Cookie 和 Session 都是辅助HTTP协议无状态性产生的。</p>
+
+</div>
+
+
+    </main>
+
+    
+      
+    
+  </body>
+</html>

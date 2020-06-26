@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="https://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.69.0-DEV" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>#10 Go 导包（Import）顺序 &middot; 老干妈</title>
+  <meta name="description" content="" />
+
+  
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  
+</head>
+
+  <body class=" ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://maronghe.github.io/"><h1>老干妈</h1></a>
+      <p class="lead">
+      An elegant open source and mobile first theme for <a href="http://hugo.spf13.com">hugo</a> made by <a href="http://twitter.com/mdo">@mdo</a>. Originally made for Jekyll.
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="https://maronghe.github.io/">Home</a> </li>
+        
+      </ul>
+    </nav>
+
+    <p>&copy; 2020. All rights reserved. </p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>#10 Go 导包（Import）顺序</h1>
+  <time datetime=2020-05-06T16:08:53&#43;0800 class="post-date">Wed, May 6, 2020</time>
+  <p>1.包存在哪里？</p>
+<p>​	看段代码，想必大家都知道GoPath和GoRoot的是什么了。（GoPath = 你的工作空间路径 ，GoRoot =  Go的安装路径）</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">import</span> (
+	. <span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;os&#34;</span>
+)
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() {
+	<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Go Root %s \n&#34;</span>, <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Getenv</span>(<span style="color:#e6db74">&#34;GOROOT&#34;</span>)) <span style="color:#75715e">// Go Root /usr/local/Cellar/go/1.14/libexec 
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Go Path %s \n&#34;</span>, <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Getenv</span>(<span style="color:#e6db74">&#34;GOPATH&#34;</span>)) <span style="color:#75715e">// Go Path /Users/logan/go
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>通过 . 对 &ldquo;fmt&rdquo; 进行别名，则不需要使用 <code>fmt.Printf(&quot;...&quot;)</code>了，但一个包中只能有一个<code>.</code>别名否则会报错。同时可以配置多个GoPath用 <code>:</code> 分割，例如 <code>GOPATH=/Users/logan/go:~/myworkspace</code></p>
+<p>2.扫描包的顺序？</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">import</span> (
+    <span style="color:#e6db74">&#34;fmt&#34;</span>
+    <span style="color:#e6db74">&#34;net/http&#34;</span>
+)
+</code></pre></div><p>如果搜索<code>net/http</code>包时，搜索顺序如下:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">/</span><span style="color:#a6e22e">usr</span><span style="color:#f92672">/</span><span style="color:#a6e22e">local</span><span style="color:#f92672">/</span><span style="color:#a6e22e">Cellar</span><span style="color:#f92672">/</span><span style="color:#66d9ef">go</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1.14</span><span style="color:#f92672">/</span><span style="color:#a6e22e">libexec</span><span style="color:#f92672">/</span><span style="color:#a6e22e">src</span><span style="color:#f92672">/</span><span style="color:#a6e22e">net</span><span style="color:#f92672">/</span><span style="color:#a6e22e">http</span>
+<span style="color:#f92672">/</span><span style="color:#a6e22e">Users</span><span style="color:#f92672">/</span><span style="color:#a6e22e">logan</span><span style="color:#f92672">/</span><span style="color:#66d9ef">go</span><span style="color:#f92672">/</span><span style="color:#a6e22e">src</span><span style="color:#f92672">/</span><span style="color:#a6e22e">net</span><span style="color:#f92672">/</span><span style="color:#a6e22e">http</span>
+<span style="color:#960050;background-color:#1e0010">~</span><span style="color:#f92672">/</span><span style="color:#a6e22e">myworkspace</span><span style="color:#f92672">/</span><span style="color:#a6e22e">src</span><span style="color:#f92672">/</span><span style="color:#a6e22e">net</span><span style="color:#f92672">/</span><span style="color:#a6e22e">http</span>
+</code></pre></div><p>3.包的导入顺序？及var、const、init()加载顺序。</p>
+<p>包导入顺序如图所示，同时可知先初始化const、其次为var、之后为init()，<strong>注意同时可以有多个init方法，从上到下依次执行。</strong></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1geat63nag2j30rm0bxtcw.jpg" alt="img"></p>
+<p>4.包重名了怎么办？</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">import</span> (
+   <span style="color:#e6db74">&#34;runtime&#34;</span>
+   <span style="color:#e6db74">&#34;strings&#34;</span>
+	 <span style="color:#a6e22e">strings2</span> <span style="color:#e6db74">&#34;strings&#34;</span>
+   <span style="color:#e6db74">&#34;testing&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">TestImport</span>(<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">T</span>){
+   <span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">PrintlnHello</span>(<span style="color:#e6db74">&#34;Logan&#34;</span>)
+   <span style="color:#a6e22e">strings2</span>.<span style="color:#a6e22e">Compare</span>(<span style="color:#e6db74">&#34;a&#34;</span>,<span style="color:#e6db74">&#34;b&#34;</span>)
+}
+</code></pre></div><p>如果包重名了，只能起别名，否则不能识别出是哪个包中的方法需要引用。</p>
+<p>5.包导入的”奇淫技巧“</p>
+<p>​	<code>_</code>导入 及 远程包</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">_</span> <span style="color:#e6db74">&#34;github.com/go-sql-driver/mysql&#34;</span> <span style="color:#75715e">// 导入mysql驱动
+</span></code></pre></div><p>仅需要依赖执行<code>github.com/go-sql-driver/mysql</code>中的初始化<code>init()</code>函数</p>
+<ol start="6">
+<li>编译期加载</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> (
+  <span style="color:#75715e">// 常量，数值、字符(runes)、字符串或布尔值等
+</span><span style="color:#75715e"></span>	  <span style="color:#a6e22e">i</span> = <span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">3</span> 
+)
+</code></pre></div><ol start="7">
+<li>运行期加载，如：</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">math</span>.<span style="color:#a6e22e">Sin</span>(<span style="color:#a6e22e">math</span>.<span style="color:#a6e22e">Pi</span><span style="color:#f92672">/</span><span style="color:#ae81ff">4</span>)
+</code></pre></div><hr>
+<p>参考连接：</p>
+<ol>
+<li><a href="https://www.cnblogs.com/f-ck-need-u/p/9847554.html">https://www.cnblogs.com/f-ck-need-u/p/9847554.html</a></li>
+</ol>
+
+</div>
+
+
+    </main>
+
+    
+      
+    
+  </body>
+</html>

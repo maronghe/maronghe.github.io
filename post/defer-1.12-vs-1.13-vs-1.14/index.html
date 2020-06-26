@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="https://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.69.0-DEV" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>#14 defer different &middot; 老干妈</title>
+  <meta name="description" content="" />
+
+  
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  
+</head>
+
+  <body class=" ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://maronghe.github.io/"><h1>老干妈</h1></a>
+      <p class="lead">
+      An elegant open source and mobile first theme for <a href="http://hugo.spf13.com">hugo</a> made by <a href="http://twitter.com/mdo">@mdo</a>. Originally made for Jekyll.
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="https://maronghe.github.io/">Home</a> </li>
+        
+      </ul>
+    </nav>
+
+    <p>&copy; 2020. All rights reserved. </p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>#14 defer different</h1>
+  <time datetime=2020-06-01T23:52:41&#43;0800 class="post-date">Mon, Jun 1, 2020</time>
+  <blockquote>
+<p>Defer 1.12 vs 1.13 vs 1.14</p>
+</blockquote>
+<h2 id="112之前"><strong>1.12</strong>之前</h2>
+<p>defer func(){}  —&gt; 会被翻译成两个函数</p>
+<ol>
+<li>
+<p>deferproc() : 注册，defer func(){} 到g的defer链表中，头插法。defer需要进行堆分配，而且参数变量需要进行堆栈间拷贝。</p>
+</li>
+<li>
+<p>runtime.deferreturn() : 执行，defer链表的中的每一项</p>
+<p>（先注册 -》 后执行）</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// runtime/runtime2.go
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">g</span> <span style="color:#66d9ef">struct</span> {
+ <span style="color:#f92672">...</span>
+ <span style="color:#a6e22e">_panic</span>       <span style="color:#f92672">*</span><span style="color:#a6e22e">_panic</span> 
+ <span style="color:#a6e22e">_defer</span>       <span style="color:#f92672">*</span><span style="color:#a6e22e">_defer</span> <span style="color:#75715e">// defer 链表
+</span><span style="color:#75715e"></span> <span style="color:#f92672">...</span>
+}
+</code></pre></div></li>
+</ol>
+<p>步骤解析：</p>
+<p><code>deferproc</code></p>
+<ol>
+<li>从<code>defer pool</code>预分配不同规格的defer，不满足时再创建，用完再放回池中。</li>
+<li>进行堆分配<code>_defer</code>结构体，将参数拷贝到堆上</li>
+<li>连接到<code>g</code>的<code>defer</code>链表上</li>
+</ol>
+<p><code>runtime.deferreturn</code></p>
+<ol>
+<li>执行<code>defer</code>注册的<code>funcval</code>，将堆上的参数拷贝到栈上，进行执行。</li>
+</ol>
+<p>注意：</p>
+<ol>
+<li>若其中有发现闭包，堆上分配捕获变量的地址，执行时通过指针加偏移量找到被捕获的变量进行操作</li>
+<li>形如<code>defer A(B(a))</code>
+<ol>
+<li>函数A需要依赖B的返回值进行堆分配内存大小</li>
+<li>所以B函数在注册时候执行，传入变量啊</li>
+</ol>
+</li>
+</ol>
+<p>存在问题：（<strong>慢!!!!!</strong>）</p>
+<ol>
+<li>defer结构体堆分配，参数需要进行堆栈间拷贝。 GC</li>
+<li>链表注册defer信息，执行比较慢。</li>
+</ol>
+<h2 id="113"><strong>1.13</strong></h2>
+<p><strong>性能提升：30%</strong></p>
+<p>增加<code>runtime.deferprocStack()</code>函数：</p>
+<ol>
+<li>编译阶段：将defer的参数分配到栈帧的局部变量部分。</li>
+<li><code>deferprocStack</code>defer内存分配到栈上，并注册到defer链表中，<strong>以减少defer的堆分配</strong>  // TODO</li>
+<li>但是对于<a href="https://tva1.sinaimg.cn/large/007S8ZIlly1gfxptmrehij308o04udg3.jpg">循环defer</a>或<a href="https://tva1.sinaimg.cn/large/007S8ZIlly1gfxpd6ikvfj30a008ogm3.jpg">隐式循环注册</a>还是需要进行堆分配</li>
+<li>defer结构体中加入<code>heap</code>字段区分是否为堆分配</li>
+</ol>
+<p><code>runtime.deferreturn</code></p>
+<ol>
+<li>若没分配到堆中的defer函数会进行栈的<code>局部变量</code>拷贝到<code>参数空间</code></li>
+<li>分配到堆上的<strong>还是进行参数的堆栈间拷贝</strong></li>
+</ol>
+<h2 id="114">1.14</h2>
+<p><strong>性能提升一个数量级</strong></p>
+<p>改造1： 普通的 <code>defer A(a,b)</code> 会进行分配局部变量<code>a,b</code>，在函数<code>ret</code>之前进行函数调用，达到延迟执行的效果</p>
+<p>改造2： 对于带有条件的<code>defer A2()</code> 函数，需要到执行期间才知道是否需要执行。</p>
+<pre><code>1.	引入`df`变量进行标记df的每一个bit是0或1，来进行决定defer是否需要执行
+2.	执行过了标记为0，避免重复执行。
+</code></pre>
+<p>目标就是通过编译是插入代码，将defer在函数内进行展开执行，就不用defer结构体测创建和注册defer链表了。</p>
+<p>官方称之为 <code>open coded defer</code></p>
+<p>但同1.13 一样不适用于循环defer和隐式注册，所以go1.12还是进行保留。</p>
+<p>付出代价：</p>
+<ol>
+<li><code>panic()</code>和<code>runtime.GoExit()</code> 退出需要执行defer链表，</li>
+<li>但是由于没注册链表，</li>
+<li>所以需要栈扫描的方式来找到未注册defer函数</li>
+<li>才能按照正常执行。</li>
+</ol>
+<p><code>整体性能优化  &gt; panic发生的概率</code></p>
+
+</div>
+
+
+    </main>
+
+    
+      
+    
+  </body>
+</html>

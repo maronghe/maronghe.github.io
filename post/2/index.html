@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="https://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.69.0-DEV" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>#2 [采坑指南] json.Unmarshal后interface{}成map[string]interface{} &middot; 老干妈</title>
+  <meta name="description" content="" />
+
+  
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://maronghe.github.io/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  
+</head>
+
+  <body class=" ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://maronghe.github.io/"><h1>老干妈</h1></a>
+      <p class="lead">
+      An elegant open source and mobile first theme for <a href="http://hugo.spf13.com">hugo</a> made by <a href="http://twitter.com/mdo">@mdo</a>. Originally made for Jekyll.
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="https://maronghe.github.io/">Home</a> </li>
+        
+      </ul>
+    </nav>
+
+    <p>&copy; 2020. All rights reserved. </p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>#2 [采坑指南] json.Unmarshal后interface{}成map[string]interface{}</h1>
+  <time datetime=2020-03-29T23:43:01&#43;0800 class="post-date">Sun, Mar 29, 2020</time>
+  <p>​	可能大家工作中都会遇到类型断言，即接口类型断言是否为某种strcut类型<code>i.(A)</code>或某种struct的指针类型<code>i.(*A)</code>。</p>
+<p>那么当一个想要一个<code>interface{}</code>类型既想转换成多种类型，且多种类型并不属于同一种。这句话说的可能比较绕圈，下面举个例子来看下。</p>
+<p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gdbs3lnvfqj30sm0humz9.jpg" alt=""></p>
+<p>当有两个SA和SB，当我们想要从字符串翻转成结构体时。我们可以</p>
+<p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gdbs4kh13cj30xq0icq4o.jpg" alt=""></p>
+<p>没问题，输出结果是</p>
+<pre><code>sa {logan 18 Beijing}
+PASS
+</code></pre><p>但是当结构体内容时由其他结构体，以<code>interface{}</code>类型进行返回时，那么情景可能如下。</p>
+<p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gdbs52mbhoj30kk05qdgc.jpg" alt=""></p>
+<p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gdbs5kk96wj30u00x4wm8.jpg" alt=""></p>
+<p>如果50和51行都注释掉了的话，那么结果会输出</p>
+<pre><code>it2 data type is map[string]interface {}
+ti3 type assertion error, it isn't type SA 
+ti4 type assertion error, it isn't type SB
+ti5 is map[addr:Beijing age:18 name:logan]
+PASS
+</code></pre><p>意味着data转换成了<code>map[string]interface{}</code>如果转换成<code>map[string]interface{}</code>类型后，那么想要key中的value还需要继续类型断言。</p>
+<p><strong>为什么会转成<code>map[string]interface{}</code>呢？因为对象底层类型，当<code>unmarshal</code>时并不知道对象底层类型。</strong></p>
+<p>那么，是否有一种希望转成的类型当我们的确希望转换成某种类型，如SA或SB。</p>
+<p>答案是需要告诉结构类型的底层类型是什么，才可做此类型的类型断言。</p>
+<p>解开注释50或51行后，则输出结果成为</p>
+<pre><code>it2 data type is *main.SB
+ti3 type assertion error, it isn't type SA 
+ti4 is &amp;{logan 18 } 
+ti5 type assertion error, it isn't type map[string]interface{} 
+PASS
+</code></pre><p>总结：当我们希望类型断言的结构体中是一个<code>interface{}</code>类型时，希望转换成某种我们希望的类型，要进行底层类型的转换。那么就要给Data进行赋值类型。则断言方可成功。</p>
+<blockquote>
+<p>参考内容</p>
+</blockquote>
+<ol>
+<li><a href="https://github.com/maronghe/todo-list/issues/5">https://github.com/maronghe/todo-list/issues/5</a></li>
+<li><a href="https://stackoverflow.com/questions/43325288/golang-convert-interface-to-struct/43325450">https://stackoverflow.com/questions/43325288/golang-convert-interface-to-struct/43325450</a></li>
+<li><a href="https://play.golang.org/p/6fOr0rFV_e1">https://play.golang.org/p/6fOr0rFV_e1</a></li>
+</ol>
+
+</div>
+
+
+    </main>
+
+    
+      
+    
+  </body>
+</html>
