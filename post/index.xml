@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Loganma&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 15 Jun 2020 23:52:41 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 28 Jun 2020 23:52:41 +0800</lastBuildDate>
     
 	<atom:link href="https://maronghe.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>#17 Redis数据结构之String</title>
+      <link>https://maronghe.github.io/post/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BString/</link>
+      <pubDate>Sun, 28 Jun 2020 23:52:41 +0800</pubDate>
+      
+      <guid>https://maronghe.github.io/post/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BString/</guid>
+      <description>Redis数据结构之String ​ Redis是C语言编写的，C语言有字符串，但是Redis并没有采用C的字符串而是自己构建出SDS即简单动态字符串，那么肯定是C的字符串某种情况下不满足Redis的需求，才自己造轮子。 SDS 与 C字符串 区别 长度计算方式 C字符串需要遍历之后，最后是以\0结</description>
+    </item>
     
     <item>
       <title>#16 限流方案</title>
