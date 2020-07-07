@@ -6,10 +6,19 @@
     <description>Recent content on LoganMa&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 28 Jun 2020 23:52:41 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 07 Jul 2020 12:52:41 +0800</lastBuildDate>
     
 	<atom:link href="https://maronghe.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>原子操作及锁的版本演变</title>
+      <link>https://maronghe.github.io/post/atomic-vs-mutex/</link>
+      <pubDate>Tue, 07 Jul 2020 12:52:41 +0800</pubDate>
+      
+      <guid>https://maronghe.github.io/post/atomic-vs-mutex/</guid>
+      <description>Atomic VS Mutex Monitor：都说原子操作比锁更轻量级，为什么更轻量？ Me：&amp;hellip;.（支支吾吾） 原子操作 ​ 即进行过程中不能被中断的操作。 为什么不能打断该操作？ ​ 如今的操作系统，多核处理器盛行，多进程并行？ ​ 还是多进程每个人任务执行一小段，之后切换到其他的进程或线程继续执行呢？ ​</description>
+    </item>
     
     <item>
       <title>#17 Redis数据结构之String</title>
