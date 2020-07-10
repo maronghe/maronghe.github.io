@@ -6,10 +6,19 @@
     <description>Recent content in Posts on LoganMa&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 07 Jul 2020 12:52:41 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 10 Jul 2020 11:02:41 +0800</lastBuildDate>
     
 	<atom:link href="https://maronghe.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>记一次前端504问题反馈</title>
+      <link>https://maronghe.github.io/post/one504/</link>
+      <pubDate>Fri, 10 Jul 2020 11:02:41 +0800</pubDate>
+      
+      <guid>https://maronghe.github.io/post/one504/</guid>
+      <description>怪小弟不才，出现问题只能记录与笔记中，方便以后回忆起来。 504 GateWay - Timeout 调用网关超时，也就意味着上游服务器返回超时。如果上游服务器返回了一个无效的相应，那么返回为502，暂且不讨论502。 此问题对于前端同学反馈，某接口请求结果，时好时坏（返回成功或请求一直pending）。 所以暂时排除网</description>
+    </item>
     
     <item>
       <title>原子操作及锁的版本演变</title>
