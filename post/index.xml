@@ -6,10 +6,19 @@
     <description>Recent content in Posts on LoganMa&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 10 Jul 2020 11:02:41 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 11 Jul 2020 23:52:41 +0800</lastBuildDate>
     
 	<atom:link href="https://maronghe.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>TCP长链接通信解决方案记录</title>
+      <link>https://maronghe.github.io/post/bufio/</link>
+      <pubDate>Sat, 11 Jul 2020 23:52:41 +0800</pubDate>
+      
+      <guid>https://maronghe.github.io/post/bufio/</guid>
+      <description>bufio ​ -带有缓存区的io 指定一个默认大小的缓冲区的io，进行读取，先从缓冲区读取，缓冲区中没数据之后再更新缓冲区。 默认缓冲区大小为4M，最小为16字节 其提供了更丰富的操作如 如Peek，读一行，读固定字节，读rune，读slice等等，丰富了操作。 我们的系统需要与对方系统同步数据，所</description>
+    </item>
     
     <item>
       <title>记一次前端504问题反馈</title>
