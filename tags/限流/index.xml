@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>限流 on 马荣贺&#39;s Home, You are my Homie!</title>
+    <link>https://maronghe.github.io/tags/%E9%99%90%E6%B5%81/</link>
+    <description>Recent content in 限流 on 马荣贺&#39;s Home, You are my Homie!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 03 Jun 2020 18:36:00 +0200</lastBuildDate><atom:link href="https://maronghe.github.io/tags/%E9%99%90%E6%B5%81/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>#16 限流方案</title>
+      <link>https://maronghe.github.io/2020/16.limiting/</link>
+      <pubDate>Wed, 03 Jun 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/16.limiting/</guid>
+      <description>限流   定时清除 （1分钟一清除）
+ 实现简单 对于边界值，如59秒和下一秒会有问题，会得到一个请求限制速率的2倍    滑动窗口（10秒一清除）
+ 是定时清除的一个优化，缩小了清除粒度但是还是有问题。    漏桶算法 （桶容量 + 桶流速度） https://github.com/uber-go/ratelimit
+ 超过桶的容量就要涉及到排队或拒绝了   不支持小流量激增    令牌桶算法（定时放入桶中令牌） https://github.com/juju/ratelimit
+ 支持小流量并发激增    分布式限流则可用于 Redis + Lua脚本实现，其原理几乎差不多。
+local key = &amp;#34;rate.limit:&amp;#34; .. KEYS[1] --限流KEY local limit = tonumber(ARGV[1]) --限流大小 local current = tonumber(redis.call(&amp;#39;get&amp;#39;, key) or &amp;#34;0&amp;#34;) if current + 1 &amp;gt; limit then --如果超出限流大小 return 0 else --请求数+1，并设置1秒过期 redis.</description>
+    </item>
+    
+  </channel>
+</rss>

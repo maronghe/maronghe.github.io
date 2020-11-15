@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="Logan.Ma">
+  
+  
+  
+  <link rel="prev" href="https://maronghe.github.io/2020/20.tcp%E9%95%BF%E9%93%BE%E6%8E%A5%E9%80%9A%E4%BF%A1/" />
+  <link rel="next" href="https://maronghe.github.io/2020/22.%E5%8D%8F%E7%A8%8B%E5%90%8C%E6%AD%A5%E7%9A%84%E6%96%B9%E5%BC%8F/" />
+  <link rel="canonical" href="https://maronghe.github.io/2020/21.leetcode-206-%E9%93%BE%E8%A1%A8%E7%BF%BB%E8%BD%AC/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           #21 Leetcode 206 链表翻转 | 马荣贺&#39;s Home, You are my Homie!
+       
+  </title>
+  <meta name="title" content="#21 Leetcode 206 链表翻转 | 马荣贺&#39;s Home, You are my Homie!">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/maronghe.github.io\/"
+    },
+    "articleSection" : "posts",
+    "name" : "#21 Leetcode 206 链表翻转",
+    "headline" : "#21 Leetcode 206 链表翻转",
+    "description" : "Smart clean code\n\/** * Definition for singly-linked list. * type ListNode struct { * Val int * Next *ListNode * } *\/ func reverseList(head *ListNode) *ListNode { var p *ListNode for head != nil { head.Next, head, p = p, head.Next, head \/\/ ??? 某些人可能困惑在这里  } return p } 尼古拉斯·永强 leave a comment :\n​\tI learn it from google that the assignment is from the left to the right.",
+    "inLanguage" : "en-us",
+    "author" : "Logan.Ma",
+    "creator" : "Logan.Ma",
+    "publisher": "Logan.Ma",
+    "accountablePerson" : "Logan.Ma",
+    "copyrightHolder" : "Logan.Ma",
+    "copyrightYear" : "2020",
+    "datePublished": "2020-08-01 18:36:00 \u002b0200 \u002b0200",
+    "dateModified" : "2020-08-01 18:36:00 \u002b0200 \u002b0200",
+    "url" : "https:\/\/maronghe.github.io\/2020\/21.leetcode-206-%E9%93%BE%E8%A1%A8%E7%BF%BB%E8%BD%AC\/",
+    "wordCount" : "1170",
+    "keywords" : [ "算法", "马荣贺\u0027s Home, You are my Homie!"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">#21 Leetcode 206 链表翻转</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://maronghe.github.io/" rel="author">Logan.Ma</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2020-08-01 itemprop="datePublished">August 1, 2020</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://maronghe.github.io/categories/leetcode/"> leetcode </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+            
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <p>Smart clean code</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Definition for singly-linked list.
+</span><span style="color:#75715e"> * type ListNode struct {
+</span><span style="color:#75715e"> *     Val int
+</span><span style="color:#75715e"> *     Next *ListNode
+</span><span style="color:#75715e"> * }
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">reverseList</span>(<span style="color:#a6e22e">head</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span> {
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">p</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">head</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#a6e22e">head</span>.<span style="color:#a6e22e">Next</span>, <span style="color:#a6e22e">head</span>, <span style="color:#a6e22e">p</span> = <span style="color:#a6e22e">p</span>, <span style="color:#a6e22e">head</span>.<span style="color:#a6e22e">Next</span>, <span style="color:#a6e22e">head</span> <span style="color:#75715e">// ??? 某些人可能困惑在这里
+</span><span style="color:#75715e"></span>    }
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">p</span>
+}
+</code></pre></div><p><code>尼古拉斯·永强</code> leave a comment :</p>
+<p>​	I learn it from google that the assignment is from the left to the right. So the point I do not get is that when <code>head.Next=prev</code> at the initial time, it equals to <code>nil</code>, and then why using <code>head=head.Next</code> could make it works? For me, I think <code>head.Next</code> equals <code>nil</code> at that moment. Correct me if I was wrong.</p>
+<p>我们使用 <a href="https://github.com/go-delve/delve">dlv</a>，go的一个 <code>debug</code> 命令行工具来观看下</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># logan at macmadeMacBook-Pro.local in ~/go/src/leetcode/tmp</span>
+→ dlv debug main.go                                                                                                               master ✖︎ <span style="color:#f92672">[</span>9:44:25<span style="color:#f92672">]</span>
+Type <span style="color:#e6db74">&#39;help&#39;</span> <span style="color:#66d9ef">for</span> list of commands.
+<span style="color:#f92672">(</span>dlv<span style="color:#f92672">)</span> b main.main
+Breakpoint <span style="color:#ae81ff">1</span> set at 0x10c2398 <span style="color:#66d9ef">for</span> main.main<span style="color:#f92672">()</span> ./main.go:5
+<span style="color:#f92672">(</span>dlv<span style="color:#f92672">)</span> c
+&gt; main.main<span style="color:#f92672">()</span> ./main.go:5 <span style="color:#f92672">(</span>hits goroutine<span style="color:#f92672">(</span>1<span style="color:#f92672">)</span>:1 total:1<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>PC: 0x10c2398<span style="color:#f92672">)</span>
+     1:	package main
+     2:	
+     3:	import <span style="color:#e6db74">&#34;fmt&#34;</span>
+     4:	
+<span style="color:#f92672">=</span>&gt;   5:	func main<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+     6:		a, b, c, d :<span style="color:#f92672">=</span> 1, 2, 3, <span style="color:#ae81ff">4</span>
+     7:		b, c, d, a <span style="color:#f92672">=</span> a, b, c, d
+     8:		fmt.Println<span style="color:#f92672">(</span>a, b, c, d<span style="color:#f92672">)</span>
+     9:	<span style="color:#f92672">}</span>
+<span style="color:#f92672">(</span>dlv<span style="color:#f92672">)</span> disassemble
+TEXT main.main<span style="color:#f92672">(</span>SB<span style="color:#f92672">)</span> /Users/logan/go/src/leetcode/tmp/main.go
+	main.go:5		0x10c2380	65488b0c2530000000		mov rcx, qword ptr gs:<span style="color:#f92672">[</span>0x30<span style="color:#f92672">]</span>
+	main.go:5		0x10c2389	488d442490			lea rax, ptr <span style="color:#f92672">[</span>rsp-0x70<span style="color:#f92672">]</span>
+	main.go:5		0x10c238e	483b4110			cmp rax, qword ptr <span style="color:#f92672">[</span>rcx+0x10<span style="color:#f92672">]</span>
+	main.go:5		0x10c2392	0f8620020000			jbe 0x10c25b8
+<span style="color:#f92672">=</span>&gt;	main.go:5		0x10c2398*	4881ecf0000000			sub rsp, 0xf0
+	main.go:5		0x10c239f	4889ac24e8000000		mov qword ptr <span style="color:#f92672">[</span>rsp+0xe8<span style="color:#f92672">]</span>, rbp
+	main.go:5		0x10c23a7	488dac24e8000000		lea rbp, ptr <span style="color:#f92672">[</span>rsp+0xe8<span style="color:#f92672">]</span>
+	main.go:6		0x10c23af	48c744244801000000		mov qword ptr <span style="color:#f92672">[</span>rsp+0x48<span style="color:#f92672">]</span>, 0x1 // a :<span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+	main.go:6		0x10c23b8	48c744244002000000		mov qword ptr <span style="color:#f92672">[</span>rsp+0x40<span style="color:#f92672">]</span>, 0x2 // b :<span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span> 
+	main.go:6		0x10c23c1	48c744243803000000		mov qword ptr <span style="color:#f92672">[</span>rsp+0x38<span style="color:#f92672">]</span>, 0x3 // c :<span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span> 
+	main.go:6		0x10c23ca	48c744243004000000		mov qword ptr <span style="color:#f92672">[</span>rsp+0x30<span style="color:#f92672">]</span>, 0x4 // d :<span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
+	main.go:7		0x10c23d3	488b442440			mov rax, qword ptr <span style="color:#f92672">[</span>rsp+0x40<span style="color:#f92672">]</span> 
+	main.go:7		0x10c23d8	4889442460			mov qword ptr <span style="color:#f92672">[</span>rsp+0x60<span style="color:#f92672">]</span>, rax // 0x60 :<span style="color:#f92672">=</span> b 相当于临时变量
+	main.go:7		0x10c23dd	488b442438			mov rax, qword ptr <span style="color:#f92672">[</span>rsp+0x38<span style="color:#f92672">]</span>
+	main.go:7		0x10c23e2	4889442458			mov qword ptr <span style="color:#f92672">[</span>rsp+0x58<span style="color:#f92672">]</span>, rax // 0x58 :<span style="color:#f92672">=</span> c 相当于临时变量
+	main.go:7		0x10c23e7	488b442430			mov rax, qword ptr <span style="color:#f92672">[</span>rsp+0x30<span style="color:#f92672">]</span>
+	main.go:7		0x10c23ec	4889442450			mov qword ptr <span style="color:#f92672">[</span>rsp+0x50<span style="color:#f92672">]</span>, rax // 0x50 :<span style="color:#f92672">=</span> d 相当于临时变量
+	main.go:7		0x10c23f1	488b442448			mov rax, qword ptr <span style="color:#f92672">[</span>rsp+0x48<span style="color:#f92672">]</span>
+	main.go:7		0x10c23f6	4889442440			mov qword ptr <span style="color:#f92672">[</span>rsp+0x40<span style="color:#f92672">]</span>, rax // 0x40 :<span style="color:#f92672">=</span> a -&gt; b <span style="color:#f92672">=</span> a
+	main.go:7		0x10c23fb	488b442460			mov rax, qword ptr <span style="color:#f92672">[</span>rsp+0x60<span style="color:#f92672">]</span>
+	main.go:7		0x10c2400	4889442438			mov qword ptr <span style="color:#f92672">[</span>rsp+0x38<span style="color:#f92672">]</span>, rax // 0x38 <span style="color:#f92672">=</span> 0x60 -&gt; c <span style="color:#f92672">=</span> b
+	main.go:7		0x10c2405	488b442458			mov rax, qword ptr <span style="color:#f92672">[</span>rsp+0x58<span style="color:#f92672">]</span> 
+	main.go:7		0x10c240a	4889442430			mov qword ptr <span style="color:#f92672">[</span>rsp+0x30<span style="color:#f92672">]</span>, rax // 0x30 <span style="color:#f92672">=</span> 0x58 -&gt; d <span style="color:#f92672">=</span> c
+	main.go:7		0x10c240f	488b442450			mov rax, qword ptr <span style="color:#f92672">[</span>rsp+0x50<span style="color:#f92672">]</span> 
+	main.go:7		0x10c2414	4889442448			mov qword ptr <span style="color:#f92672">[</span>rsp+0x48<span style="color:#f92672">]</span>, rax // 0x48 <span style="color:#f92672">=</span> 0x50 -&gt; a <span style="color:#f92672">=</span> d
+	main.go:8		0x10c2419	48890424			mov qword ptr <span style="color:#f92672">[</span>rsp<span style="color:#f92672">]</span>, rax
+	main.go:8		0x10c241d	e87e78f4ff			call $runtime.convT64
+	main.go:8		0x10c2422	488b442408			mov rax, qword ptr <span style="color:#f92672">[</span>rsp+0x8<span style="color:#f92672">]</span>
+	main.go:8		0x10c2427	4889442470			mov qword ptr <span style="color:#f92672">[</span>rsp+0x70<span style="color:#f92672">]</span>, rax // 
+	main.go:8		0x10c242c	488b442440			mov rax, qword ptr <span style="color:#f92672">[</span>rsp+0x40<span style="color:#f92672">]</span>
+	main.go:8		0x10c2431	48890424			mov qword ptr <span style="color:#f92672">[</span>rsp<span style="color:#f92672">]</span>, rax
+	main.go:8		0x10c2435	e86678f4ff			call $runtime.convT64
+	main.go:8		0x10c243a	488b442408			mov rax, qword ptr <span style="color:#f92672">[</span>rsp+0x8<span style="color:#f92672">]</span>
+	main.go:8		0x10c243f	4889442468			mov qword ptr <span style="color:#f92672">[</span>rsp+0x68<span style="color:#f92672">]</span>, rax
+	main.go:8		0x10c2444	488b442438			mov rax, qword ptr <span style="color:#f92672">[</span>rsp+0x38<span style="color:#f92672">]</span>
+	main.go:8		0x10c2449	48890424			mov qword ptr <span style="color:#f92672">[</span>rsp<span style="color:#f92672">]</span>, rax
+	main.go:8		0x10c244d	e84e78f4ff			call $runtime.convT64
+	main.go:8		0x10c2452	488b442408			mov rax, qword ptr <span style="color:#f92672">[</span>rsp+0x8<span style="color:#f92672">]</span>
+	main.go:8		0x10c2457	4889842488000000		mov qword ptr <span style="color:#f92672">[</span>rsp+0x88<span style="color:#f92672">]</span>, rax
+	main.go:8		0x10c245f	488b442430			mov rax, qword ptr <span style="color:#f92672">[</span>rsp+0x30<span style="color:#f92672">]</span>
+	main.go:8		0x10c2464	48890424			mov qword ptr <span style="color:#f92672">[</span>rsp<span style="color:#f92672">]</span>, rax
+	main.go:8		0x10c2468	e83378f4ff			call $runtime.convT64
+	main.go:8		0x10c246d	488b442408			mov rax, qword ptr <span style="color:#f92672">[</span>rsp+0x8<span style="color:#f92672">]</span>
+	main.go:8		0x10c2472	4889842480000000		mov qword ptr <span style="color:#f92672">[</span>rsp+0x80<span style="color:#f92672">]</span>, rax
+	main.go:8		0x10c247a	0f57c0				xorps xmm0, xmm0
+	main.go:8		0x10c247d	0f118424a8000000		movups xmmword ptr <span style="color:#f92672">[</span>rsp+0xa8<span style="color:#f92672">]</span>, xmm0
+	main.go:8		0x10c2485	0f57c0				xorps xmm0, xmm0
+	main.go:8		0x10c2488	0f118424b8000000		movups xmmword ptr <span style="color:#f92672">[</span>rsp+0xb8<span style="color:#f92672">]</span>, xmm0
+	main.go:8		0x10c2490	0f57c0				xorps xmm0, xmm0
+	main.go:8		0x10c2493	0f118424c8000000		movups xmmword ptr <span style="color:#f92672">[</span>rsp+0xc8<span style="color:#f92672">]</span>, xmm0
+	main.go:8		0x10c249b	0f57c0				xorps xmm0, xmm0
+	main.go:8		0x10c249e	0f118424d8000000		movups xmmword ptr <span style="color:#f92672">[</span>rsp+0xd8<span style="color:#f92672">]</span>, xmm0
+	main.go:8		0x10c24a6	488d8424a8000000		lea rax, ptr <span style="color:#f92672">[</span>rsp+0xa8<span style="color:#f92672">]</span>
+	main.go:8		0x10c24ae	4889442478			mov qword ptr <span style="color:#f92672">[</span>rsp+0x78<span style="color:#f92672">]</span>, rax
+	main.go:8		0x10c24b3	8400				test byte ptr <span style="color:#f92672">[</span>rax<span style="color:#f92672">]</span>, al
+	main.go:8		0x10c24b5	488b4c2470			mov rcx, qword ptr <span style="color:#f92672">[</span>rsp+0x70<span style="color:#f92672">]</span>
+	main.go:8		0x10c24ba	488d15dfdd0000			lea rdx, ptr <span style="color:#f92672">[</span>rip+0xdddf<span style="color:#f92672">]</span>
+	main.go:8		0x10c24c1	48899424a8000000		mov qword ptr <span style="color:#f92672">[</span>rsp+0xa8<span style="color:#f92672">]</span>, rdx
+	main.go:8		0x10c24c9	48898c24b0000000		mov qword ptr <span style="color:#f92672">[</span>rsp+0xb0<span style="color:#f92672">]</span>, rcx
+	main.go:8		0x10c24d1	8400				test byte ptr <span style="color:#f92672">[</span>rax<span style="color:#f92672">]</span>, al
+	main.go:8		0x10c24d3	488b442468			mov rax, qword ptr <span style="color:#f92672">[</span>rsp+0x68<span style="color:#f92672">]</span>
+	main.go:8		0x10c24d8	488d0dc1dd0000			lea rcx, ptr <span style="color:#f92672">[</span>rip+0xddc1<span style="color:#f92672">]</span>
+	main.go:8		0x10c24df	48898c24b8000000		mov qword ptr <span style="color:#f92672">[</span>rsp+0xb8<span style="color:#f92672">]</span>, rcx
+	main.go:8		0x10c24e7	48898424c0000000		mov qword ptr <span style="color:#f92672">[</span>rsp+0xc0<span style="color:#f92672">]</span>, rax
+	main.go:8		0x10c24ef	488b442478			mov rax, qword ptr <span style="color:#f92672">[</span>rsp+0x78<span style="color:#f92672">]</span>
+	main.go:8		0x10c24f4	8400				test byte ptr <span style="color:#f92672">[</span>rax<span style="color:#f92672">]</span>, al
+	main.go:8		0x10c24f6	488b8c2488000000		mov rcx, qword ptr <span style="color:#f92672">[</span>rsp+0x88<span style="color:#f92672">]</span>
+	main.go:8		0x10c24fe	488d159bdd0000			lea rdx, ptr <span style="color:#f92672">[</span>rip+0xdd9b<span style="color:#f92672">]</span>
+	main.go:8		0x10c2505	48895020			mov qword ptr <span style="color:#f92672">[</span>rax+0x20<span style="color:#f92672">]</span>, rdx
+	main.go:8		0x10c2509	488d7828			lea rdi, ptr <span style="color:#f92672">[</span>rax+0x28<span style="color:#f92672">]</span>
+	main.go:8		0x10c250d	833d6c37100000			cmp dword ptr <span style="color:#f92672">[</span>runtime.writeBarrier<span style="color:#f92672">]</span>, 0x0
+	main.go:8		0x10c2514	7405				jz 0x10c251b
+	main.go:8		0x10c2516	e990000000			jmp 0x10c25ab
+	main.go:8		0x10c251b	48894828			mov qword ptr <span style="color:#f92672">[</span>rax+0x28<span style="color:#f92672">]</span>, rcx
+	main.go:8		0x10c251f	eb00				jmp 0x10c2521
+	main.go:8		0x10c2521	488b4c2478			mov rcx, qword ptr <span style="color:#f92672">[</span>rsp+0x78<span style="color:#f92672">]</span>
+	main.go:8		0x10c2526	8401				test byte ptr <span style="color:#f92672">[</span>rcx<span style="color:#f92672">]</span>, al
+	main.go:8		0x10c2528	488b842480000000		mov rax, qword ptr <span style="color:#f92672">[</span>rsp+0x80<span style="color:#f92672">]</span>
+	main.go:8		0x10c2530	488d1569dd0000			lea rdx, ptr <span style="color:#f92672">[</span>rip+0xdd69<span style="color:#f92672">]</span>
+	main.go:8		0x10c2537	48895130			mov qword ptr <span style="color:#f92672">[</span>rcx+0x30<span style="color:#f92672">]</span>, rdx
+	main.go:8		0x10c253b	488d7938			lea rdi, ptr <span style="color:#f92672">[</span>rcx+0x38<span style="color:#f92672">]</span>
+	main.go:8		0x10c253f	833d3a37100000			cmp dword ptr <span style="color:#f92672">[</span>runtime.writeBarrier<span style="color:#f92672">]</span>, 0x0
+	main.go:8		0x10c2546	7402				jz 0x10c254a
+	main.go:8		0x10c2548	eb5a				jmp 0x10c25a4
+	main.go:8		0x10c254a	48894138			mov qword ptr <span style="color:#f92672">[</span>rcx+0x38<span style="color:#f92672">]</span>, rax
+	main.go:8		0x10c254e	eb00				jmp 0x10c2550
+	main.go:8		0x10c2550	488b442478			mov rax, qword ptr <span style="color:#f92672">[</span>rsp+0x78<span style="color:#f92672">]</span>
+	main.go:8		0x10c2555	8400				test byte ptr <span style="color:#f92672">[</span>rax<span style="color:#f92672">]</span>, al
+	main.go:8		0x10c2557	eb00				jmp 0x10c2559
+	main.go:8		0x10c2559	4889842490000000		mov qword ptr <span style="color:#f92672">[</span>rsp+0x90<span style="color:#f92672">]</span>, rax
+	main.go:8		0x10c2561	48c784249800000004000000	mov qword ptr <span style="color:#f92672">[</span>rsp+0x98<span style="color:#f92672">]</span>, 0x4
+	main.go:8		0x10c256d	48c78424a000000004000000	mov qword ptr <span style="color:#f92672">[</span>rsp+0xa0<span style="color:#f92672">]</span>, 0x4
+	main.go:8		0x10c2579	48890424			mov qword ptr <span style="color:#f92672">[</span>rsp<span style="color:#f92672">]</span>, rax
+	main.go:8		0x10c257d	48c744240804000000		mov qword ptr <span style="color:#f92672">[</span>rsp+0x8<span style="color:#f92672">]</span>, 0x4
+	main.go:8		0x10c2586	48c744241004000000		mov qword ptr <span style="color:#f92672">[</span>rsp+0x10<span style="color:#f92672">]</span>, 0x4
+	main.go:8		0x10c258f	e87c9fffff			call $fmt.Println
+	main.go:9		0x10c2594	488bac24e8000000		mov rbp, qword ptr <span style="color:#f92672">[</span>rsp+0xe8<span style="color:#f92672">]</span>
+	main.go:9		0x10c259c	4881c4f0000000			add rsp, 0xf0
+	main.go:9		0x10c25a3	c3				ret
+	main.go:8		0x10c25a4	e89714faff			call $runtime.gcWriteBarrier
+	main.go:8		0x10c25a9	eba5				jmp 0x10c2550
+	main.go:8		0x10c25ab	4889c8				mov rax, rcx
+	main.go:8		0x10c25ae	e88d14faff			call $runtime.gcWriteBarrier
+	main.go:8		0x10c25b3	e969ffffff			jmp 0x10c2521
+	main.go:5		0x10c25b8	e863f6f9ff			call $runtime.morestack_noctxt
+	&lt;autogenerated&gt;:1	0x10c25bd	e9befdffff			jmp $main.main
+</code></pre></div><p>​	上述过程中：<code>main.go:7 </code> 行显示，b c d tmps 三个变量创建了三个临时变量，之后，把a赋值给b，b tmp 赋值给c ， c tmp 赋值给 d， d tmp 赋值给 a。给我个人理解来说，在java中，变量交换使用了临时变量。只不过是显示处理（由程序员处理），而go中的变量交换。只不过是编译器给我们做了相关的处理。go语言本身就是以简单为目标。编译器能做的事，就做了。程序员就不用考虑创建临时变量来处理交换变量的值的问题了。</p>
+<p>​	所以LeetCode的206题，上面的写法也相当于。LeetCode内存占用一致。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Definition for singly-linked list.
+</span><span style="color:#75715e"> * type ListNode struct {
+</span><span style="color:#75715e"> *     Val int
+</span><span style="color:#75715e"> *     Next *ListNode
+</span><span style="color:#75715e"> * }
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">reverseList</span>(<span style="color:#a6e22e">head</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span> {
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">p</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ListNode</span>
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">head</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+      <span style="color:#a6e22e">t</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">head</span>.<span style="color:#a6e22e">Next</span>
+      <span style="color:#a6e22e">head</span>.<span style="color:#a6e22e">Next</span> = <span style="color:#a6e22e">p</span> 
+      <span style="color:#a6e22e">p</span> = <span style="color:#a6e22e">head</span>
+      <span style="color:#a6e22e">head</span> = <span style="color:#a6e22e">t</span>
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">p</span>
+}
+</code></pre></div><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfu21duq5xj313q0bg0uk.jpg" alt=""></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfu2212i6nj31qm0nwtne.jpg" alt=""></p>
+<h2 id="mov-rax-qword-ptr-rsp0x40">mov rax, qword ptr [rsp+0x40]</h2>
+<p>​	mov : This is the <a href="https://en.wikipedia.org/wiki/Opcode">opcode</a> part of the instruction. It describes the base operation the CPU is required to perform. <code>mov</code> is an opcode instructing a CPU to copy data from the second <a href="https://en.wikipedia.org/wiki/Operand">operand</a> to the first operand. The first operand on the <code>mov</code> instruction is a target operand, and the second is the source.</p>
+<p>​	也就是说mov是个cpu指令，让第二个参数src，拷贝到第一个参数dst上。</p>
+<p>base : <a href="https://reverseengineering.stackexchange.com/questions/10746/what-does-mov-qword-ptr-dsrax18-r8-mean">https://reverseengineering.stackexchange.com/questions/10746/what-does-mov-qword-ptr-dsrax18-r8-mean</a></p>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Logan.Ma </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://maronghe.github.io/2020/21.leetcode-206-%E9%93%BE%E8%A1%A8%E7%BF%BB%E8%BD%AC/>https://maronghe.github.io/2020/21.leetcode-206-%E9%93%BE%E8%A1%A8%E7%BF%BB%E8%BD%AC/</span>
+            </p>
+            
+             
+            <p class="copyright-item lincese">
+                本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+            </p>
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-tag"></i>Tag(s): 
+            
+            <span class="tag"><a href="https://maronghe.github.io/tags/%E7%AE%97%E6%B3%95/">
+                    #算法</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://maronghe.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://maronghe.github.io/2020/20.tcp%E9%95%BF%E9%93%BE%E6%8E%A5%E9%80%9A%E4%BF%A1/" class="prev" rel="prev" title="#20 TCP长链接解决方案"><i class="iconfont icon-left"></i>&nbsp;#20 TCP长链接解决方案</a>
+         
+        
+        <a href="https://maronghe.github.io/2020/22.%E5%8D%8F%E7%A8%8B%E5%90%8C%E6%AD%A5%E7%9A%84%E6%96%B9%E5%BC%8F/" class="next" rel="next" title="#22 协程同步方式">#22 协程同步方式&nbsp;<i class="iconfont icon-right"></i></a>
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2020 - 2020</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://maronghe.github.io/">Logan.Ma</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+     <link href="//lib.baomitu.com/lightgallery/1.6.11/css/lightgallery.min.css" rel="stylesheet">  
+      
+     <script src="/js/vendor_gallery.min.js" async="" ></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>

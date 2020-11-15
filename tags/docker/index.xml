@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Docker on 马荣贺&#39;s Home, You are my Homie!</title>
+    <link>https://maronghe.github.io/tags/docker/</link>
+    <description>Recent content in Docker on 马荣贺&#39;s Home, You are my Homie!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 20 May 2020 18:36:00 +0200</lastBuildDate><atom:link href="https://maronghe.github.io/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>#12 Docker in Hour</title>
+      <link>https://maronghe.github.io/2020/12.dockerinhour/</link>
+      <pubDate>Wed, 20 May 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/12.dockerinhour/</guid>
+      <description>Docker ​	一个统一环境dev/qa/app/beta/cloud的容器、容器是相互隔离的。
+​	Docker是容器技术，解决软件跨环境的迁移的问题。
+​	Docker安装后，在本地一守护进程(Daemon)的方式后台运行。
+-&amp;gt; docker -v Docker version 19.03.8, build afacb8b ​	本地部署的分为image和container，image相当于类，container相当于对象，一个类可以创建多个对象。
+image 可来自于docker官方Repository Docker Hub 和 private Repository或阿里云镜像 TODO
+镜像命令 docker images // 查看当前已安装的镜像列表 docker search [redis] // 搜索redis镜像 docker pull [redis]:[version] // 不指定version默认下载latest docker rmi [imageId]/[redis]:[version] 容器命令    1 2 3 4 5  docker ps // 查看运行的容器 docker ps -a // 查看所有的容器 docker -run -it[d] --name=[name] /bin/sh // 运行docker -i持续运行 -t分配终端（交互式） -d后台运行（守护式） /bin/sh mac default docker exec [name] /bin/sh // 进入某一运行的容器中 docer [start][stop][rm][inspect] [container-name] // 启动、停止、移除、查看详情           数据卷容器    1 2 3  docker run -it --name c3 -v /volume centos:latest // 创建名为c3的并带有一个/volume的数据卷容器 centos docker run -it --name c1 --volumes-from c3 centos:latest // 创建c1从c3挂载 docker run -it --name c2 --volumes-from c3 centos:latest // 创建c2从c3挂载            Docker的本质</description>
+    </item>
+    
+  </channel>
+</rss>

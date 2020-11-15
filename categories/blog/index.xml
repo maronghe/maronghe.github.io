@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>blog on 马荣贺&#39;s Home, You are my Homie!</title>
+    <link>https://maronghe.github.io/categories/blog/</link>
+    <description>Recent content in blog on 马荣贺&#39;s Home, You are my Homie!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 19 Jul 2020 18:36:00 +0200</lastBuildDate><atom:link href="https://maronghe.github.io/categories/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>#20 TCP长链接解决方案</title>
+      <link>https://maronghe.github.io/2020/20.tcp%E9%95%BF%E9%93%BE%E6%8E%A5%E9%80%9A%E4%BF%A1/</link>
+      <pubDate>Sun, 19 Jul 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/20.tcp%E9%95%BF%E9%93%BE%E6%8E%A5%E9%80%9A%E4%BF%A1/</guid>
+      <description>TCP长链接通信解决方案记录 bufio -带有缓存区的io
+指定一个默认大小的缓冲区的io，进行读取，先从缓冲区读取，缓冲区中没数据之后再更新缓冲区。
+默认缓冲区大小为4M，最小为16字节
+其提供了更丰富的操作如
+如Peek，读一行，读固定字节，读rune，读slice等等，丰富了操作。
+我们的系统需要与对方系统同步数据，所以建立TCP长链接进行数据同步比数据轮询来得更有价值些。
+TCP基于数据流协议，直接读取的字符流，相较于HTTP，还需要增加额外的HTTP header等不重要的数据进行传输。
+那么这一过程有什么问题呢？ 之前的思想是建立好连接之后，直接从io.read中进行读取固定字节大小的slice。
+例如从连接中每次读取2M数据。
+但是因为TCP中的数据只要不断开，就是无穷无尽的数据。
+这就引入了，从无边界的数据，读取数据的问题。既然每次都读2M肯定是行不通的。
+因为每次发送的数据不是2M，那么数据就必须要有分隔符。比如加入 \n \0等等。
+通过网上的资料来查，这也不是一个好的办法。最终采用了，先传数据大小的header头信息 + body大小，进行计算，再读出指定大小的数据包大小的数据即可。
+原本以为这是件很简单事：
+创建连接 -》 读数据-》 计算body大小-》读body大小的数据-》解析数据（如存入缓存、队列来异步解析）-》再读header…以次类推。
+问题来源：
+  连接的维护：TCP连接不是创建好了之后，就永远不会断开。
+比如有另外一条连接创建了，对方的服务端会主动断开之前的TCP连接。我们线上有有一次发生这个问题，由于某种事情，导致了部署两套实例。导致后面的数据都同步不过来了。
+  粘包等问题：
+  粘包是TCP的常见的问题。由于通信双方每次网卡发送的数据不一致，可能回导致发送的数据不被立即写出或等待一会儿一并写出。
+  go中的io.read方法官方文档上已经明确指出。当我们想读取pack := make([]byte, 2048)读取2M的数据时。可能会返回
+0 &amp;lt;= n &amp;lt;= 2048的读数据大小。也明确指出：当可读区小于想读取的大小数据时，直接返回读到的数据去代替继续等待。所以
+这个地方栽跟头了。
+  那么最终解决的问题是通过bufio和io.readFull进行解决得。
+  bufio会内部会维护一个缓冲区默认为4M，和w和r的变量，作为读到的和使用的指针下标。
+ 先从缓冲区中读 缓冲区读取不到的话，就利用被封装了的io.read进行读取。    结合io.read问题，可能读取不全。内部利用了io.read去循环读取读取。
+  TODO 是否可以对内核进行传递参数，如SOCKET_REUSE等
+  </description>
+    </item>
+    
+    <item>
+      <title>#19 记一次前端504问题反馈</title>
+      <link>https://maronghe.github.io/2020/19.fe504/</link>
+      <pubDate>Sun, 05 Jul 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/19.fe504/</guid>
+      <description>记一次前端504问题反馈 怪小弟不才，出现问题只能记录与笔记中，方便以后回忆起来。
+504 GateWay - Timeout 调用网关超时，也就意味着上游服务器返回超时。如果上游服务器返回了一个无效的相应，那么返回为502，暂且不讨论502。
+​	此问题对于前端同学反馈，某接口请求结果，时好时坏（返回成功或请求一直pending）。
+所以暂时排除网络的问题。可能是接口内部逻辑问题。
+​	通过pprof打印出60秒的profile输出重定向到文件之后下载到本地，通过go tool pprof -http=:6060进行分析。
+​	如下图，根据火焰图很明显看出，大部分时间总是在调用**FromCache，从缓存中获取数据，通过Peek和Graph也很容易看出大部分的CPU的时间循环阻塞在哪里。
+​	项目中的缓存用的是Redis，如果有Redis监控的话。估计Redis的负载应该会很高。分析了下业务场景。的确有一种情况忘记考虑，会’死递归‘的取数据。通过pprof和 go tool 工具很容易发现程序的问题。真是个大杀器呀！</description>
+    </item>
+    
+    <item>
+      <title>#17 Redis String</title>
+      <link>https://maronghe.github.io/2020/17.redis-string/</link>
+      <pubDate>Sun, 14 Jun 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/17.redis-string/</guid>
+      <description>Redis数据结构之String Redis是C语言编写的，C语言有字符串，但是Redis并没有采用C的字符串而是自己构建出SDS即简单动态字符串，那么肯定是C的字符串某种情况下不满足Redis的需求，才自己造轮子。
+SDS 与 C字符串 区别  长度计算方式  C字符串需要遍历之后，最后是以\0结尾。O(n)时间复杂度才能得出长度。 SDS采用len属性，O(1)时间复杂度获取长度。   杜绝缓冲区溢出 - 字符串拼接未计算好内存可能会导致缓冲区溢出。  C字符串需要计算内存大小。 SDS进行判断free，如果够就拼接，如果不够就扩容。   减少内存分配和回收的开销  C字符串 N+1大小  1为 \0 结束符   SDS  内存预分配 - len + free 避免总是内存分配 惰性释放 - 字符串缩减时，不必立即释放内存，以免再进行分配。     二进制安全  C字符串  音视频中或出现\0的字符串中C字符串比较无力。   SDS  进行长度判断，读取长度的字符串即可。      </description>
+    </item>
+    
+    <item>
+      <title>#16 限流方案</title>
+      <link>https://maronghe.github.io/2020/16.limiting/</link>
+      <pubDate>Wed, 03 Jun 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/16.limiting/</guid>
+      <description>限流   定时清除 （1分钟一清除）
+ 实现简单 对于边界值，如59秒和下一秒会有问题，会得到一个请求限制速率的2倍    滑动窗口（10秒一清除）
+ 是定时清除的一个优化，缩小了清除粒度但是还是有问题。    漏桶算法 （桶容量 + 桶流速度） https://github.com/uber-go/ratelimit
+ 超过桶的容量就要涉及到排队或拒绝了   不支持小流量激增    令牌桶算法（定时放入桶中令牌） https://github.com/juju/ratelimit
+ 支持小流量并发激增    分布式限流则可用于 Redis + Lua脚本实现，其原理几乎差不多。
+local key = &amp;#34;rate.limit:&amp;#34; .. KEYS[1] --限流KEY local limit = tonumber(ARGV[1]) --限流大小 local current = tonumber(redis.call(&amp;#39;get&amp;#39;, key) or &amp;#34;0&amp;#34;) if current + 1 &amp;gt; limit then --如果超出限流大小 return 0 else --请求数+1，并设置1秒过期 redis.</description>
+    </item>
+    
+    <item>
+      <title>#14 TCP &amp; UDP</title>
+      <link>https://maronghe.github.io/2020/14.tcpudp/</link>
+      <pubDate>Fri, 29 May 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/14.tcpudp/</guid>
+      <description>TCP   TCP三次握手机制，为什么要三次握手？
+考点：
+  为什么要握手？
+TCP最重要的特性就是可靠性，自己发出去的数据要等到对方去确认，并回复收到了（ack），TCP是支持双工协议，所以双方都要去维护自己的序列号（seq，不从0开始，随机生成的）。因为要获取序列号（和MSS，滑动窗口），所以要握手。
+  为什么要三次？
+因为关闭连接的时候，TCP协议允许连接处于半打开（半关闭）状态。而建立连接不允许连接处于半打开状态，所以Server要把自己的序列号回复过来。
+    HTTP 缓存处理流程？
+Request 中 Cache-Control: max-age=30 ，告诉代理服务器，如果有缓存的话，如果超过30秒时，就不要给Client返回，让代理服务器去原服务器去取。
+Response 中的 Cache-Control: max-age=30 ，告诉客户端，只能到30秒，否则将视为过期。
+  地址栏输入URL到底发生了什么?
+考点：
+  应用层
+DNS域名解析-》代理服务器 -》可能缓存-&amp;gt;网关（Nginx、Apache）-》Origin Server 【如上图所示】
+  请求编码
+http://[domain]/[path] -&amp;gt; 转换成 Method ，Path ，Version Protocol，Header等
+  网络分层
+ TCP解决进程到进程之间的通信 IP 解决主机到主机之间的通信 数据链路层 解决 局域网内部的通信      HTTP长链接有哪些优点？
+考点：
+1.长链接和短连接的区分？
+HTTP Header : connect : close / keepalive</description>
+    </item>
+    
+    <item>
+      <title>#13 二叉搜索树（BST）In Go</title>
+      <link>https://maronghe.github.io/2020/13.bst/</link>
+      <pubDate>Fri, 22 May 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/13.bst/</guid>
+      <description>二叉搜索树（Binary Search Tree In Go） 二搜索树叉树特点：
+  极端情况下会退化成链表。
+  中序遍历是递增的。
+  父节点的左孩子都小于父节点，又孩子都大于父节点
+  时间复杂度：
+  Talk is cheap, show me the code 源码：https://github.com/maronghe/basego/blob/master/ds/binary_search_tree.go
+binary_search_tree.go /* * Copyright (c) 2020 RongHe Ma. * Recording from daily work flow. */ package ds import ( &amp;#34;fmt&amp;#34; ) // BST Node type Node struct { data int count int left *Node right *Node } func NewBinarySearchTree(data int) *Node { return &amp;amp;Node{data, 1, nil, nil} } func (node *Node)Insert(data int) *Node { return _insert(node,data) } func _insert(root *Node, data int) *Node{ if root == nil { return NewBinarySearchTree(data) } if root.</description>
+    </item>
+    
+    <item>
+      <title>#12 Docker in Hour</title>
+      <link>https://maronghe.github.io/2020/12.dockerinhour/</link>
+      <pubDate>Wed, 20 May 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/12.dockerinhour/</guid>
+      <description>Docker ​	一个统一环境dev/qa/app/beta/cloud的容器、容器是相互隔离的。
+​	Docker是容器技术，解决软件跨环境的迁移的问题。
+​	Docker安装后，在本地一守护进程(Daemon)的方式后台运行。
+-&amp;gt; docker -v Docker version 19.03.8, build afacb8b ​	本地部署的分为image和container，image相当于类，container相当于对象，一个类可以创建多个对象。
+image 可来自于docker官方Repository Docker Hub 和 private Repository或阿里云镜像 TODO
+镜像命令 docker images // 查看当前已安装的镜像列表 docker search [redis] // 搜索redis镜像 docker pull [redis]:[version] // 不指定version默认下载latest docker rmi [imageId]/[redis]:[version] 容器命令    1 2 3 4 5  docker ps // 查看运行的容器 docker ps -a // 查看所有的容器 docker -run -it[d] --name=[name] /bin/sh // 运行docker -i持续运行 -t分配终端（交互式） -d后台运行（守护式） /bin/sh mac default docker exec [name] /bin/sh // 进入某一运行的容器中 docer [start][stop][rm][inspect] [container-name] // 启动、停止、移除、查看详情           数据卷容器    1 2 3  docker run -it --name c3 -v /volume centos:latest // 创建名为c3的并带有一个/volume的数据卷容器 centos docker run -it --name c1 --volumes-from c3 centos:latest // 创建c1从c3挂载 docker run -it --name c2 --volumes-from c3 centos:latest // 创建c2从c3挂载            Docker的本质</description>
+    </item>
+    
+    <item>
+      <title>#10 Session and Cookie</title>
+      <link>https://maronghe.github.io/2020/10.sessionandcookie/</link>
+      <pubDate>Sat, 02 May 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/10.sessionandcookie/</guid>
+      <description>Session 和 Cookie 看法 首先HTTP协议是无状态的，当我们开发的一些对状态有要求的接口时，Cookie和Session弥补了这一块的能力。
+Cookie   对于HTTP协议来说，Cookie只是请求头中的一个字段且与其他字段没什么区别。
+  浏览器对Cookie做了默认的支持并限制了Cookie的[同源策略]，即同域才能访问Cookie的内容。
+如当我们做SSO（单点登录），一般可以把Cookie种在可访问的一级域名下。
+  Session   Session是服务器为每个Web用户分配的独立状态存储空间。
+若用户的数据存放在存在某个单点服务器上时，当以七层或四层转发时，请求到后端集群的时候，就存在Session命中的问题（分布式Session问题），这时候需要有中心的方式去统一管理Session，比如存储在DB或缓存中。
+  SessionID：可以由标准OAuth 2.0 来实现最终换取token即 sessionId ，并持有过期时间自动刷新逻辑。
+  总结： Cookie 和 Session 都是辅助HTTP协议无状态性产生的。</description>
+    </item>
+    
+    <item>
+      <title>#4 最终一致性</title>
+      <link>https://maronghe.github.io/2020/4.constant/</link>
+      <pubDate>Sun, 05 Apr 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/4.constant/</guid>
+      <description>最终一致性的讨论 在如今的分布式微服务架构下的系统中，各服务之间都会存在直接或间接的调用。很难免很多的方法调用的方法失败，或因为网络波动等处理不成功。
+集中方案，及其优缺点：    方案 优点 不足     saga pattern（个人理解和TCC差不多）：即当发生失败处理是需要调用回滚函数。 可以按照不同的业务逻辑自己西实现回滚逻辑。 1.当系统过于庞大时候，怎么可能保证所有的服务都具备回滚功能？2.回滚失败后，需要人工处理，增加人工介入系统的可能。   可靠MQ + 失败消息落盘，定时重试 + （MQ采用HTTP POST向业务方发送请求，可避免所有服务都使用MQ Client） 解耦、重试 1.生产者的业务执行和Msg发送不是原子性。所以需要MQ支持事务。2.不适用于对消息有顺序性要求的场景。仅试用于简单的情景。3.上游失败落盘、后台发送 + 下游需要处理乱序消息问题。适用于消息定制的不同逻辑。   业务模块中插入多个“桩”，每过一段时间触发状态的全量更新。那么我就找一个其它模块来持续地刷新我系统中的数据状态。从而达到“最终一致”。 根据最终状态判断一致性。 比较反技术，性能全量同步数据需要考虑性能和同步契机。    </description>
+    </item>
+    
+  </channel>
+</rss>

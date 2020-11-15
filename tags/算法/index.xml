@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>算法 on 马荣贺&#39;s Home, You are my Homie!</title>
+    <link>https://maronghe.github.io/tags/%E7%AE%97%E6%B3%95/</link>
+    <description>Recent content in 算法 on 马荣贺&#39;s Home, You are my Homie!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 01 Aug 2020 18:36:00 +0200</lastBuildDate><atom:link href="https://maronghe.github.io/tags/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>#21 Leetcode 206 链表翻转</title>
+      <link>https://maronghe.github.io/2020/21.leetcode-206-%E9%93%BE%E8%A1%A8%E7%BF%BB%E8%BD%AC/</link>
+      <pubDate>Sat, 01 Aug 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/21.leetcode-206-%E9%93%BE%E8%A1%A8%E7%BF%BB%E8%BD%AC/</guid>
+      <description>Smart clean code
+/** * Definition for singly-linked list. * type ListNode struct { * Val int * Next *ListNode * } */ func reverseList(head *ListNode) *ListNode { var p *ListNode for head != nil { head.Next, head, p = p, head.Next, head // ??? 某些人可能困惑在这里  } return p } 尼古拉斯·永强 leave a comment :
+​	I learn it from google that the assignment is from the left to the right.</description>
+    </item>
+    
+    <item>
+      <title>#13 二叉搜索树（BST）In Go</title>
+      <link>https://maronghe.github.io/2020/13.bst/</link>
+      <pubDate>Fri, 22 May 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/13.bst/</guid>
+      <description>二叉搜索树（Binary Search Tree In Go） 二搜索树叉树特点：
+  极端情况下会退化成链表。
+  中序遍历是递增的。
+  父节点的左孩子都小于父节点，又孩子都大于父节点
+  时间复杂度：
+  Talk is cheap, show me the code 源码：https://github.com/maronghe/basego/blob/master/ds/binary_search_tree.go
+binary_search_tree.go /* * Copyright (c) 2020 RongHe Ma. * Recording from daily work flow. */ package ds import ( &amp;#34;fmt&amp;#34; ) // BST Node type Node struct { data int count int left *Node right *Node } func NewBinarySearchTree(data int) *Node { return &amp;amp;Node{data, 1, nil, nil} } func (node *Node)Insert(data int) *Node { return _insert(node,data) } func _insert(root *Node, data int) *Node{ if root == nil { return NewBinarySearchTree(data) } if root.</description>
+    </item>
+    
+  </channel>
+</rss>

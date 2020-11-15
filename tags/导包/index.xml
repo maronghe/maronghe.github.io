@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>导包 on 马荣贺&#39;s Home, You are my Homie!</title>
+    <link>https://maronghe.github.io/tags/%E5%AF%BC%E5%8C%85/</link>
+    <description>Recent content in 导包 on 马荣贺&#39;s Home, You are my Homie!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 10 May 2020 18:36:00 +0200</lastBuildDate><atom:link href="https://maronghe.github.io/tags/%E5%AF%BC%E5%8C%85/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>#11 Golang导包顺序</title>
+      <link>https://maronghe.github.io/2020/11.golang%E5%AF%BC%E5%8C%85%E9%A1%BA%E5%BA%8F/</link>
+      <pubDate>Sun, 10 May 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/11.golang%E5%AF%BC%E5%8C%85%E9%A1%BA%E5%BA%8F/</guid>
+      <description>1.包存在哪里？
+看段代码，想必大家都知道GoPath和GoRoot的是什么了。（GoPath = 你的工作空间路径 ，GoRoot = Go的安装路径）
+func init() { fmt.Printf(&amp;#34;Go Root %s \n&amp;#34;, os.Getenv(&amp;#34;GOROOT&amp;#34;)) // Go Root /usr/local/Cellar/go/1.14/libexec 	fmt.Printf(&amp;#34;Go Path %s \n&amp;#34;, os.Getenv(&amp;#34;GOPATH&amp;#34;)) // Go Path /Users/logan/go } 通过 . 对 “fmt” 进行别名，则不需要使用 fmt.Printf(&amp;quot;...&amp;quot;)了，但一个包中只能有一个.别名否则会报错。同时可以配置多个GoPath用 : 分割，例如 GOPATH=/Users/logan/go:~/myworkspace
+2.扫描包的顺序？
+import ( &amp;#34;fmt&amp;#34; &amp;#34;net/http&amp;#34; ) 如果搜索net/http包时，搜索顺序如下:
+/usr/local/Cellar/go/1.14/libexec/src/net/http /Users/logan/go/src/net/http ~/myworkspace/src/net/http 3.包的导入顺序？及var、const、init()加载顺序。
+包导入顺序如图所示，同时可知先初始化const、其次为var、之后为init()，注意同时可以有多个init方法，从上到下依次执行。
+4.包重名了怎么办？
+import ( &amp;#34;runtime&amp;#34; &amp;#34;strings&amp;#34; strings2 &amp;#34;strings&amp;#34; &amp;#34;testing&amp;#34; ) func TestImport(t *testing.T){ strings.PrintlnHello(&amp;#34;Logan&amp;#34;) strings2.Compare(&amp;#34;a&amp;#34;,&amp;#34;b&amp;#34;) } 如果包重名了，只能起别名，否则不能识别出是哪个包中的方法需要引用。
+5.包导入的”奇淫技巧“
+_导入 及 远程包</description>
+    </item>
+    
+  </channel>
+</rss>

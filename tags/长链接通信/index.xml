@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>长链接通信 on 马荣贺&#39;s Home, You are my Homie!</title>
+    <link>https://maronghe.github.io/tags/%E9%95%BF%E9%93%BE%E6%8E%A5%E9%80%9A%E4%BF%A1/</link>
+    <description>Recent content in 长链接通信 on 马荣贺&#39;s Home, You are my Homie!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 19 Jul 2020 18:36:00 +0200</lastBuildDate><atom:link href="https://maronghe.github.io/tags/%E9%95%BF%E9%93%BE%E6%8E%A5%E9%80%9A%E4%BF%A1/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>#20 TCP长链接解决方案</title>
+      <link>https://maronghe.github.io/2020/20.tcp%E9%95%BF%E9%93%BE%E6%8E%A5%E9%80%9A%E4%BF%A1/</link>
+      <pubDate>Sun, 19 Jul 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/20.tcp%E9%95%BF%E9%93%BE%E6%8E%A5%E9%80%9A%E4%BF%A1/</guid>
+      <description>TCP长链接通信解决方案记录 bufio -带有缓存区的io
+指定一个默认大小的缓冲区的io，进行读取，先从缓冲区读取，缓冲区中没数据之后再更新缓冲区。
+默认缓冲区大小为4M，最小为16字节
+其提供了更丰富的操作如
+如Peek，读一行，读固定字节，读rune，读slice等等，丰富了操作。
+我们的系统需要与对方系统同步数据，所以建立TCP长链接进行数据同步比数据轮询来得更有价值些。
+TCP基于数据流协议，直接读取的字符流，相较于HTTP，还需要增加额外的HTTP header等不重要的数据进行传输。
+那么这一过程有什么问题呢？ 之前的思想是建立好连接之后，直接从io.read中进行读取固定字节大小的slice。
+例如从连接中每次读取2M数据。
+但是因为TCP中的数据只要不断开，就是无穷无尽的数据。
+这就引入了，从无边界的数据，读取数据的问题。既然每次都读2M肯定是行不通的。
+因为每次发送的数据不是2M，那么数据就必须要有分隔符。比如加入 \n \0等等。
+通过网上的资料来查，这也不是一个好的办法。最终采用了，先传数据大小的header头信息 + body大小，进行计算，再读出指定大小的数据包大小的数据即可。
+原本以为这是件很简单事：
+创建连接 -》 读数据-》 计算body大小-》读body大小的数据-》解析数据（如存入缓存、队列来异步解析）-》再读header…以次类推。
+问题来源：
+  连接的维护：TCP连接不是创建好了之后，就永远不会断开。
+比如有另外一条连接创建了，对方的服务端会主动断开之前的TCP连接。我们线上有有一次发生这个问题，由于某种事情，导致了部署两套实例。导致后面的数据都同步不过来了。
+  粘包等问题：
+  粘包是TCP的常见的问题。由于通信双方每次网卡发送的数据不一致，可能回导致发送的数据不被立即写出或等待一会儿一并写出。
+  go中的io.read方法官方文档上已经明确指出。当我们想读取pack := make([]byte, 2048)读取2M的数据时。可能会返回
+0 &amp;lt;= n &amp;lt;= 2048的读数据大小。也明确指出：当可读区小于想读取的大小数据时，直接返回读到的数据去代替继续等待。所以
+这个地方栽跟头了。
+  那么最终解决的问题是通过bufio和io.readFull进行解决得。
+  bufio会内部会维护一个缓冲区默认为4M，和w和r的变量，作为读到的和使用的指针下标。
+ 先从缓冲区中读 缓冲区读取不到的话，就利用被封装了的io.read进行读取。    结合io.read问题，可能读取不全。内部利用了io.read去循环读取读取。
+  TODO 是否可以对内核进行传递参数，如SOCKET_REUSE等
+  </description>
+    </item>
+    
+  </channel>
+</rss>

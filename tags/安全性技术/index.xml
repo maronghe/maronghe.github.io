@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>安全性技术 on 马荣贺&#39;s Home, You are my Homie!</title>
+    <link>https://maronghe.github.io/tags/%E5%AE%89%E5%85%A8%E6%80%A7%E6%8A%80%E6%9C%AF/</link>
+    <description>Recent content in 安全性技术 on 马荣贺&#39;s Home, You are my Homie!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 20 Oct 2020 18:36:00 +0200</lastBuildDate><atom:link href="https://maronghe.github.io/tags/%E5%AE%89%E5%85%A8%E6%80%A7%E6%8A%80%E6%9C%AF/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>#27 Float64不是什么好东西</title>
+      <link>https://maronghe.github.io/2020/27.float64%E4%B8%8D%E6%98%AF%E4%BB%80%E4%B9%88%E5%A5%BD%E4%B8%9C%E8%A5%BF/</link>
+      <pubDate>Tue, 20 Oct 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/27.float64%E4%B8%8D%E6%98%AF%E4%BB%80%E4%B9%88%E5%A5%BD%E4%B8%9C%E8%A5%BF/</guid>
+      <description>背景： ​	近期在做一些数据计算相关的操作，需求是保留小数点后2位，经过一个计算公式以后，会得到2位数的计算结果。根据这个问题，引入了一些问题。
+Case 1 ：
+​	既然是小数点后有值，就能用整形int去表示值。所以很明显是float类型，在golang语言中，float64是较为常见的类型，但它并不是什么好东西，当前后端要传递float64时，前端的数据类型不能将float64的数据完全存储的下，只能通过转换成字符串的形式传递给前端做展示，当前端给后端传递‘float64’类型的值时，也需要将其包装成字符串类型，后端同学再转换成float64，无意间增加传参的复杂性。
+Case 2：
+var x float64 = 2.26 fmt.Println(x) // 2.26 y := x * 100 fmt.Println(y) // 225.99999999999997 ??? 为啥不是226呢 fmt.Println(int(y)) // 225 ??? 为啥不是226呢  就得好好查查这个问题
+解决方案： Case 1 Solution：
+​	对于Web开发时，可以参考B站的七米qimi的方案进行解决，具体视频可以访问后面的链接，其具体思路是通过Golang中的struct tag 进行处理，来兼容前端不能存储float64的情况。Go实战技巧&amp;ndash;你不知道的JSON操作技巧
+Case 2 Solution：
+​	根据Golang的官方论坛中的一个int16 and float64 Multiplication的邮件咨询了这个问题给Google的开发者，Ian Lance Taylor回答了float64的工作原理，想了解的小伙伴可以参考 What Every Computer Scientist Should Know About Floating-Point Arithmetic这篇文章。
+​	但话说回来，目前的需求很简单，希望的是保留小数点后两位，然后乘以整形的数得到整数即可。那么就可以使用以下的float32的解决方案。思路是将float64强转成float32，再乘以整形的数字即可。到这里你可能有疑问， float64强转float32不会造成数据丢失么？答案是：在某种情况上，是会丢失，因为float64是64位也就是8个字节，float32是32位四个字节。但是，对于仅保留小数点后两位情况的case，float32是能力是完全可以cover的住的。举个例子，若你接口的请求量很低，干嘛要用集群部署呢处？反而是不是增加了系统的复杂性？浪费资源？所以，做一件事要考虑的东西，一定要结合需求。
+var x float32 = 2.26 fmt.</description>
+    </item>
+    
+    <item>
+      <title>#26 JWT项目接入的落地方案</title>
+      <link>https://maronghe.github.io/2020/26.jwt/</link>
+      <pubDate>Mon, 05 Oct 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/26.jwt/</guid>
+      <description>JWT 接入 背景 从单体应用架构到分布式应用架构再到微服务架构，应用的安全访问在不断的经受考验。为了适应架构的变化、需求的变化，身份认证与鉴权方案也在不断的变革。面对数十个甚至上百个微服务之间的调用，如何保证高效安全的身份认证？面对外部的服务访问，该如何提供细粒度的鉴权方案？本文将会为大家阐述微服务架构下的安全认证与鉴权方案。 目标 达到接口鉴权，保证系统的安全性 实践  创建验证表 和 表内数据：  CREATE TABLE `blog_auth` ( `id` int unsigned NOT NULL AUTO_INCREMENT, `app_key` varchar(20) DEFAULT &amp;#39;&amp;#39; COMMENT &amp;#39;Key&amp;#39;, `app_secret` varchar(50) DEFAULT &amp;#39;&amp;#39; COMMENT &amp;#39;Secret&amp;#39;, `sub` varchar(50) DEFAULT &amp;#39;&amp;#39; COMMENT &amp;#39;Sub&amp;#39;, `name` varchar(50) DEFAULT &amp;#39;&amp;#39; COMMENT &amp;#39;Name&amp;#39;, `is_del` tinyint DEFAULT &amp;#39;0&amp;#39; COMMENT &amp;#39;是否删除&amp;#39;, PRIMARY KEY (`id`) USING BTREE ) ENGINE = InnoDB AUTO_INCREMENT = 2 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = &amp;#39;认证管理&amp;#39;; insert into `blog_auth` values(1,&amp;#39;logan&amp;#39;,&amp;#39;loganMasecret&amp;#39;,&amp;#39;gindemo&amp;#39;,&amp;#39;LoganMa&amp;#39;);  安装JWT并在 /internal/model下创建实体类</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="Logan.Ma">
+  
+  
+  
+  <link rel="prev" href="https://maronghe.github.io/2020/12.dockerinhour/" />
+  <link rel="next" href="https://maronghe.github.io/2020/14.tcpudp/" />
+  <link rel="canonical" href="https://maronghe.github.io/2020/13.bst/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           #13 二叉搜索树（BST）In Go | 马荣贺&#39;s Home, You are my Homie!
+       
+  </title>
+  <meta name="title" content="#13 二叉搜索树（BST）In Go | 马荣贺&#39;s Home, You are my Homie!">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/maronghe.github.io\/"
+    },
+    "articleSection" : "posts",
+    "name" : "#13 二叉搜索树（BST）In Go",
+    "headline" : "#13 二叉搜索树（BST）In Go",
+    "description" : "二叉搜索树（Binary Search Tree In Go） 二搜索树叉树特点：\n  极端情况下会退化成链表。\n  中序遍历是递增的。\n  父节点的左孩子都小于父节点，又孩子都大于父节点\n  时间复杂度：\n  Talk is cheap, show me the code 源码：https:\/\/github.com\/maronghe\/basego\/blob\/master\/ds\/binary_search_tree.go\nbinary_search_tree.go \/* * Copyright (c) 2020 RongHe Ma. * Recording from daily work flow. *\/ package ds import ( \u0026#34;fmt\u0026#34; ) \/\/ BST Node type Node struct { data int count int left *Node right *Node } func NewBinarySearchTree(data int) *Node { return \u0026amp;Node{data, 1, nil, nil} } func (node *Node)Insert(data int) *Node { return _insert(node,data) } func _insert(root *Node, data int) *Node{ if root == nil { return NewBinarySearchTree(data) } if root.",
+    "inLanguage" : "en-us",
+    "author" : "Logan.Ma",
+    "creator" : "Logan.Ma",
+    "publisher": "Logan.Ma",
+    "accountablePerson" : "Logan.Ma",
+    "copyrightHolder" : "Logan.Ma",
+    "copyrightYear" : "2020",
+    "datePublished": "2020-05-22 18:36:00 \u002b0200 \u002b0200",
+    "dateModified" : "2020-05-22 18:36:00 \u002b0200 \u002b0200",
+    "url" : "https:\/\/maronghe.github.io\/2020\/13.bst\/",
+    "wordCount" : "354",
+    "keywords" : [ "算法", "马荣贺\u0027s Home, You are my Homie!"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">#13 二叉搜索树（BST）In Go</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://maronghe.github.io/" rel="author">Logan.Ma</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2020-05-22 itemprop="datePublished">May 22, 2020</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://maronghe.github.io/categories/blog/"> blog </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+            
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <h2 id="二叉搜索树binary-search-tree-in-go">二叉搜索树（Binary Search Tree In Go）</h2>
+<p>二搜索树叉树特点：</p>
+<ol>
+<li>
+<p>极端情况下会退化成链表。</p>
+</li>
+<li>
+<p>中序遍历是递增的。</p>
+</li>
+<li>
+<p>父节点的左孩子都小于父节点，又孩子都大于父节点</p>
+</li>
+<li>
+<p>时间复杂度：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gdz3xmeelmj31js0sc45q.jpg" alt="img"></p>
+</li>
+</ol>
+<pre><code>Talk is cheap, show me the code
+</code></pre><p>源码：https://github.com/maronghe/basego/blob/master/ds/binary_search_tree.go</p>
+<pre><code>binary_search_tree.go
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * Copyright (c) 2020 RongHe Ma.
+</span><span style="color:#75715e"> * Recording from daily work flow.
+</span><span style="color:#75715e"> */</span>
+
+<span style="color:#f92672">package</span> <span style="color:#a6e22e">ds</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+)
+
+<span style="color:#75715e">// BST Node
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Node</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">data</span>  <span style="color:#66d9ef">int</span>
+	<span style="color:#a6e22e">count</span> <span style="color:#66d9ef">int</span>
+	<span style="color:#a6e22e">left</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>
+	<span style="color:#a6e22e">right</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>
+}
+
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewBinarySearchTree</span>(<span style="color:#a6e22e">data</span> <span style="color:#66d9ef">int</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Node</span>{<span style="color:#a6e22e">data</span>, <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">nil</span>, <span style="color:#66d9ef">nil</span>}
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>)<span style="color:#a6e22e">Insert</span>(<span style="color:#a6e22e">data</span> <span style="color:#66d9ef">int</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">_insert</span>(<span style="color:#a6e22e">node</span>,<span style="color:#a6e22e">data</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">_insert</span>(<span style="color:#a6e22e">root</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>, <span style="color:#a6e22e">data</span> <span style="color:#66d9ef">int</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>{
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">root</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">NewBinarySearchTree</span>(<span style="color:#a6e22e">data</span>)
+	}
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">data</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">data</span> { <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">count</span><span style="color:#f92672">++</span> } <span style="color:#66d9ef">else</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">data</span> &gt; <span style="color:#a6e22e">data</span> { <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">left</span> = <span style="color:#a6e22e">_insert</span>(<span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">left</span>,<span style="color:#a6e22e">data</span>) } <span style="color:#66d9ef">else</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">data</span> &lt; <span style="color:#a6e22e">data</span> { <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">right</span> = <span style="color:#a6e22e">_insert</span>(<span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">right</span>,<span style="color:#a6e22e">data</span>) }
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">root</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>) <span style="color:#a6e22e">Search</span>(<span style="color:#a6e22e">data</span> <span style="color:#66d9ef">int</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">_search</span>(<span style="color:#a6e22e">node</span>,<span style="color:#a6e22e">data</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">_search</span>(<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>, <span style="color:#a6e22e">data</span> <span style="color:#66d9ef">int</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>  {
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">node</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">data</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">data</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">node</span>
+	}
+
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">data</span> &gt; <span style="color:#a6e22e">data</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">_search</span>(<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">left</span>,<span style="color:#a6e22e">data</span>)
+	}
+
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">_search</span>(<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">right</span>,<span style="color:#a6e22e">data</span>)
+}
+
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>) <span style="color:#a6e22e">Delete</span>(<span style="color:#a6e22e">data</span> <span style="color:#66d9ef">int</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">_delete</span>(<span style="color:#a6e22e">node</span>,<span style="color:#a6e22e">data</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">_delete</span>(<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>, <span style="color:#a6e22e">data</span> <span style="color:#66d9ef">int</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span> {
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">node</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">node</span>
+	}
+
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">data</span> &gt; <span style="color:#a6e22e">data</span> {
+		<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">left</span> = <span style="color:#a6e22e">_delete</span>(<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">data</span>)
+	} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">data</span> &lt; <span style="color:#a6e22e">data</span> {
+		<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">right</span> = <span style="color:#a6e22e">_delete</span>(<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">right</span>, <span style="color:#a6e22e">data</span>)
+	} <span style="color:#66d9ef">else</span> {
+
+		<span style="color:#75715e">// process count
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">count</span> &gt; <span style="color:#ae81ff">1</span> {
+			<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">count</span><span style="color:#f92672">--</span>
+			<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">node</span>
+		}
+
+		<span style="color:#75715e">// delete current node
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">left</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> { <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">right</span> }
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">right</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> { <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">left</span> }
+		<span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">_minNode</span>(<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">right</span>)
+		<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">data</span> = <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">data</span>
+		<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">right</span> = <span style="color:#a6e22e">_delete</span>(<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">right</span>,<span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">data</span>)
+	}
+
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">node</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">_minNode</span>(<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span> {
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">left</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">node</span> = <span style="color:#a6e22e">maxNode</span>(<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">left</span>)
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">node</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">maxNode</span>(<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span> {
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">right</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">node</span> = <span style="color:#a6e22e">maxNode</span>(<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">right</span>)
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">node</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">InOrder</span>(<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>) {
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">node</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">InOrder</span>(<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">left</span>)
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Node{%d count:%d}\t&#34;</span>, <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">count</span>)
+		<span style="color:#a6e22e">InOrder</span>(<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">right</span>)
+	}
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">PreOrder</span>(<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>) {
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">node</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Node{%d count:%d}\t&#34;</span>, <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">count</span>)
+		<span style="color:#a6e22e">PreOrder</span>(<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">left</span>)
+		<span style="color:#a6e22e">PreOrder</span>(<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">right</span>)
+	}
+}
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">PostOrder</span>(<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>) {
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">node</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">PostOrder</span>(<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">left</span>)
+		<span style="color:#a6e22e">PostOrder</span>(<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">right</span>)
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Node{%d count:%d}\t&#34;</span>, <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">count</span>)
+	}
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>) <span style="color:#a6e22e">String</span>() <span style="color:#66d9ef">string</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;Node{data:%d,count:%d,left:%+v,right:%+v}&#34;</span>, <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">count</span>, <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">right</span>)
+}
+
+</code></pre></div><p>单元测试及性能测试代码连接 <a href="https://github.com/maronghe/basego/blob/master/ds/binary_search_tree_test.go">binary_search_tree_test.go</a></p>
+<h2 id="总结心得">总结&amp;心得</h2>
+<p>写代码切记要有<code>清晰的书写、清晰的布局、清晰的命名</code>，同时还要具备代码的完整性如<code>功能测试、边界测试、负面测试以及性能测试</code>等。</p>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Logan.Ma </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://maronghe.github.io/2020/13.bst/>https://maronghe.github.io/2020/13.bst/</span>
+            </p>
+            
+             
+            <p class="copyright-item lincese">
+                本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+            </p>
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-tag"></i>Tag(s): 
+            
+            <span class="tag"><a href="https://maronghe.github.io/tags/%E7%AE%97%E6%B3%95/">
+                    #算法</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://maronghe.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://maronghe.github.io/2020/12.dockerinhour/" class="prev" rel="prev" title="#12 Docker in Hour"><i class="iconfont icon-left"></i>&nbsp;#12 Docker in Hour</a>
+         
+        
+        <a href="https://maronghe.github.io/2020/14.tcpudp/" class="next" rel="next" title="#14 TCP &amp; UDP">#14 TCP &amp; UDP&nbsp;<i class="iconfont icon-right"></i></a>
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2020 - 2020</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://maronghe.github.io/">Logan.Ma</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+     <link href="//lib.baomitu.com/lightgallery/1.6.11/css/lightgallery.min.css" rel="stylesheet">  
+      
+     <script src="/js/vendor_gallery.min.js" async="" ></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>

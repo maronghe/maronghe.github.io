@@ -1,14 +1,74 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Categories on LoganMa&#39;s Blog</title>
+    <title>Categories on 马荣贺&#39;s Home, You are my Homie!</title>
     <link>https://maronghe.github.io/categories/</link>
-    <description>Recent content in Categories on LoganMa&#39;s Blog</description>
+    <description>Recent content in Categories on 马荣贺&#39;s Home, You are my Homie!</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-CN</language>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 20 Oct 2020 18:36:00 +0200</lastBuildDate><atom:link href="https://maronghe.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>安全性技术</title>
+      <link>https://maronghe.github.io/categories/%E5%AE%89%E5%85%A8%E6%80%A7%E6%8A%80%E6%9C%AF/</link>
+      <pubDate>Tue, 20 Oct 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/categories/%E5%AE%89%E5%85%A8%E6%80%A7%E6%8A%80%E6%9C%AF/</guid>
+      <description></description>
+    </item>
     
-	<atom:link href="https://maronghe.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>middelware</title>
+      <link>https://maronghe.github.io/categories/middelware/</link>
+      <pubDate>Mon, 05 Oct 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/categories/middelware/</guid>
+      <description></description>
+    </item>
     
+    <item>
+      <title>golang</title>
+      <link>https://maronghe.github.io/categories/golang/</link>
+      <pubDate>Mon, 28 Sep 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/categories/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>leetcode</title>
+      <link>https://maronghe.github.io/categories/leetcode/</link>
+      <pubDate>Sat, 01 Aug 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/categories/leetcode/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>blog</title>
+      <link>https://maronghe.github.io/categories/blog/</link>
+      <pubDate>Sun, 19 Jul 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/categories/blog/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>contribute</title>
+      <link>https://maronghe.github.io/categories/contribute/</link>
+      <pubDate>Tue, 31 Mar 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/categories/contribute/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>others</title>
+      <link>https://maronghe.github.io/categories/others/</link>
+      <pubDate>Sun, 29 Mar 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/categories/others/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

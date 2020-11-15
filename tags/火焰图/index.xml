@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>火焰图 on 马荣贺&#39;s Home, You are my Homie!</title>
+    <link>https://maronghe.github.io/tags/%E7%81%AB%E7%84%B0%E5%9B%BE/</link>
+    <description>Recent content in 火焰图 on 马荣贺&#39;s Home, You are my Homie!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 05 Jul 2020 18:36:00 +0200</lastBuildDate><atom:link href="https://maronghe.github.io/tags/%E7%81%AB%E7%84%B0%E5%9B%BE/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>#19 记一次前端504问题反馈</title>
+      <link>https://maronghe.github.io/2020/19.fe504/</link>
+      <pubDate>Sun, 05 Jul 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/19.fe504/</guid>
+      <description>记一次前端504问题反馈 怪小弟不才，出现问题只能记录与笔记中，方便以后回忆起来。
+504 GateWay - Timeout 调用网关超时，也就意味着上游服务器返回超时。如果上游服务器返回了一个无效的相应，那么返回为502，暂且不讨论502。
+​	此问题对于前端同学反馈，某接口请求结果，时好时坏（返回成功或请求一直pending）。
+所以暂时排除网络的问题。可能是接口内部逻辑问题。
+​	通过pprof打印出60秒的profile输出重定向到文件之后下载到本地，通过go tool pprof -http=:6060进行分析。
+​	如下图，根据火焰图很明显看出，大部分时间总是在调用**FromCache，从缓存中获取数据，通过Peek和Graph也很容易看出大部分的CPU的时间循环阻塞在哪里。
+​	项目中的缓存用的是Redis，如果有Redis监控的话。估计Redis的负载应该会很高。分析了下业务场景。的确有一种情况忘记考虑，会’死递归‘的取数据。通过pprof和 go tool 工具很容易发现程序的问题。真是个大杀器呀！</description>
+    </item>
+    
+  </channel>
+</rss>

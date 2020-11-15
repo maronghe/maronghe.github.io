@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="Logan.Ma">
+  
+  
+  
+  <link rel="prev" href="https://maronghe.github.io/2020/6.mutex/" />
+  <link rel="next" href="https://maronghe.github.io/2020/9.arrayandslice/" />
+  <link rel="canonical" href="https://maronghe.github.io/2020/7.goroutine/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           #7 Goalng协程和线程 | 马荣贺&#39;s Home, You are my Homie!
+       
+  </title>
+  <meta name="title" content="#7 Goalng协程和线程 | 马荣贺&#39;s Home, You are my Homie!">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/maronghe.github.io\/"
+    },
+    "articleSection" : "posts",
+    "name" : "#7 Goalng协程和线程",
+    "headline" : "#7 Goalng协程和线程",
+    "description" : "协程和线程   os线程：每几毫秒，硬件计时器会中断处理器，然后调用schedule的内核函数，挂起当前执行的线程，将状态保存到寄存器中。检查可执行线程列表并决定下一次运行的线程。并从内存中恢复寄存器信息继续执行。因为os线程是被内核锁调度，所以一个线程执行状态切换到另一个线程的执行状态需要切换上下文。也就是说，存储用户线程的状态到寄存器，和回复寄存器中读取状态，更新调度器的速度是很慢的。因为其内部局限性很差，需要访问内存好几次，增加运行运行cpu的周期。\n  协程调度：\n Go有自己的调度器，m:n，n个os线程上调度m个协程。调度器的工作和内核的调度是相似的，但调度器只关注go程序中的协程。 和os线程调度不同的是，go并不是一个硬件定时器，而是被go“建筑”本身进行调度的。  比如一个协程执行了time.Sleep()或channel调用或mutex操作阻塞时。调度器会使其进入休眠，并开始执行另一个协程，直到时机到了再去唤醒第一个协程。因为这种调度不需要进入内核的上下文。所以重新调度一个协程要比调度一个线程的代价要低得多。      区别：\n 线程是由系统操作系统（os）进行调度的，需要上下文切换 协程一般是由开发者显式调度，避免了上下文切换，从而简化了高并发。[Go并发的实现原理]    传统是多线程，共享内存来实现通信， 例如JAVA，CPP；而go采用CSP，通过通信方式来共享内存。\n  Java中在访问共享变量（Map，List等）时需要加锁进行访问，从而也衍生出一种方便操作的数据类型，即线程安全的集合，例如java.util.concurrent.包中的数据结构。\n  Go采用CSP，通信来共享内存方式\n  Channel 实现原理\nGo channel 实现原理分析 - golang开发笔记 - SegmentFault 思否\n  数据结构，实际上是基于 RingBuffer Wiki\n数据结构的实现\n dataqsiz \/\/ 缓冲区容量，循环队列 qcount \/\/ 缓冲区的元素个数 Buf unsafe.Pointer \/\/ 指向缓冲区，表示一个已经发送但还未接收的数据。 sendx \/\/ 下一个可发送的地址 recvx \/\/ 下一个可接收的地址 sendq \/\/ 发送的sudog列表，当一个发送操作执行时，若缓冲区满了且无接收者在接送，则协程挂起，并将sudog放入sendq中 sudo G - G 代表Goroutine recvq \/\/ 接收的sudog列表，当一个接受操作执行时。若缓冲区无数据且无发送者在等待，则协程挂起，并将sudog放入recvq中 closed \/\/ 管道是否关闭 elemsize \/\/ 元素大小 elemtype \/\/ *_type 元素类型 lock mutex \/\/ 锁，用于hchan加锁, 限制只能一个goroutine同时访问一个channel    创建channel",
+    "inLanguage" : "en-us",
+    "author" : "Logan.Ma",
+    "creator" : "Logan.Ma",
+    "publisher": "Logan.Ma",
+    "accountablePerson" : "Logan.Ma",
+    "copyrightHolder" : "Logan.Ma",
+    "copyrightYear" : "2020",
+    "datePublished": "2020-04-21 18:36:00 \u002b0200 \u002b0200",
+    "dateModified" : "2020-04-21 18:36:00 \u002b0200 \u002b0200",
+    "url" : "https:\/\/maronghe.github.io\/2020\/7.goroutine\/",
+    "wordCount" : "128",
+    "keywords" : [ "协程","线程", "马荣贺\u0027s Home, You are my Homie!"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">#7 Goalng协程和线程</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://maronghe.github.io/" rel="author">Logan.Ma</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2020-04-21 itemprop="datePublished">April 21, 2020</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://maronghe.github.io/categories/golang/"> golang </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <h2 id="协程和线程">协程和线程</h2>
+<ol>
+<li>
+<p>os线程：每几毫秒，硬件计时器会中断处理器，然后调用schedule的内核函数，挂起当前执行的线程，将状态保存到寄存器中。检查可执行线程列表并决定下一次运行的线程。并从内存中恢复寄存器信息继续执行。因为os线程是被内核锁调度，所以一个线程执行状态切换到另一个线程的执行状态需要切换上下文。也就是说，存储用户线程的状态到寄存器，和回复寄存器中读取状态，更新调度器的速度是很慢的。因为其内部局限性很差，需要访问内存好几次，增加运行运行cpu的周期。</p>
+</li>
+<li>
+<p>协程调度：</p>
+<ol>
+<li>Go有自己的调度器，m:n，n个os线程上调度m个协程。调度器的工作和内核的调度是相似的，但调度器只关注go程序中的协程。</li>
+<li>和os线程调度不同的是，go并不是一个硬件定时器，而是被go“建筑”本身进行调度的。
+<ol>
+<li>比如一个协程执行了time.Sleep()或channel调用或mutex操作阻塞时。调度器会使其进入休眠，并开始执行另一个协程，直到时机到了再去唤醒第一个协程。因为这种调度不需要进入内核的上下文。所以重新调度一个协程要比调度一个线程的代价要低得多。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>
+<p>区别：</p>
+<ol>
+<li>线程是由系统操作系统（os）进行调度的，需要上下文切换</li>
+<li>协程一般是由开发者显式调度，避免了上下文切换，从而简化了高并发。[Go并发的实现原理]</li>
+</ol>
+</li>
+<li>
+<p>传统是多线程，共享内存来实现通信， 例如JAVA，CPP；而go采用CSP，通过通信方式来共享内存。</p>
+</li>
+<li>
+<p>Java中在访问共享变量（Map，List等）时需要加锁进行访问，从而也衍生出一种方便操作的数据类型，即线程安全的集合，例如java.util.concurrent.包中的数据结构。</p>
+</li>
+<li>
+<p>Go采用CSP，通信来共享内存方式</p>
+</li>
+<li>
+<p>Channel 实现原理</p>
+<p><a href="https://segmentfault.com/a/1190000019172554">Go channel 实现原理分析 - golang开发笔记 - SegmentFault 思否</a></p>
+<ol>
+<li>
+<p>数据结构，实际上是基于 RingBuffer Wiki</p>
+<p>数据结构的实现</p>
+<ol>
+<li>dataqsiz // 缓冲区容量，循环队列</li>
+<li>qcount // 缓冲区的元素个数</li>
+<li>Buf unsafe.Pointer // 指向缓冲区，表示一个已经发送但还未接收的数据。</li>
+<li>sendx // 下一个可发送的地址</li>
+<li>recvx // 下一个可接收的地址</li>
+<li>sendq // 发送的sudog列表，当一个发送操作执行时，若缓冲区满了且无接收者在接送，则协程挂起，并将sudog放入sendq中 sudo G - G 代表Goroutine</li>
+<li>recvq // 接收的sudog列表，当一个接受操作执行时。若缓冲区无数据且无发送者在等待，则协程挂起，并将sudog放入recvq中</li>
+<li>closed // 管道是否关闭</li>
+<li>elemsize // 元素大小</li>
+<li>elemtype // *_type 元素类型</li>
+<li>lock mutex // 锁，用于hchan加锁, 限制只能一个goroutine同时访问一个channel</li>
+</ol>
+</li>
+<li>
+<p>创建channel</p>
+<ol>
+<li>创建channel时可以执行是否包含缓冲器。</li>
+</ol>
+</li>
+<li>
+<p>写入数据流程</p>
+<ol>
+<li>先判断recvq是否非空？Y - 取出goroutine，将值写入，唤醒G，gounpark</li>
+<li>N - 判断buf中是否有空位？ Y - 写入空位</li>
+<li>N - 将输入方法sendq中，park G，挂起G，等待唤醒</li>
+</ol>
+</li>
+<li>
+<p>读数据</p>
+<ol>
+<li>先判断sendq中是否非空 - N 再判断 countq &gt;0 Y - 从buf中读取一个元素执行；否则将当前的goroutine加入recvq，中等待唤醒。当唤醒时，证明有数据写入。执行结束</li>
+<li>Y - 判断是否有缓冲区 N- 从sendq中读取一个G，读取G中的数据，唤醒G，结束</li>
+<li>Y 从缓冲区队首取出数据，然后从sendq取出数据，写入缓冲区队尾中，然后唤醒G，执行，结束。</li>
+</ol>
+</li>
+<li>
+<p>关闭channel 会panic</p>
+<ol>
+<li>关闭值为nil的channel</li>
+<li>关闭已经关闭的channel</li>
+<li>向已经关闭的channel 写数据</li>
+</ol>
+</li>
+<li>
+<p>常见的用法</p>
+<ol>
+<li>单向channel，仅用来发送或接收数据
+<ol>
+<li>func readChan(chanName &lt;-chan int) //接收数据</li>
+<li>func writeChan(chanName chan&lt;- int) //写入数据</li>
+</ol>
+</li>
+<li>select
+<ol>
+<li>使用select 可以同时监控多个channel （多路复用）</li>
+<li>当同时满足时，select会随机选择一个读取数据。</li>
+<li>select的case语句读channel不会阻塞，尽管channel中没有数据。这个由于case语句编译后调用读channel时，会明确传入不阻塞的参数，此时读不到数据中石，不会将当前goroutine加入等待队列，而是直接返回。</li>
+</ol>
+</li>
+<li>range
+<ol>
+<li>一直读取channel中的数据，就像遍历slice一样。当没有数据可处理时，阻塞当前的goroutine，此时写channel的goroutine退出了，系统检测这种情况会发生panic，否则range将永久阻塞。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Logan.Ma </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://maronghe.github.io/2020/7.goroutine/>https://maronghe.github.io/2020/7.goroutine/</span>
+            </p>
+            
+             
+            <p class="copyright-item lincese">
+                本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+            </p>
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-tag"></i>Tag(s): 
+            
+            <span class="tag"><a href="https://maronghe.github.io/tags/%E5%8D%8F%E7%A8%8B/">
+                    #协程</a></span>
+            
+            <span class="tag"><a href="https://maronghe.github.io/tags/%E7%BA%BF%E7%A8%8B/">
+                    #线程</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://maronghe.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://maronghe.github.io/2020/6.mutex/" class="prev" rel="prev" title="#6 Golang锁"><i class="iconfont icon-left"></i>&nbsp;#6 Golang锁</a>
+         
+        
+        <a href="https://maronghe.github.io/2020/9.arrayandslice/" class="next" rel="next" title="#9 数组和切片">#9 数组和切片&nbsp;<i class="iconfont icon-right"></i></a>
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2020 - 2020</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://maronghe.github.io/">Logan.Ma</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="Logan.Ma">
+  
+  
+  
+  <link rel="prev" href="https://maronghe.github.io/2020/9.arrayandslice/" />
+  <link rel="next" href="https://maronghe.github.io/2020/10.sessionandcookie/" />
+  <link rel="canonical" href="https://maronghe.github.io/2020/8.studyrecording/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           #8 Study Recording | 马荣贺&#39;s Home, You are my Homie!
+       
+  </title>
+  <meta name="title" content="#8 Study Recording | 马荣贺&#39;s Home, You are my Homie!">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/maronghe.github.io\/"
+    },
+    "articleSection" : "posts",
+    "name" : "#8 Study Recording",
+    "headline" : "#8 Study Recording",
+    "description" : "Q : 怎样知道一个变量分配到堆上还是栈上？\nA :编译器首先尝试分配到栈上，但如果编译器不能保证函数返回值是否被引用，那么编译器会分配到堆上。如果一个对象太大了。也会分配到GC堆上。当今的编译器来说，如果一个使用变量的地址，该对象时分配堆上的候选对象，但是逃逸分析后可以识别如果改对象未超过函数的返回范围，那么该变量也可能保存在栈上。\nR : https:\/\/golang.org\/doc\/faq#stack_or_heap\n  new 和 make 有什么区别\nA : new(T)： 分配内存 但初始化仅为0值并返回其指针T和*T（值）。\nnew(File) =\u0026gt; \u0026amp;File{} \/\/ 初始化0值\nmake(T,args) 仅用于创建 map slice channel，并返回非0值（not zeroed）的类型T（非 *T）\nR : https:\/\/golang.org\/doc\/effective_go.html#allocation_new\nhttps:\/\/golang.org\/doc\/effective_go.html#allocation_make\n  Go 的内存分配器是基于TCMalloc的一种分配器（TC Malloc Thread-Cached Malloc）\nYouTube Link, GopherCon UK 2018\n 申请内存顺序    4.Go是一种基于epoll的多路复用IO模型，其TCPListener是对netFD进行封装。\n  Sudog的资源池：每个P都有自己的缓冲池和全局调度器缓存池。\n 当本地的sudog的缓冲区为0时，加锁去全局调度器sudog的缓冲池去取全局的一半。 否则新创建一个sudog。    go语言编译后成汇编语言。\ngo tool compile -S file.go",
+    "inLanguage" : "en-us",
+    "author" : "Logan.Ma",
+    "creator" : "Logan.Ma",
+    "publisher": "Logan.Ma",
+    "accountablePerson" : "Logan.Ma",
+    "copyrightHolder" : "Logan.Ma",
+    "copyrightYear" : "2020",
+    "datePublished": "2020-04-28 18:36:00 \u002b0200 \u002b0200",
+    "dateModified" : "2020-04-28 18:36:00 \u002b0200 \u002b0200",
+    "url" : "https:\/\/maronghe.github.io\/2020\/8.studyrecording\/",
+    "wordCount" : "54",
+    "keywords" : [ "堆","栈", "马荣贺\u0027s Home, You are my Homie!"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">#8 Study Recording</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://maronghe.github.io/" rel="author">Logan.Ma</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2020-04-28 itemprop="datePublished">April 28, 2020</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://maronghe.github.io/categories/golang/"> golang </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+            
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <ol>
+<li>
+<p>Q : 怎样知道一个变量分配到堆上还是栈上？</p>
+<p>A :编译器首先尝试分配到栈上，但如果编译器不能保证函数返回值是否被引用，那么编译器会分配到堆上。如果一个对象太大了。也会分配到GC堆上。当今的编译器来说，如果一个使用变量的地址，该对象时分配堆上的候选对象，但是逃逸分析后可以识别如果改对象未超过函数的返回范围，那么该变量也可能保存在栈上。</p>
+<p>R : <a href="https://golang.org/doc/faq#stack_or_heap">https://golang.org/doc/faq#stack_or_heap</a></p>
+</li>
+<li>
+<p><code>new</code> 和 <code>make</code> 有什么区别</p>
+<p>A : new(T)： 分配内存 但初始化仅为0值并返回其指针T和*T（值）。</p>
+<p>new(File) =&gt; &amp;File{} // 初始化0值</p>
+<p>make(T,args) 仅用于创建 map slice channel，并返回非0值（not zeroed）的类型T（非 *T）</p>
+<p>R : <a href="https://golang.org/doc/effective_go.html#allocation_new">https://golang.org/doc/effective_go.html#allocation_new</a></p>
+<p><a href="https://golang.org/doc/effective_go.html#allocation_make">https://golang.org/doc/effective_go.html#allocation_make</a></p>
+</li>
+<li>
+<p>Go 的内存分配器是基于TCMalloc的一种分配器（TC Malloc Thread-Cached Malloc）</p>
+<p><a href="https://www.youtube.com/watch?v=3CR4UNMK_Is">YouTube Link, GopherCon UK 2018</a></p>
+<ol>
+<li>申请内存顺序<img src="https://tva1.sinaimg.cn/large/00831rSTly1gdhru3fpkoj311j0jmq7o.jpg" alt="img"></li>
+</ol>
+</li>
+</ol>
+<p>4.Go是一种基于epoll的多路复用IO模型，其<code>TCPListener</code>是对<code>netFD</code>进行封装。</p>
+<ol>
+<li>
+<p>Sudog的资源池：每个<code>P</code>都有自己的缓冲池和全局调度器缓存池。</p>
+<ol>
+<li>当本地的sudog的缓冲区为0时，加锁去全局调度器sudog的缓冲池去取全局的一半。</li>
+<li>否则新创建一个sudog。</li>
+</ol>
+</li>
+<li>
+<p>go语言编译后成汇编语言。</p>
+<p><code>go tool compile -S file.go</code></p>
+</li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Logan.Ma </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://maronghe.github.io/2020/8.studyrecording/>https://maronghe.github.io/2020/8.studyrecording/</span>
+            </p>
+            
+             
+            <p class="copyright-item lincese">
+                本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+            </p>
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-tag"></i>Tag(s): 
+            
+            <span class="tag"><a href="https://maronghe.github.io/tags/%E5%A0%86/">
+                    #堆</a></span>
+            
+            <span class="tag"><a href="https://maronghe.github.io/tags/%E6%A0%88/">
+                    #栈</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://maronghe.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://maronghe.github.io/2020/9.arrayandslice/" class="prev" rel="prev" title="#9 数组和切片"><i class="iconfont icon-left"></i>&nbsp;#9 数组和切片</a>
+         
+        
+        <a href="https://maronghe.github.io/2020/10.sessionandcookie/" class="next" rel="next" title="#10 Session and Cookie">#10 Session and Cookie&nbsp;<i class="iconfont icon-right"></i></a>
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2020 - 2020</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://maronghe.github.io/">Logan.Ma</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+     <link href="//lib.baomitu.com/lightgallery/1.6.11/css/lightgallery.min.css" rel="stylesheet">  
+      
+     <script src="/js/vendor_gallery.min.js" async="" ></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>

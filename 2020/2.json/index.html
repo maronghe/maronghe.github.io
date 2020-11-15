@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="Logan.Ma">
+  
+  
+  
+  <link rel="prev" href="https://maronghe.github.io/2020/1.myuniversity/" />
+  <link rel="next" href="https://maronghe.github.io/2020/3.contributor/" />
+  <link rel="canonical" href="https://maronghe.github.io/2020/2.json/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           #2 [踩坑指南] json.Unmarshal后interface{}成map[string]interface{} | 马荣贺&#39;s Home, You are my Homie!
+       
+  </title>
+  <meta name="title" content="#2 [踩坑指南] json.Unmarshal后interface{}成map[string]interface{} | 马荣贺&#39;s Home, You are my Homie!">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/maronghe.github.io\/"
+    },
+    "articleSection" : "posts",
+    "name" : "#2 [踩坑指南] json.Unmarshal后interface{}成map[string]interface{}",
+    "headline" : "#2 [踩坑指南] json.Unmarshal后interface{}成map[string]interface{}",
+    "description" : "踩坑第一期 ​\t可能大家工作中都会遇到类型断言，即接口类型断言是否为某种strcut类型i.(A)或某种struct的指针类型i.(*A)。\n​\t那么当一个想要一个interface{}类型既想转换成多种类型，且多种类型并不属于同一种。这句话说的可能比较绕圈，下面举个例子来看下。\n​\t当有两个SA和SB，当我们想要从字符串翻转成结构体时。我们可以\n​\t没问题，输出结果是\nsa {logan 18 Beijing} PASS ​\t但是当结构体内容时由其他结构体，以interface{}类型进行返回时，那么情景可能如下。\n​\t如果50和51行都注释掉了的话，那么结果会输出\nit2 data type is map[string]interface {} ti3 type assertion error, it isn\u0026#39;t type SA ti4 type assertion error, it isn\u0026#39;t type SB ti5 is map[addr:Beijing age:18 name:logan] PASS ​\t意味着data转换成了map[string]interface{}如果转换成map[string]interface{}类型后，那么想要key中的value还需要继续类型断言。\n​\t为什么会转成map[string]interface{}呢？因为对象底层类型，当unmarshal时并不知道对象底层类型。\n那么，是否有一种希望转成的类型当我们的确希望转换成某种类型，如SA或SB。\n​\t答案是需要告诉结构类型的底层类型是什么，才可做此类型的类型断言。\n​\t解开注释50或51行后，则输出结果成为\nit2 data type is *main.SB ti3 type assertion error, it isn\u0026#39;t type SA ti4 is \u0026amp;{logan 18 } ti5 type assertion error, it isn\u0026#39;t type map[string]interface{} PASS 总结：当我们希望类型断言的结构体中是一个interface{}类型时，希望转换成某种我们希望的类型，要进行底层类型的转换。那么就要给Data进行赋值类型。则断言方可成功。 参考内容  https:\/\/github.",
+    "inLanguage" : "en-us",
+    "author" : "Logan.Ma",
+    "creator" : "Logan.Ma",
+    "publisher": "Logan.Ma",
+    "accountablePerson" : "Logan.Ma",
+    "copyrightHolder" : "Logan.Ma",
+    "copyrightYear" : "2020",
+    "datePublished": "2020-03-29 18:36:00 \u002b0200 \u002b0200",
+    "dateModified" : "2020-03-29 18:36:00 \u002b0200 \u002b0200",
+    "url" : "https:\/\/maronghe.github.io\/2020\/2.json\/",
+    "wordCount" : "87",
+    "keywords" : [ "采坑", "马荣贺\u0027s Home, You are my Homie!"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">#2 [踩坑指南] json.Unmarshal后interface{}成map[string]interface{}</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://maronghe.github.io/" rel="author">Logan.Ma</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2020-03-29 itemprop="datePublished">March 29, 2020</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://maronghe.github.io/categories/others/"> others </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+            
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <h1 id="踩坑第一期">踩坑第一期</h1>
+<p>​	可能大家工作中都会遇到类型断言，即接口类型断言是否为某种strcut类型<code>i.(A)</code>或某种struct的指针类型<code>i.(*A)</code>。</p>
+<p>​	那么当一个想要一个<code>interface{}</code>类型既想转换成多种类型，且多种类型并不属于同一种。这句话说的可能比较绕圈，下面举个例子来看下。</p>
+<p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gdbs3lnvfqj30sm0humz9.jpg" alt="img"></p>
+<p>​	当有两个SA和SB，当我们想要从字符串翻转成结构体时。我们可以</p>
+<p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gdbs4kh13cj30xq0icq4o.jpg" alt="img"></p>
+<p>​	没问题，输出结果是</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sa <span style="color:#f92672">{</span>logan <span style="color:#ae81ff">18</span> Beijing<span style="color:#f92672">}</span>
+PASS
+</code></pre></div><p>​	但是当结构体内容时由其他结构体，以<code>interface{}</code>类型进行返回时，那么情景可能如下。</p>
+<p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gdbs52mbhoj30kk05qdgc.jpg" alt="img|left"></p>
+<p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gdbs5kk96wj30u00x4wm8.jpg" alt="img"></p>
+<p>​	如果50和51行都注释掉了的话，那么结果会输出</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">it2 data type is map<span style="color:#f92672">[</span>string<span style="color:#f92672">]</span>interface <span style="color:#f92672">{}</span>
+ti3 type assertion error, it isn<span style="color:#e6db74">&#39;t type SA 
+</span><span style="color:#e6db74">ti4 type assertion error, it isn&#39;</span>t type SB
+ti5 is map<span style="color:#f92672">[</span>addr:Beijing age:18 name:logan<span style="color:#f92672">]</span>
+PASS
+</code></pre></div><p>​	意味着data转换成了<code>map[string]interface{}</code>如果转换成<code>map[string]interface{}</code>类型后，那么想要key中的value还需要继续类型断言。</p>
+<p>​	<strong>为什么会转成<code>map[string]interface{}</code>呢？因为对象底层类型，当<code>unmarshal</code>时并不知道对象底层类型。</strong></p>
+<p>那么，是否有一种希望转成的类型当我们的确希望转换成某种类型，如SA或SB。</p>
+<p>​	答案是需要告诉结构类型的底层类型是什么，才可做此类型的类型断言。</p>
+<p>​	解开注释50或51行后，则输出结果成为</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">it2 data type is *main.SB
+ti3 type assertion error, it isn<span style="color:#e6db74">&#39;t type SA 
+</span><span style="color:#e6db74">ti4 is &amp;{logan 18 } 
+</span><span style="color:#e6db74">ti5 type assertion error, it isn&#39;</span>t type map<span style="color:#f92672">[</span>string<span style="color:#f92672">]</span>interface<span style="color:#f92672">{}</span> 
+PASS
+</code></pre></div><h4 id="总结当我们希望类型断言的结构体中是一个interface类型时希望转换成某种我们希望的类型要进行底层类型的转换那么就要给data进行赋值类型则断言方可成功"><strong>总结：当我们希望类型断言的结构体中是一个<code>interface{}</code>类型时，希望转换成某种我们希望的类型，要进行底层类型的转换。那么就要给Data进行赋值类型。则断言方可成功。</strong></h4>
+<h2 id="参考内容">参考内容</h2>
+<ol>
+<li><a href="https://github.com/maronghe/todo-list/issues/5">https://github.com/maronghe/todo-list/issues/5</a></li>
+<li><a href="https://stackoverflow.com/questions/43325288/golang-convert-interface-to-struct/43325450">https://stackoverflow.com/questions/43325288/golang-convert-interface-to-struct/43325450</a></li>
+<li><a href="https://play.golang.org/p/6fOr0rFV_e1">https://play.golang.org/p/6fOr0rFV_e1</a></li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Logan.Ma </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://maronghe.github.io/2020/2.json/>https://maronghe.github.io/2020/2.json/</span>
+            </p>
+            
+             
+            <p class="copyright-item lincese">
+                本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+            </p>
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-tag"></i>Tag(s): 
+            
+            <span class="tag"><a href="https://maronghe.github.io/tags/%E9%87%87%E5%9D%91/">
+                    #采坑</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://maronghe.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://maronghe.github.io/2020/1.myuniversity/" class="prev" rel="prev" title="#1 第一篇博客 &amp; 回顾我的大学"><i class="iconfont icon-left"></i>&nbsp;#1 第一篇博客 &amp; 回顾我的大学</a>
+         
+        
+        <a href="https://maronghe.github.io/2020/3.contributor/" class="next" rel="next" title="#3 Became A Contributor For Golang">#3 Became A Contributor For Golang&nbsp;<i class="iconfont icon-right"></i></a>
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2020 - 2020</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://maronghe.github.io/">Logan.Ma</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+     <link href="//lib.baomitu.com/lightgallery/1.6.11/css/lightgallery.min.css" rel="stylesheet">  
+      
+     <script src="/js/vendor_gallery.min.js" async="" ></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>

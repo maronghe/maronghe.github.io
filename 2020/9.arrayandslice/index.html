@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="Logan.Ma">
+  
+  
+  
+  <link rel="prev" href="https://maronghe.github.io/2020/7.goroutine/" />
+  <link rel="next" href="https://maronghe.github.io/2020/8.studyrecording/" />
+  <link rel="canonical" href="https://maronghe.github.io/2020/9.arrayandslice/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           #9 数组和切片 | 马荣贺&#39;s Home, You are my Homie!
+       
+  </title>
+  <meta name="title" content="#9 数组和切片 | 马荣贺&#39;s Home, You are my Homie!">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/maronghe.github.io\/"
+    },
+    "articleSection" : "posts",
+    "name" : "#9 数组和切片",
+    "headline" : "#9 数组和切片",
+    "description" : "This is the method for limiting in Microservice.\n",
+    "inLanguage" : "en-us",
+    "author" : "Logan.Ma",
+    "creator" : "Logan.Ma",
+    "publisher": "Logan.Ma",
+    "accountablePerson" : "Logan.Ma",
+    "copyrightHolder" : "Logan.Ma",
+    "copyrightYear" : "2020",
+    "datePublished": "2020-04-22 18:36:00 \u002b0200 \u002b0200",
+    "dateModified" : "2020-04-22 18:36:00 \u002b0200 \u002b0200",
+    "url" : "https:\/\/maronghe.github.io\/2020\/9.arrayandslice\/",
+    "wordCount" : "196",
+    "keywords" : [ "slice","数组","切片", "马荣贺\u0027s Home, You are my Homie!"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">#9 数组和切片</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://maronghe.github.io/" rel="author">Logan.Ma</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2020-04-22 itemprop="datePublished">April 22, 2020</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://maronghe.github.io/categories/golang/"> golang </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <h2 id="底层结构">底层结构</h2>
+<ol start="2">
+<li>创建
+<ol>
+<li>var</li>
+<li>make</li>
+<li>[]int{}</li>
+</ol>
+</li>
+<li>slice扩容</li>
+<li>复用底层数组</li>
+</ol>
+<p>注意：</p>
+<ol>
+<li>array不能跟nil比较，编译报错</li>
+<li>make只能用于 map， channel ，slice的创建，不能创建数组</li>
+<li>var arr [5]int 创建数组，初始化为5个零</li>
+</ol>
+<p>​</p>
+<ol>
+<li>数组大小不可变，切片可变</li>
+<li>kind</li>
+<li>数组 array [2]int , [3]int[]</li>
+<li>slice  slice  []int</li>
+<li>copy 仅能用于slice，并且dst必须要有容量</li>
+<li>复用底部数组 t3 := t1[2:4] // 左闭右开</li>
+<li>创建
+<ol>
+<li>var arr []int // arr == nil  true</li>
+<li>make &amp;  []int{} // arr != nil  true</li>
+</ol>
+</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
+	<span style="color:#a6e22e">arr</span> <span style="color:#f92672">:=</span> [<span style="color:#ae81ff">2</span>]<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">ValueOf</span>(<span style="color:#a6e22e">arr</span>).<span style="color:#a6e22e">Kind</span>()) <span style="color:#75715e">// array
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">ValueOf</span>(<span style="color:#a6e22e">arr</span>).<span style="color:#a6e22e">Type</span>()) <span style="color:#75715e">// [2]int
+</span><span style="color:#75715e"></span>
+	<span style="color:#a6e22e">s1</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">ValueOf</span>(<span style="color:#a6e22e">s1</span>).<span style="color:#a6e22e">Kind</span>()) <span style="color:#75715e">// slice
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">ValueOf</span>(<span style="color:#a6e22e">s1</span>).<span style="color:#a6e22e">Type</span>()) <span style="color:#75715e">// []int
+</span><span style="color:#75715e"></span>
+</code></pre></div><p>slice的扩容规则三步走</p>
+<ol>
+<li>计算预估容量大小 ： 如果预估扩容后的slice的容量大于原来的容量的2倍，则预估容量为扩容后的大小。
+例如：</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">arr</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>}
+<span style="color:#a6e22e">arr</span> = append(<span style="color:#a6e22e">arr</span>, []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">5</span>}<span style="color:#f92672">...</span>)
+</code></pre></div><ol>
+<li>
+<p>原slice容量为2，扩容后为5 &gt; 4。那么预估容量为5。</p>
+</li>
+<li>
+<p>若上述不成立，若扩容后的容量大小小于原数组的2倍</p>
+<ol>
+<li>若 原来容量小于1024，则扩容翻倍  -&gt; 2 * oldCap</li>
+<li>若 原来容量大等于1024，则扩容四分之一 -&gt; 1.25 * oldCap</li>
+</ol>
+</li>
+<li>
+<p>计算扩容后需要占用的内存大小：元素大小有关，在64位机器下int为8字节</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#ae81ff">8</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">5</span> = <span style="color:#ae81ff">40</span> <span style="color:#75715e">// 需要40字节
+</span></code></pre></div></li>
+<li>
+<p>计算最终容量大小：</p>
+<p>go采用的是基于tcmalloc进行的内存分配，也就是go语言自己实现的内存分配器。</p>
+<p>其内存分配规则如下</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// 内存 划分
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">class_to_size</span> = [<span style="color:#a6e22e">_NumSizeClasses</span>]<span style="color:#66d9ef">uint16</span>{<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">16</span>, <span style="color:#ae81ff">32</span>, <span style="color:#ae81ff">48</span>, <span style="color:#ae81ff">64</span>, <span style="color:#ae81ff">80</span>, <span style="color:#ae81ff">96</span>, <span style="color:#ae81ff">112</span>, <span style="color:#ae81ff">128</span>, <span style="color:#ae81ff">144</span>, <span style="color:#ae81ff">160</span>, <span style="color:#ae81ff">176</span>, <span style="color:#ae81ff">192</span>, <span style="color:#ae81ff">208</span>, <span style="color:#ae81ff">224</span>, <span style="color:#ae81ff">240</span>, <span style="color:#ae81ff">256</span>, <span style="color:#ae81ff">288</span>, <span style="color:#ae81ff">320</span>, <span style="color:#ae81ff">352</span>, <span style="color:#ae81ff">384</span>, <span style="color:#ae81ff">416</span>, <span style="color:#ae81ff">448</span>, <span style="color:#ae81ff">480</span>, <span style="color:#ae81ff">512</span>, <span style="color:#ae81ff">576</span>, <span style="color:#ae81ff">640</span>, <span style="color:#ae81ff">704</span>, <span style="color:#ae81ff">768</span>, <span style="color:#ae81ff">896</span>, <span style="color:#ae81ff">1024</span>, <span style="color:#ae81ff">1152</span>, <span style="color:#ae81ff">1280</span>, <span style="color:#ae81ff">1408</span>, <span style="color:#ae81ff">1536</span>, <span style="color:#ae81ff">1792</span>, <span style="color:#ae81ff">2048</span>, <span style="color:#ae81ff">2304</span>, <span style="color:#ae81ff">2688</span>, <span style="color:#ae81ff">3072</span>, <span style="color:#ae81ff">3200</span>, <span style="color:#ae81ff">3456</span>, <span style="color:#ae81ff">4096</span>, <span style="color:#ae81ff">4864</span>, <span style="color:#ae81ff">5376</span>, <span style="color:#ae81ff">6144</span>, <span style="color:#ae81ff">6528</span>, <span style="color:#ae81ff">6784</span>, <span style="color:#ae81ff">6912</span>, <span style="color:#ae81ff">8192</span>, <span style="color:#ae81ff">9472</span>, <span style="color:#ae81ff">9728</span>, <span style="color:#ae81ff">10240</span>, <span style="color:#ae81ff">10880</span>, <span style="color:#ae81ff">12288</span>, <span style="color:#ae81ff">13568</span>, <span style="color:#ae81ff">14336</span>, <span style="color:#ae81ff">16384</span>, <span style="color:#ae81ff">18432</span>, <span style="color:#ae81ff">19072</span>, <span style="color:#ae81ff">20480</span>, <span style="color:#ae81ff">21760</span>, <span style="color:#ae81ff">24576</span>, <span style="color:#ae81ff">27264</span>, <span style="color:#ae81ff">28672</span>, <span style="color:#ae81ff">32768</span>}
+   
+<span style="color:#75715e">//runtime下sizeclasses.go文件
+</span></code></pre></div><p>扩容时若步骤2需要40字节大小的slice，那么内存分配器不会给40字节，而是选择大等于40字节，并最接近的大小的48字节。</p>
+<p>即</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#ae81ff">48</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">8</span>(<span style="color:#66d9ef">int</span> <span style="color:#ae81ff">64</span><span style="color:#a6e22e">位下占用的大小</span>) = <span style="color:#ae81ff">6</span> 
+</code></pre></div><p>则扩容后的容量为 6</p>
+</li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Logan.Ma </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://maronghe.github.io/2020/9.arrayandslice/>https://maronghe.github.io/2020/9.arrayandslice/</span>
+            </p>
+            
+             
+            <p class="copyright-item lincese">
+                本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+            </p>
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-tag"></i>Tag(s): 
+            
+            <span class="tag"><a href="https://maronghe.github.io/tags/slice/">
+                    #slice</a></span>
+            
+            <span class="tag"><a href="https://maronghe.github.io/tags/%E6%95%B0%E7%BB%84/">
+                    #数组</a></span>
+            
+            <span class="tag"><a href="https://maronghe.github.io/tags/%E5%88%87%E7%89%87/">
+                    #切片</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://maronghe.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://maronghe.github.io/2020/7.goroutine/" class="prev" rel="prev" title="#7 Goalng协程和线程"><i class="iconfont icon-left"></i>&nbsp;#7 Goalng协程和线程</a>
+         
+        
+        <a href="https://maronghe.github.io/2020/8.studyrecording/" class="next" rel="next" title="#8 Study Recording">#8 Study Recording&nbsp;<i class="iconfont icon-right"></i></a>
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2020 - 2020</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://maronghe.github.io/">Logan.Ma</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>

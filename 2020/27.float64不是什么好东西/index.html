@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="Logan.Ma">
+  
+  
+  
+  <link rel="prev" href="https://maronghe.github.io/2020/26.jwt/" />
+  
+  <link rel="canonical" href="https://maronghe.github.io/2020/27.float64%E4%B8%8D%E6%98%AF%E4%BB%80%E4%B9%88%E5%A5%BD%E4%B8%9C%E8%A5%BF/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           #27 Float64不是什么好东西 | 马荣贺&#39;s Home, You are my Homie!
+       
+  </title>
+  <meta name="title" content="#27 Float64不是什么好东西 | 马荣贺&#39;s Home, You are my Homie!">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/maronghe.github.io\/"
+    },
+    "articleSection" : "posts",
+    "name" : "#27 Float64不是什么好东西",
+    "headline" : "#27 Float64不是什么好东西",
+    "description" : "背景： ​\t近期在做一些数据计算相关的操作，需求是保留小数点后2位，经过一个计算公式以后，会得到2位数的计算结果。根据这个问题，引入了一些问题。\nCase 1 ：\n​\t既然是小数点后有值，就能用整形int去表示值。所以很明显是float类型，在golang语言中，float64是较为常见的类型，但它并不是什么好东西，当前后端要传递float64时，前端的数据类型不能将float64的数据完全存储的下，只能通过转换成字符串的形式传递给前端做展示，当前端给后端传递‘float64’类型的值时，也需要将其包装成字符串类型，后端同学再转换成float64，无意间增加传参的复杂性。\nCase 2：\nvar x float64 = 2.26 fmt.Println(x) \/\/ 2.26 y := x * 100 fmt.Println(y) \/\/ 225.99999999999997 ??? 为啥不是226呢 fmt.Println(int(y)) \/\/ 225 ??? 为啥不是226呢  就得好好查查这个问题\n解决方案： Case 1 Solution：\n​\t对于Web开发时，可以参考B站的七米qimi的方案进行解决，具体视频可以访问后面的链接，其具体思路是通过Golang中的struct tag 进行处理，来兼容前端不能存储float64的情况。Go实战技巧\u0026ndash;你不知道的JSON操作技巧\nCase 2 Solution：\n​\t根据Golang的官方论坛中的一个int16 and float64 Multiplication的邮件咨询了这个问题给Google的开发者，Ian Lance Taylor回答了float64的工作原理，想了解的小伙伴可以参考 What Every Computer Scientist Should Know About Floating-Point Arithmetic这篇文章。\n​\t但话说回来，目前的需求很简单，希望的是保留小数点后两位，然后乘以整形的数得到整数即可。那么就可以使用以下的float32的解决方案。思路是将float64强转成float32，再乘以整形的数字即可。到这里你可能有疑问， float64强转float32不会造成数据丢失么？答案是：在某种情况上，是会丢失，因为float64是64位也就是8个字节，float32是32位四个字节。但是，对于仅保留小数点后两位情况的case，float32是能力是完全可以cover的住的。举个例子，若你接口的请求量很低，干嘛要用集群部署呢处？反而是不是增加了系统的复杂性？浪费资源？所以，做一件事要考虑的东西，一定要结合需求。\nvar x float32 = 2.26 fmt.",
+    "inLanguage" : "en-us",
+    "author" : "Logan.Ma",
+    "creator" : "Logan.Ma",
+    "publisher": "Logan.Ma",
+    "accountablePerson" : "Logan.Ma",
+    "copyrightHolder" : "Logan.Ma",
+    "copyrightYear" : "2020",
+    "datePublished": "2020-10-20 18:36:00 \u002b0200 \u002b0200",
+    "dateModified" : "2020-10-20 18:36:00 \u002b0200 \u002b0200",
+    "url" : "https:\/\/maronghe.github.io\/2020\/27.float64%E4%B8%8D%E6%98%AF%E4%BB%80%E4%B9%88%E5%A5%BD%E4%B8%9C%E8%A5%BF\/",
+    "wordCount" : "83",
+    "keywords" : [ "安全性技术","采坑", "马荣贺\u0027s Home, You are my Homie!"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">#27 Float64不是什么好东西</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://maronghe.github.io/" rel="author">Logan.Ma</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2020-10-20 itemprop="datePublished">October 20, 2020</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://maronghe.github.io/categories/%E5%AE%89%E5%85%A8%E6%80%A7%E6%8A%80%E6%9C%AF/"> 安全性技术 </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <h2 id="背景">背景：</h2>
+<p>​	近期在做一些数据计算相关的操作，需求是保留小数点后2位，经过一个计算公式以后，会得到2位数的计算结果。根据这个问题，引入了一些问题。</p>
+<p>Case 1 ：</p>
+<p>​	既然是小数点后有值，就能用整形int去表示值。所以很明显是float类型，在golang语言中，float64是较为常见的类型，但它并不是什么好东西，当前后端要传递float64时，前端的数据类型不能将float64的数据完全存储的下，只能通过转换成字符串的形式传递给前端做展示，当前端给后端传递‘float64’类型的值时，也需要将其包装成字符串类型，后端同学再转换成float64，无意间增加传参的复杂性。</p>
+<p>Case 2：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">x</span> <span style="color:#66d9ef">float64</span> = <span style="color:#ae81ff">2.26</span> 
+<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">x</span>) <span style="color:#75715e">// 2.26
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">y</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">x</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span> 
+<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">y</span>) <span style="color:#75715e">// 225.99999999999997 ??? 为啥不是226呢
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(int(<span style="color:#a6e22e">y</span>)) <span style="color:#75715e">// 225 ??? 为啥不是226呢
+</span><span style="color:#75715e"></span>
+</code></pre></div><p>就得好好查查这个问题</p>
+<h2 id="解决方案">解决方案：</h2>
+<p>Case 1 Solution：</p>
+<p>​	对于Web开发时，可以参考B站的七米qimi的方案进行解决，具体视频可以访问后面的链接，其具体思路是通过Golang中的struct tag 进行处理，来兼容前端不能存储float64的情况。<a href="https://www.bilibili.com/video/BV1AV411S74X">Go实战技巧&ndash;你不知道的JSON操作技巧</a></p>
+<p>Case 2 Solution：</p>
+<p>​	根据<a href="https://groups.google.com/g/golang-nuts">Golang的官方论坛</a>中的一个<a href="https://groups.google.com/g/golang-nuts/c/yAUfWt1Jz_8">int16 and float64 Multiplication</a>的邮件咨询了这个问题给Google的开发者，<a href="https://github.com/ianlancetaylor">Ian Lance Taylor</a>回答了float64的工作原理，想了解的小伙伴可以参考 <a href="https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html">What Every Computer Scientist Should Know About Floating-Point Arithmetic</a>这篇文章。</p>
+<p>​	但话说回来，目前的需求很简单，希望的是保留小数点后两位，然后乘以整形的数得到整数即可。那么就可以使用以下的float32的解决方案。思路是将float64强转成float32，再乘以整形的数字即可。到这里你可能有疑问， float64强转float32不会造成数据丢失么？答案是：在某种情况上，是会丢失，因为float64是64位也就是8个字节，float32是32位四个字节。但是，对于仅保留小数点后两位情况的case，float32是能力是完全可以cover的住的。举个例子，若你接口的请求量很低，干嘛要用集群部署呢处？反而是不是增加了系统的复杂性？浪费资源？所以，<strong>做一件事要考虑的东西，一定要结合需求。</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">x</span> <span style="color:#66d9ef">float32</span> = <span style="color:#ae81ff">2.26</span> 
+<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">x</span>) <span style="color:#75715e">// 2.26
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">y</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">x</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span> 
+<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">y</span>) <span style="color:#75715e">// 226
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(int(<span style="color:#a6e22e">y</span>)) <span style="color:#75715e">// 226 
+</span></code></pre></div>
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Logan.Ma </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://maronghe.github.io/2020/27.float64%E4%B8%8D%E6%98%AF%E4%BB%80%E4%B9%88%E5%A5%BD%E4%B8%9C%E8%A5%BF/>https://maronghe.github.io/2020/27.float64%E4%B8%8D%E6%98%AF%E4%BB%80%E4%B9%88%E5%A5%BD%E4%B8%9C%E8%A5%BF/</span>
+            </p>
+            
+             
+            <p class="copyright-item lincese">
+                本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+            </p>
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-tag"></i>Tag(s): 
+            
+            <span class="tag"><a href="https://maronghe.github.io/tags/%E5%AE%89%E5%85%A8%E6%80%A7%E6%8A%80%E6%9C%AF/">
+                    #安全性技术</a></span>
+            
+            <span class="tag"><a href="https://maronghe.github.io/tags/%E9%87%87%E5%9D%91/">
+                    #采坑</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://maronghe.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://maronghe.github.io/2020/26.jwt/" class="prev" rel="prev" title="#26 JWT项目接入的落地方案"><i class="iconfont icon-left"></i>&nbsp;#26 JWT项目接入的落地方案</a>
+         
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2020 - 2020</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://maronghe.github.io/">Logan.Ma</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>

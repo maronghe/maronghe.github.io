@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="Logan.Ma">
+  
+  
+  
+  <link rel="prev" href="https://maronghe.github.io/2020/11.golang%E5%AF%BC%E5%8C%85%E9%A1%BA%E5%BA%8F/" />
+  <link rel="next" href="https://maronghe.github.io/2020/13.bst/" />
+  <link rel="canonical" href="https://maronghe.github.io/2020/12.dockerinhour/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           #12 Docker in Hour | 马荣贺&#39;s Home, You are my Homie!
+       
+  </title>
+  <meta name="title" content="#12 Docker in Hour | 马荣贺&#39;s Home, You are my Homie!">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/maronghe.github.io\/"
+    },
+    "articleSection" : "posts",
+    "name" : "#12 Docker in Hour",
+    "headline" : "#12 Docker in Hour",
+    "description" : "Docker ​\t一个统一环境dev\/qa\/app\/beta\/cloud的容器、容器是相互隔离的。\n​\tDocker是容器技术，解决软件跨环境的迁移的问题。\n​\tDocker安装后，在本地一守护进程(Daemon)的方式后台运行。\n-\u0026gt; docker -v Docker version 19.03.8, build afacb8b ​\t本地部署的分为image和container，image相当于类，container相当于对象，一个类可以创建多个对象。\nimage 可来自于docker官方Repository Docker Hub 和 private Repository或阿里云镜像 TODO\n镜像命令 docker images \/\/ 查看当前已安装的镜像列表 docker search [redis] \/\/ 搜索redis镜像 docker pull [redis]:[version] \/\/ 不指定version默认下载latest docker rmi [imageId]\/[redis]:[version] 容器命令    1 2 3 4 5  docker ps \/\/ 查看运行的容器 docker ps -a \/\/ 查看所有的容器 docker -run -it[d] --name=[name] \/bin\/sh \/\/ 运行docker -i持续运行 -t分配终端（交互式） -d后台运行（守护式） \/bin\/sh mac default docker exec [name] \/bin\/sh \/\/ 进入某一运行的容器中 docer [start][stop][rm][inspect] [container-name] \/\/ 启动、停止、移除、查看详情           数据卷容器    1 2 3  docker run -it --name c3 -v \/volume centos:latest \/\/ 创建名为c3的并带有一个\/volume的数据卷容器 centos docker run -it --name c1 --volumes-from c3 centos:latest \/\/ 创建c1从c3挂载 docker run -it --name c2 --volumes-from c3 centos:latest \/\/ 创建c2从c3挂载            Docker的本质",
+    "inLanguage" : "en-us",
+    "author" : "Logan.Ma",
+    "creator" : "Logan.Ma",
+    "publisher": "Logan.Ma",
+    "accountablePerson" : "Logan.Ma",
+    "copyrightHolder" : "Logan.Ma",
+    "copyrightYear" : "2020",
+    "datePublished": "2020-05-20 18:36:00 \u002b0200 \u002b0200",
+    "dateModified" : "2020-05-20 18:36:00 \u002b0200 \u002b0200",
+    "url" : "https:\/\/maronghe.github.io\/2020\/12.dockerinhour\/",
+    "wordCount" : "177",
+    "keywords" : [ "Docker", "马荣贺\u0027s Home, You are my Homie!"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">#12 Docker in Hour</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://maronghe.github.io/" rel="author">Logan.Ma</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2020-05-20 itemprop="datePublished">May 20, 2020</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://maronghe.github.io/categories/blog/"> blog </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+            
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <h1 id="docker">Docker</h1>
+<p>​	一个统一环境dev/qa/app/beta/cloud的容器、容器是相互隔离的。</p>
+<p>​	Docker是容器技术，解决软件跨环境的迁移的问题。</p>
+<p>​	Docker安装后，在本地一守护进程<code>(Daemon)</code>的方式后台运行。</p>
+<pre><code>-&gt; docker -v
+Docker version 19.03.8, build afacb8b
+</code></pre><p>​	本地部署的分为<code>image</code>和<code>container</code>，<code>image</code>相当于类，<code>container</code>相当于对象，一个类可以创建多个对象。</p>
+<p><code>image</code> 可来自于<code>docker</code>官方<code>Repository</code> <a href="https://hub.docker.com/">Docker Hub</a> 和 <code>private Repository</code>或<a href="https://maronghe.github.io/post/11/">阿里云镜像</a> TODO</p>
+<h4 id="镜像命令">镜像命令</h4>
+<pre><code>docker images // 查看当前已安装的镜像列表
+docker search [redis] // 搜索redis镜像
+docker pull [redis]:[version] // 不指定version默认下载latest
+docker rmi [imageId]/[redis]:[version]
+</code></pre><h4 id="容器命令">容器命令</h4>
+<table>
+<thead>
+<tr>
+<th><code>1 2 3 4 5 </code></th>
+<th><code>docker ps // 查看运行的容器 docker ps -a // 查看所有的容器 docker -run -it[d] --name=[name] /bin/sh // 运行docker -i持续运行 -t分配终端（交互式） -d后台运行（守护式） /bin/sh mac default docker exec [name] /bin/sh // 进入某一运行的容器中 docer [start][stop][rm][inspect] [container-name] // 启动、停止、移除、查看详情 </code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="数据卷容器">数据卷容器</h4>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gduftyrdm5j30r40dijvn.jpg" alt="img"></p>
+<table>
+<thead>
+<tr>
+<th><code>1 2 3 </code></th>
+<th><code>docker run -it --name c3 -v /volume centos:latest // 创建名为c3的并带有一个/volume的数据卷容器 centos docker run -it --name c1 --volumes-from c3 centos:latest // 创建c1从c3挂载 docker run -it --name c2 --volumes-from c3 centos:latest // 创建c2从c3挂载 </code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gdufurololj31ha0s0gtb.jpg" alt="img"></p>
+<blockquote>
+<p>Docker的本质</p>
+</blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gdui65r616j31900gmakw.jpg" alt="img"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gdui788oajj30pi0mydpt.jpg" alt="img"></p>
+<h2 id="创建新的镜像">创建新的镜像</h2>
+<p>1.容器转为镜像</p>
+<table>
+<thead>
+<tr>
+<th><code>1 2 3 </code></th>
+<th><code>docker commit 容器id 镜像名字:版本号 docker save -o 压缩文件名称 镜像名字:版本号 docker load -i 压缩文件名称 </code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>Dockerfile</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th><code>1 2 3 4 5 6 7 8 </code></th>
+<th><code>FROM centos:latest MAINTAINER maronghe &lt;loganma0209@gmail.com&gt; RUN yum install -y vim # 安装 vim WORKDIR /usr #设置默认目录为/usr CMD /bin/bash </code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th><code>1 </code></th>
+<th><code>docker build -f centos_dockerfile -t logan_centos:0.0.1 .	// build dockerfile 创建镜像 </code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>容器复用宿主机的内核。</p>
+<h2 id="总结">总结：</h2>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gdujjnekwvj31la0u0k81.jpg" alt="img"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gdujm2ojabj316k0u017l.jpg" alt="img"></p>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Logan.Ma </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://maronghe.github.io/2020/12.dockerinhour/>https://maronghe.github.io/2020/12.dockerinhour/</span>
+            </p>
+            
+             
+            <p class="copyright-item lincese">
+                本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+            </p>
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-tag"></i>Tag(s): 
+            
+            <span class="tag"><a href="https://maronghe.github.io/tags/docker/">
+                    #Docker</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://maronghe.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://maronghe.github.io/2020/11.golang%E5%AF%BC%E5%8C%85%E9%A1%BA%E5%BA%8F/" class="prev" rel="prev" title="#11 Golang导包顺序"><i class="iconfont icon-left"></i>&nbsp;#11 Golang导包顺序</a>
+         
+        
+        <a href="https://maronghe.github.io/2020/13.bst/" class="next" rel="next" title="#13 二叉搜索树（BST）In Go">#13 二叉搜索树（BST）In Go&nbsp;<i class="iconfont icon-right"></i></a>
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2020 - 2020</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://maronghe.github.io/">Logan.Ma</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+     <link href="//lib.baomitu.com/lightgallery/1.6.11/css/lightgallery.min.css" rel="stylesheet">  
+      
+     <script src="/js/vendor_gallery.min.js" async="" ></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>

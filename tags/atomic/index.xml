@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>atomic on 马荣贺&#39;s Home, You are my Homie!</title>
+    <link>https://maronghe.github.io/tags/atomic/</link>
+    <description>Recent content in atomic on 马荣贺&#39;s Home, You are my Homie!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 22 Jun 2020 18:36:00 +0200</lastBuildDate><atom:link href="https://maronghe.github.io/tags/atomic/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>#18 Atomic VS Mutex</title>
+      <link>https://maronghe.github.io/2020/18.atomic-vs-mutex/</link>
+      <pubDate>Mon, 22 Jun 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/18.atomic-vs-mutex/</guid>
+      <description>Monitor：都说原子操作比锁更轻量级，为什么更轻量？
+Me：&amp;hellip;.（支支吾吾）
+原子操作 ​	即进行过程中不能被中断的操作。
+为什么不能打断该操作？
+​	如今的操作系统，多核处理器盛行，多进程并行？
+​	还是多进程每个人任务执行一小段，之后切换到其他的进程或线程继续执行呢？
+​	~很显然是第二种~
+​	多进程交替运行，因为处理器的处理速度，远远大于CPU人的反应，给人的一种感觉就是多任务同时进行工作。
+实现：
+​	一般是由独立的CPU指令实现的。
+Go中对原子操作的支持 ​	增减、交换、比较交换、存储、加载
+增减：
+package main import ( &amp;#34;fmt&amp;#34; &amp;#34;sync&amp;#34; &amp;#34;sync/atomic&amp;#34; ) func main() { n := int32(0) wg := sync.WaitGroup{} for i := 0; i &amp;lt; 1000; i++ { wg.Add(1) go func() { //n++ data race 存在数据竞争，最后输出不一定会是1000 	atomic.AddInt32(&amp;amp;n, 1) wg.Done() }() } wg.Wait() fmt.Println(&amp;#34;n&amp;#34;, n) } // go run -race main.go  比较交换（CAS）：</description>
+    </item>
+    
+  </channel>
+</rss>

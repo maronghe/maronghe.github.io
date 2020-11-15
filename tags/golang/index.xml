@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>golang on 马荣贺&#39;s Home, You are my Homie!</title>
+    <link>https://maronghe.github.io/tags/golang/</link>
+    <description>Recent content in golang on 马荣贺&#39;s Home, You are my Homie!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 23 Aug 2020 18:36:00 +0200</lastBuildDate><atom:link href="https://maronghe.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>#23 go get 失败问题</title>
+      <link>https://maronghe.github.io/2020/23.goget/</link>
+      <pubDate>Sun, 23 Aug 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/23.goget/</guid>
+      <description> 国内解决go get 下载不下来的问题
+ 解决方案：配置代理 参照 https://github.com/goproxy/goproxy.cn
+macOS 或 Linux 打开你的终端并执行
+$ export GO111MODULE=on $ export GOPROXY=https://goproxy.cn 或者
+$ echo &amp;quot;export GO111MODULE=on&amp;quot; &amp;gt;&amp;gt; ~/.profile $ echo &amp;quot;export GOPROXY=https://goproxy.cn&amp;quot; &amp;gt;&amp;gt; ~/.profile $ source ~/.profile </description>
+    </item>
+    
+    <item>
+      <title>#15 Defer in Golang v1.12 vs v1.13 vs v1.14</title>
+      <link>https://maronghe.github.io/2020/15.defer/</link>
+      <pubDate>Sun, 31 May 2020 17:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/15.defer/</guid>
+      <description>1.12 defer func(){} —&amp;gt; 会被翻译成两个函数
+  deferproc() : 注册，defer func(){} 到g的defer链表中，头插法。defer需要进行堆分配，而且参数变量需要进行堆栈间拷贝。
+  runtime.deferreturn() : 执行，defer链表的中的每一项
+（先注册 -》 后执行）
+// runtime/runtime2.go type g struct { ... _panic *_panic _defer *_defer // defer 链表  ... }   步骤解析：
+deferproc
+ 从defer pool预分配不同规格的defer，不满足时再创建，用完再放回池中。 进行堆分配_defer结构体，将参数拷贝到堆上 连接到g的defer链表上  runtime.deferreturn
+ 执行defer注册的funcval，将堆上的参数拷贝到栈上，进行执行。  注意：
+ 若其中有发现闭包，堆上分配捕获变量的地址，执行时通过指针加偏移量找到被捕获的变量进行操作 形如defer A(B(a))  函数A需要依赖B的返回值进行堆分配内存大小 所以B函数在注册时候执行，传入变量啊    存在问题：（慢!!!!!）
+ defer结构体堆分配，参数需要进行堆栈间拷贝。 GC 链表注册defer信息，执行比较慢。  1.13 性能提升：30%</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>gorountine on 马荣贺&#39;s Home, You are my Homie!</title>
+    <link>https://maronghe.github.io/tags/gorountine/</link>
+    <description>Recent content in gorountine on 马荣贺&#39;s Home, You are my Homie!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 28 Sep 2020 18:36:00 +0200</lastBuildDate><atom:link href="https://maronghe.github.io/tags/gorountine/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>#25 Go sync.Pool 对象池</title>
+      <link>https://maronghe.github.io/2020/25.pool/</link>
+      <pubDate>Mon, 28 Sep 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/25.pool/</guid>
+      <description>sync.Pool between 1.12 and 1.13 ​	sync提供强大的‘对象池’，可以重用对象为了减少GC的压力。在使用此包之前，对于你的程序有个性能测试是一个前提。并使用完pool之后，如果你不知道它内部的工作原理，可能会降低你程序的性能。
+​	让我们从一个小例子开始。
+package pool_test import ( &amp;#34;sync&amp;#34; &amp;#34;testing&amp;#34; ) type Small struct { a int } var pool = sync.Pool{ New: func() interface{} { return new(Small) }, } //go:noinline func inc(s *Small) { s.a++ } func BenchmarkWithoutPool(b *testing.B) { var s *Small for i := 0; i &amp;lt; b.N; i++ { for j := 0; j &amp;lt; 10000; j++ { s = &amp;amp;Small{a: 1} inc(s) } } } func BenchmarkWithPool(b *testing.</description>
+    </item>
+    
+    <item>
+      <title>#24 gRPC</title>
+      <link>https://maronghe.github.io/2020/24.grpc/</link>
+      <pubDate>Tue, 15 Sep 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/24.grpc/</guid>
+      <description>安装 个人使用的MBP，所以百度了下Mac上安装protoc命令的过程，参照地址如下：https://blog.csdn.net/u014534808/article/details/80203018
+项目结构图 创建.proto文件 syntax = &amp;#34;proto3&amp;#34;; // 指定proto版本 package pb; // 包名 message HelloRequest { string username = 1; // 定义参数 }message HelloResponse { string message = 1; // 定义返回值 }service HelloService { // 定义服务接口  rpc SayHello(HelloRequest) returns (HelloResponse){} rpc SayBye(HelloRequest) returns (HelloResponse){}}​	如上面代码所示，正是gRPC = HTTP2 + Protocol Buffer</description>
+    </item>
+    
+    <item>
+      <title>#22 协程同步方式</title>
+      <link>https://maronghe.github.io/2020/22.%E5%8D%8F%E7%A8%8B%E5%90%8C%E6%AD%A5%E7%9A%84%E6%96%B9%E5%BC%8F/</link>
+      <pubDate>Thu, 13 Aug 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/22.%E5%8D%8F%E7%A8%8B%E5%90%8C%E6%AD%A5%E7%9A%84%E6%96%B9%E5%BC%8F/</guid>
+      <description>  waitgroup
+ 进行goroutine间等待，一般用于分治思想去并发获取数据，应当加限流操作和超时处理。    加锁访问
+ map是非并发安全的，那么应当加锁进行并发访问（互斥锁和读写锁的区别） 为什么不用sync.Map进行非加锁访问    atomic原子操作CAS
+ 使用cpu提供的指令进行不中断的处理。 CPU提供不中断的指令，通过内存同步原语实现    channel
+  </description>
+    </item>
+    
+  </channel>
+</rss>

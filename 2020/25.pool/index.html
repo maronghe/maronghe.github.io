@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="Logan.Ma">
+  
+  
+  
+  <link rel="prev" href="https://maronghe.github.io/2020/24.grpc/" />
+  <link rel="next" href="https://maronghe.github.io/2020/26.jwt/" />
+  <link rel="canonical" href="https://maronghe.github.io/2020/25.pool/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           #25 Go sync.Pool 对象池 | 马荣贺&#39;s Home, You are my Homie!
+       
+  </title>
+  <meta name="title" content="#25 Go sync.Pool 对象池 | 马荣贺&#39;s Home, You are my Homie!">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/maronghe.github.io\/"
+    },
+    "articleSection" : "posts",
+    "name" : "#25 Go sync.Pool 对象池",
+    "headline" : "#25 Go sync.Pool 对象池",
+    "description" : "sync.Pool between 1.12 and 1.13 ​\tsync提供强大的‘对象池’，可以重用对象为了减少GC的压力。在使用此包之前，对于你的程序有个性能测试是一个前提。并使用完pool之后，如果你不知道它内部的工作原理，可能会降低你程序的性能。\n​\t让我们从一个小例子开始。\npackage pool_test import ( \u0026#34;sync\u0026#34; \u0026#34;testing\u0026#34; ) type Small struct { a int } var pool = sync.Pool{ New: func() interface{} { return new(Small) }, } \/\/go:noinline func inc(s *Small) { s.a\u002b\u002b } func BenchmarkWithoutPool(b *testing.B) { var s *Small for i := 0; i \u0026lt; b.N; i\u002b\u002b { for j := 0; j \u0026lt; 10000; j\u002b\u002b { s = \u0026amp;Small{a: 1} inc(s) } } } func BenchmarkWithPool(b *testing.",
+    "inLanguage" : "en-us",
+    "author" : "Logan.Ma",
+    "creator" : "Logan.Ma",
+    "publisher": "Logan.Ma",
+    "accountablePerson" : "Logan.Ma",
+    "copyrightHolder" : "Logan.Ma",
+    "copyrightYear" : "2020",
+    "datePublished": "2020-09-28 18:36:00 \u002b0200 \u002b0200",
+    "dateModified" : "2020-09-28 18:36:00 \u002b0200 \u002b0200",
+    "url" : "https:\/\/maronghe.github.io\/2020\/25.pool\/",
+    "wordCount" : "356",
+    "keywords" : [ "gorountine", "马荣贺\u0027s Home, You are my Homie!"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">#25 Go sync.Pool 对象池</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://maronghe.github.io/" rel="author">Logan.Ma</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2020-09-28 itemprop="datePublished">September 28, 2020</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://maronghe.github.io/categories/golang/"> golang </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+            
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <h2 id="syncpool-between-112-and-113">sync.Pool between 1.12 and 1.13</h2>
+<p>​	sync提供强大的‘对象池’，可以重用对象为了减少GC的压力。在使用此包之前，对于你的程序有个性能测试是一个前提。并使用完pool之后，如果你不知道它内部的工作原理，可能会降低你程序的性能。</p>
+<p>​	让我们从一个小例子开始。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">pool_test</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;sync&#34;</span>
+	<span style="color:#e6db74">&#34;testing&#34;</span>
+)
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Small</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">a</span> <span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">pool</span> = <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">Pool</span>{
+	<span style="color:#a6e22e">New</span>: <span style="color:#66d9ef">func</span>() <span style="color:#66d9ef">interface</span>{} { <span style="color:#66d9ef">return</span> new(<span style="color:#a6e22e">Small</span>) },
+}
+
+<span style="color:#75715e">//go:noinline
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">inc</span>(<span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Small</span>) { <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">a</span><span style="color:#f92672">++</span> }
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkWithoutPool</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Small</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">j</span> &lt; <span style="color:#ae81ff">10000</span>; <span style="color:#a6e22e">j</span><span style="color:#f92672">++</span> {
+			<span style="color:#a6e22e">s</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Small</span>{<span style="color:#a6e22e">a</span>: <span style="color:#ae81ff">1</span>}
+			<span style="color:#a6e22e">inc</span>(<span style="color:#a6e22e">s</span>)
+		}
+	}
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkWithPool</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Small</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">j</span> &lt; <span style="color:#ae81ff">10000</span>; <span style="color:#a6e22e">j</span><span style="color:#f92672">++</span> {
+			<span style="color:#a6e22e">s</span> = <span style="color:#a6e22e">pool</span>.<span style="color:#a6e22e">Get</span>().(<span style="color:#f92672">*</span><span style="color:#a6e22e">Small</span>)
+			<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">a</span> = <span style="color:#ae81ff">1</span>
+			<span style="color:#a6e22e">inc</span>(<span style="color:#a6e22e">s</span>)
+			<span style="color:#a6e22e">pool</span>.<span style="color:#a6e22e">Put</span>(<span style="color:#a6e22e">s</span>)
+		}
+	}
+}
+
+</code></pre></div><p>benchmark结果 <strong>TODO ``</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">name           time/op        alloc/op        allocs/op
+WithoutPool-8  3.02ms ± 1%    160kB ± 0%      1.05kB ± 1%
+WithPool-8     1.36ms ± 6%   1.05kB ± 0%        3.00 ± 0%
+</code></pre></div><p>结果显示：没有使用<code>sync.Pool</code>的内存分配和使用了的对比是 <code>10k vs 3</code>，可见，效果还是挺明显的。</p>
+<p>但是当你使用<code>sync.Pool</code>时，会有大量的对象分配到堆上，以便复用。但当内存上涨，将会触发垃圾回收GC。我们也可以使用<code>runtime.GC()</code>来假装触发了GC行为。如下</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">name           time/op        alloc/op        allocs/op
+WithoutPool-8  993ms ± 1%    249kB ± 2%      10.9k ± 0%
+WithPool-8     1.03s ± 4%    10.6MB ± 0%     31.0k ± 0%
+</code></pre></div><p>我们可以看到，使用<code>sync.Pool</code>的性能更低。内存分配和内存使用数量飙高。让我们往更深的代码瞧瞧。一探究竟。</p>
+<h2 id="syncpool-内部工作流程">sync.Pool 内部工作流程</h2>
+<p>在pool初始化init函数中注册了个cleanup函数钩子，并标明在GC之前进行清理pool中的对象。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// sync/pool.go
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() {
+   <span style="color:#a6e22e">runtime_registerPoolCleanup</span>(<span style="color:#a6e22e">poolCleanup</span>)
+}
+
+<span style="color:#75715e">// runtime/mgc.go
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">gcStart</span>(<span style="color:#a6e22e">trigger</span> <span style="color:#a6e22e">gcTrigger</span>) {
+   [<span style="color:#f92672">...</span>]
+   <span style="color:#75715e">// clearpools before we start the GC
+</span><span style="color:#75715e"></span>   <span style="color:#a6e22e">clearpools</span>()
+   [<span style="color:#f92672">...</span>]
+}
+</code></pre></div><p>这就能解释的通为什么在触发GC时性能会特别差。并且官方文档已经给我们了警告。https://golang.org/pkg/sync/#Pool</p>
+<h3 id="任何存储在池子中的对象可能在没有任何通知的情况下被删除">任何存储在池子中的对象可能在没有任何通知的情况下被删除</h3>
+<p>下面是1.12 pool工作流</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gflul7rk6gj30u00w010b.jpg" alt=""></p>
+<p>对于每个<code>sync.Pool</code>，go生成一个内部<code>poolLocal</code>附着在每个P上。这个内部的pool有两个属性：<code>private</code> 和 <code>shared</code>。</p>
+<p>private : 仅为P自己使用，push or pop，所以不需要锁</p>
+<p>shared : 任何一个P都可以使用并且需要并发安全（协程安全，加锁）。</p>
+<p>可以确定的是，pool不是一个本地缓存，它有可能被任意一个P和M使用。</p>
+<h2 id="在113版本中go将优化访问共享变量将引入解决gc和清理pool的一个新缓存">在1.13版本中，go将优化访问共享变量，将引入解决GC和清理Pool的一个新缓存</h2>
+<h3 id="新型lock-free池和victim缓存无锁池和牺牲者缓存">新型Lock-free池和victim缓存，无锁池和牺牲者缓存</h3>
+<p>go 1.13 引入<a href="https://github.com/golang/go/commit/d5fd2dd6a17a816b7dfd99d4df70a85f1bf0de31#diff-491b0013c82345bf6cfa937bd78b690d">双向链表</a>做为分享池并且删除了锁，并优化了共享访问。这是提升缓存效率的基础。下面是1.13 共享访问：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfm3mvsy63j30om05ht91.jpg" alt=""></p>
+<p>有了这个新链式池，每个P可以在其队列开头都有push 和 pop的功能，而共享访问将从尾部pop。队列的头部可以分配原来构体的两倍。并连接到队列的头部。初始大小为8，意味着扩容的大小为16，32 等等。</p>
+<p>那么，锁就自然而然的移除掉了。剩余的代码可以依赖于原子操作。</p>
+<p>考虑到新的缓存方式，新的策略就十分简单了。现在有两个缓存池：一个活跃的和一个归档的。当一个GC运行时，go将保持一每个池子的引用到池内部的一个新属性，在清理当前池中数据时，要拷贝当前持池到归档池中。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">poolCleanup</span>() {
+	<span style="color:#75715e">// This function is called with the world stopped, at the beginning of a garbage collection.
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// It must not allocate and probably should not call any runtime functions.
+</span><span style="color:#75715e"></span>
+	<span style="color:#75715e">// Because the world is stopped, no pool user can be in a
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// pinned section (in effect, this has all Ps pinned).
+</span><span style="color:#75715e"></span>
+	<span style="color:#75715e">// Drop victim caches from all pools.
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">oldPools</span> {
+		<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">victim</span> = <span style="color:#66d9ef">nil</span>
+		<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">victimSize</span> = <span style="color:#ae81ff">0</span>
+	}
+
+	<span style="color:#75715e">// Move primary cache to victim cache.
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">allPools</span> {
+		<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">victim</span> = <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">local</span>
+		<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">victimSize</span> = <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">localSize</span>
+		<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">local</span> = <span style="color:#66d9ef">nil</span>
+		<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">localSize</span> = <span style="color:#ae81ff">0</span>
+	}
+
+	<span style="color:#75715e">// The pools with non-empty primary caches now have non-empty
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// victim caches and no pools have primary caches.
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">oldPools</span>, <span style="color:#a6e22e">allPools</span> = <span style="color:#a6e22e">allPools</span>, <span style="color:#66d9ef">nil</span>
+}
+</code></pre></div><p>有了这个策略，应用将有不仅一次的GC生命周期去创建/收集新的item作为backup。在这个工作流程下，请求共享池之后 还要请求 牺牲者 缓存 。</p>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Logan.Ma </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://maronghe.github.io/2020/25.pool/>https://maronghe.github.io/2020/25.pool/</span>
+            </p>
+            
+             
+            <p class="copyright-item lincese">
+                本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+            </p>
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-tag"></i>Tag(s): 
+            
+            <span class="tag"><a href="https://maronghe.github.io/tags/gorountine/">
+                    #gorountine</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://maronghe.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://maronghe.github.io/2020/24.grpc/" class="prev" rel="prev" title="#24 gRPC"><i class="iconfont icon-left"></i>&nbsp;#24 gRPC</a>
+         
+        
+        <a href="https://maronghe.github.io/2020/26.jwt/" class="next" rel="next" title="#26 JWT项目接入的落地方案">#26 JWT项目接入的落地方案&nbsp;<i class="iconfont icon-right"></i></a>
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2020 - 2020</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://maronghe.github.io/">Logan.Ma</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+     <link href="//lib.baomitu.com/lightgallery/1.6.11/css/lightgallery.min.css" rel="stylesheet">  
+      
+     <script src="/js/vendor_gallery.min.js" async="" ></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>

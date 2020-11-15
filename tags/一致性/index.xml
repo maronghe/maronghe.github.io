@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>一致性 on 马荣贺&#39;s Home, You are my Homie!</title>
+    <link>https://maronghe.github.io/tags/%E4%B8%80%E8%87%B4%E6%80%A7/</link>
+    <description>Recent content in 一致性 on 马荣贺&#39;s Home, You are my Homie!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 05 Apr 2020 18:36:00 +0200</lastBuildDate><atom:link href="https://maronghe.github.io/tags/%E4%B8%80%E8%87%B4%E6%80%A7/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>#4 最终一致性</title>
+      <link>https://maronghe.github.io/2020/4.constant/</link>
+      <pubDate>Sun, 05 Apr 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/4.constant/</guid>
+      <description>最终一致性的讨论 在如今的分布式微服务架构下的系统中，各服务之间都会存在直接或间接的调用。很难免很多的方法调用的方法失败，或因为网络波动等处理不成功。
+集中方案，及其优缺点：    方案 优点 不足     saga pattern（个人理解和TCC差不多）：即当发生失败处理是需要调用回滚函数。 可以按照不同的业务逻辑自己西实现回滚逻辑。 1.当系统过于庞大时候，怎么可能保证所有的服务都具备回滚功能？2.回滚失败后，需要人工处理，增加人工介入系统的可能。   可靠MQ + 失败消息落盘，定时重试 + （MQ采用HTTP POST向业务方发送请求，可避免所有服务都使用MQ Client） 解耦、重试 1.生产者的业务执行和Msg发送不是原子性。所以需要MQ支持事务。2.不适用于对消息有顺序性要求的场景。仅试用于简单的情景。3.上游失败落盘、后台发送 + 下游需要处理乱序消息问题。适用于消息定制的不同逻辑。   业务模块中插入多个“桩”，每过一段时间触发状态的全量更新。那么我就找一个其它模块来持续地刷新我系统中的数据状态。从而达到“最终一致”。 根据最终状态判断一致性。 比较反技术，性能全量同步数据需要考虑性能和同步契机。    </description>
+    </item>
+    
+  </channel>
+</rss>

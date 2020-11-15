@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>协程 on 马荣贺&#39;s Home, You are my Homie!</title>
+    <link>https://maronghe.github.io/tags/%E5%8D%8F%E7%A8%8B/</link>
+    <description>Recent content in 协程 on 马荣贺&#39;s Home, You are my Homie!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 13 Aug 2020 18:36:00 +0200</lastBuildDate><atom:link href="https://maronghe.github.io/tags/%E5%8D%8F%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>#22 协程同步方式</title>
+      <link>https://maronghe.github.io/2020/22.%E5%8D%8F%E7%A8%8B%E5%90%8C%E6%AD%A5%E7%9A%84%E6%96%B9%E5%BC%8F/</link>
+      <pubDate>Thu, 13 Aug 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/22.%E5%8D%8F%E7%A8%8B%E5%90%8C%E6%AD%A5%E7%9A%84%E6%96%B9%E5%BC%8F/</guid>
+      <description>  waitgroup
+ 进行goroutine间等待，一般用于分治思想去并发获取数据，应当加限流操作和超时处理。    加锁访问
+ map是非并发安全的，那么应当加锁进行并发访问（互斥锁和读写锁的区别） 为什么不用sync.Map进行非加锁访问    atomic原子操作CAS
+ 使用cpu提供的指令进行不中断的处理。 CPU提供不中断的指令，通过内存同步原语实现    channel
+  </description>
+    </item>
+    
+    <item>
+      <title>#7 Goalng协程和线程</title>
+      <link>https://maronghe.github.io/2020/7.goroutine/</link>
+      <pubDate>Tue, 21 Apr 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/7.goroutine/</guid>
+      <description>协程和线程   os线程：每几毫秒，硬件计时器会中断处理器，然后调用schedule的内核函数，挂起当前执行的线程，将状态保存到寄存器中。检查可执行线程列表并决定下一次运行的线程。并从内存中恢复寄存器信息继续执行。因为os线程是被内核锁调度，所以一个线程执行状态切换到另一个线程的执行状态需要切换上下文。也就是说，存储用户线程的状态到寄存器，和回复寄存器中读取状态，更新调度器的速度是很慢的。因为其内部局限性很差，需要访问内存好几次，增加运行运行cpu的周期。
+  协程调度：
+ Go有自己的调度器，m:n，n个os线程上调度m个协程。调度器的工作和内核的调度是相似的，但调度器只关注go程序中的协程。 和os线程调度不同的是，go并不是一个硬件定时器，而是被go“建筑”本身进行调度的。  比如一个协程执行了time.Sleep()或channel调用或mutex操作阻塞时。调度器会使其进入休眠，并开始执行另一个协程，直到时机到了再去唤醒第一个协程。因为这种调度不需要进入内核的上下文。所以重新调度一个协程要比调度一个线程的代价要低得多。      区别：
+ 线程是由系统操作系统（os）进行调度的，需要上下文切换 协程一般是由开发者显式调度，避免了上下文切换，从而简化了高并发。[Go并发的实现原理]    传统是多线程，共享内存来实现通信， 例如JAVA，CPP；而go采用CSP，通过通信方式来共享内存。
+  Java中在访问共享变量（Map，List等）时需要加锁进行访问，从而也衍生出一种方便操作的数据类型，即线程安全的集合，例如java.util.concurrent.包中的数据结构。
+  Go采用CSP，通信来共享内存方式
+  Channel 实现原理
+Go channel 实现原理分析 - golang开发笔记 - SegmentFault 思否
+  数据结构，实际上是基于 RingBuffer Wiki
+数据结构的实现
+ dataqsiz // 缓冲区容量，循环队列 qcount // 缓冲区的元素个数 Buf unsafe.Pointer // 指向缓冲区，表示一个已经发送但还未接收的数据。 sendx // 下一个可发送的地址 recvx // 下一个可接收的地址 sendq // 发送的sudog列表，当一个发送操作执行时，若缓冲区满了且无接收者在接送，则协程挂起，并将sudog放入sendq中 sudo G - G 代表Goroutine recvq // 接收的sudog列表，当一个接受操作执行时。若缓冲区无数据且无发送者在等待，则协程挂起，并将sudog放入recvq中 closed // 管道是否关闭 elemsize // 元素大小 elemtype // *_type 元素类型 lock mutex // 锁，用于hchan加锁, 限制只能一个goroutine同时访问一个channel    创建channel</description>
+    </item>
+    
+  </channel>
+</rss>

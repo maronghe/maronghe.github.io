@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>jwt on 马荣贺&#39;s Home, You are my Homie!</title>
+    <link>https://maronghe.github.io/tags/jwt/</link>
+    <description>Recent content in jwt on 马荣贺&#39;s Home, You are my Homie!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 05 Oct 2020 18:36:00 +0200</lastBuildDate><atom:link href="https://maronghe.github.io/tags/jwt/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>#26 JWT项目接入的落地方案</title>
+      <link>https://maronghe.github.io/2020/26.jwt/</link>
+      <pubDate>Mon, 05 Oct 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/26.jwt/</guid>
+      <description>JWT 接入 背景 从单体应用架构到分布式应用架构再到微服务架构，应用的安全访问在不断的经受考验。为了适应架构的变化、需求的变化，身份认证与鉴权方案也在不断的变革。面对数十个甚至上百个微服务之间的调用，如何保证高效安全的身份认证？面对外部的服务访问，该如何提供细粒度的鉴权方案？本文将会为大家阐述微服务架构下的安全认证与鉴权方案。 目标 达到接口鉴权，保证系统的安全性 实践  创建验证表 和 表内数据：  CREATE TABLE `blog_auth` ( `id` int unsigned NOT NULL AUTO_INCREMENT, `app_key` varchar(20) DEFAULT &amp;#39;&amp;#39; COMMENT &amp;#39;Key&amp;#39;, `app_secret` varchar(50) DEFAULT &amp;#39;&amp;#39; COMMENT &amp;#39;Secret&amp;#39;, `sub` varchar(50) DEFAULT &amp;#39;&amp;#39; COMMENT &amp;#39;Sub&amp;#39;, `name` varchar(50) DEFAULT &amp;#39;&amp;#39; COMMENT &amp;#39;Name&amp;#39;, `is_del` tinyint DEFAULT &amp;#39;0&amp;#39; COMMENT &amp;#39;是否删除&amp;#39;, PRIMARY KEY (`id`) USING BTREE ) ENGINE = InnoDB AUTO_INCREMENT = 2 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = &amp;#39;认证管理&amp;#39;; insert into `blog_auth` values(1,&amp;#39;logan&amp;#39;,&amp;#39;loganMasecret&amp;#39;,&amp;#39;gindemo&amp;#39;,&amp;#39;LoganMa&amp;#39;);  安装JWT并在 /internal/model下创建实体类</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>计算机网络 on 马荣贺&#39;s Home, You are my Homie!</title>
+    <link>https://maronghe.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</link>
+    <description>Recent content in 计算机网络 on 马荣贺&#39;s Home, You are my Homie!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 29 May 2020 18:36:00 +0200</lastBuildDate><atom:link href="https://maronghe.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>#14 TCP &amp; UDP</title>
+      <link>https://maronghe.github.io/2020/14.tcpudp/</link>
+      <pubDate>Fri, 29 May 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://maronghe.github.io/2020/14.tcpudp/</guid>
+      <description>TCP   TCP三次握手机制，为什么要三次握手？
+考点：
+  为什么要握手？
+TCP最重要的特性就是可靠性，自己发出去的数据要等到对方去确认，并回复收到了（ack），TCP是支持双工协议，所以双方都要去维护自己的序列号（seq，不从0开始，随机生成的）。因为要获取序列号（和MSS，滑动窗口），所以要握手。
+  为什么要三次？
+因为关闭连接的时候，TCP协议允许连接处于半打开（半关闭）状态。而建立连接不允许连接处于半打开状态，所以Server要把自己的序列号回复过来。
+    HTTP 缓存处理流程？
+Request 中 Cache-Control: max-age=30 ，告诉代理服务器，如果有缓存的话，如果超过30秒时，就不要给Client返回，让代理服务器去原服务器去取。
+Response 中的 Cache-Control: max-age=30 ，告诉客户端，只能到30秒，否则将视为过期。
+  地址栏输入URL到底发生了什么?
+考点：
+  应用层
+DNS域名解析-》代理服务器 -》可能缓存-&amp;gt;网关（Nginx、Apache）-》Origin Server 【如上图所示】
+  请求编码
+http://[domain]/[path] -&amp;gt; 转换成 Method ，Path ，Version Protocol，Header等
+  网络分层
+ TCP解决进程到进程之间的通信 IP 解决主机到主机之间的通信 数据链路层 解决 局域网内部的通信      HTTP长链接有哪些优点？
+考点：
+1.长链接和短连接的区分？
+HTTP Header : connect : close / keepalive</description>
+    </item>
+    
+  </channel>
+</rss>

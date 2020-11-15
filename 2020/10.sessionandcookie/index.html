@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="Logan.Ma">
+  
+  
+  
+  <link rel="prev" href="https://maronghe.github.io/2020/8.studyrecording/" />
+  <link rel="next" href="https://maronghe.github.io/2020/11.golang%E5%AF%BC%E5%8C%85%E9%A1%BA%E5%BA%8F/" />
+  <link rel="canonical" href="https://maronghe.github.io/2020/10.sessionandcookie/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           #10 Session and Cookie | 马荣贺&#39;s Home, You are my Homie!
+       
+  </title>
+  <meta name="title" content="#10 Session and Cookie | 马荣贺&#39;s Home, You are my Homie!">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/maronghe.github.io\/"
+    },
+    "articleSection" : "posts",
+    "name" : "#10 Session and Cookie",
+    "headline" : "#10 Session and Cookie",
+    "description" : "Session 和 Cookie 看法 首先HTTP协议是无状态的，当我们开发的一些对状态有要求的接口时，Cookie和Session弥补了这一块的能力。\nCookie   对于HTTP协议来说，Cookie只是请求头中的一个字段且与其他字段没什么区别。\n  浏览器对Cookie做了默认的支持并限制了Cookie的[同源策略]，即同域才能访问Cookie的内容。\n如当我们做SSO（单点登录），一般可以把Cookie种在可访问的一级域名下。\n  Session   Session是服务器为每个Web用户分配的独立状态存储空间。\n若用户的数据存放在存在某个单点服务器上时，当以七层或四层转发时，请求到后端集群的时候，就存在Session命中的问题（分布式Session问题），这时候需要有中心的方式去统一管理Session，比如存储在DB或缓存中。\n  SessionID：可以由标准OAuth 2.0 来实现最终换取token即 sessionId ，并持有过期时间自动刷新逻辑。\n  总结： Cookie 和 Session 都是辅助HTTP协议无状态性产生的。",
+    "inLanguage" : "en-us",
+    "author" : "Logan.Ma",
+    "creator" : "Logan.Ma",
+    "publisher": "Logan.Ma",
+    "accountablePerson" : "Logan.Ma",
+    "copyrightHolder" : "Logan.Ma",
+    "copyrightYear" : "2020",
+    "datePublished": "2020-05-02 18:36:00 \u002b0200 \u002b0200",
+    "dateModified" : "2020-05-02 18:36:00 \u002b0200 \u002b0200",
+    "url" : "https:\/\/maronghe.github.io\/2020\/10.sessionandcookie\/",
+    "wordCount" : "22",
+    "keywords" : [ "session","cookie", "马荣贺\u0027s Home, You are my Homie!"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">#10 Session and Cookie</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://maronghe.github.io/" rel="author">Logan.Ma</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2020-05-02 itemprop="datePublished">May 2, 2020</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://maronghe.github.io/categories/blog/"> blog </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <h2 id="session-和-cookie-看法">Session 和 Cookie 看法</h2>
+<p>首先HTTP协议是无状态的，当我们开发的一些对状态有要求的接口时，<code>Cookie</code>和<code>Session</code>弥补了这一块的能力。</p>
+<h4 id="cookie">Cookie</h4>
+<ol>
+<li>
+<p>对于HTTP协议来说，<code>Cookie</code>只是请求头中的一个字段且与其他字段没什么区别。</p>
+</li>
+<li>
+<p>浏览器对Cookie做了默认的支持并限制了<code>Cookie</code>的[同源策略]，即同域才能访问Cookie的内容。</p>
+<p>如当我们做<code>SSO</code>（单点登录），一般可以把<code>Cookie</code>种在可访问的一级域名下。</p>
+</li>
+</ol>
+<h4 id="session">Session</h4>
+<ol>
+<li>
+<p>Session是服务器为每个Web用户分配的独立状态存储空间。</p>
+<p>若用户的数据存放在存在某个单点服务器上时，当以七层或四层转发时，请求到后端集群的时候，就存在Session命中的问题（分布式<code>Session</code>问题），这时候需要有中心的方式去统一管理Session，比如存储在DB或缓存中。</p>
+</li>
+<li>
+<p>SessionID：可以由标准<code>OAuth 2.0</code> 来实现最终换取<code>token</code>即 <code>sessionId</code> ，并持有过期时间自动刷新逻辑。</p>
+</li>
+</ol>
+<h2 id="总结">总结：</h2>
+<p>Cookie 和 Session 都是辅助HTTP协议无状态性产生的。</p>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Logan.Ma </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://maronghe.github.io/2020/10.sessionandcookie/>https://maronghe.github.io/2020/10.sessionandcookie/</span>
+            </p>
+            
+             
+            <p class="copyright-item lincese">
+                本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+            </p>
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-tag"></i>Tag(s): 
+            
+            <span class="tag"><a href="https://maronghe.github.io/tags/session/">
+                    #session</a></span>
+            
+            <span class="tag"><a href="https://maronghe.github.io/tags/cookie/">
+                    #cookie</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://maronghe.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://maronghe.github.io/2020/8.studyrecording/" class="prev" rel="prev" title="#8 Study Recording"><i class="iconfont icon-left"></i>&nbsp;#8 Study Recording</a>
+         
+        
+        <a href="https://maronghe.github.io/2020/11.golang%E5%AF%BC%E5%8C%85%E9%A1%BA%E5%BA%8F/" class="next" rel="next" title="#11 Golang导包顺序">#11 Golang导包顺序&nbsp;<i class="iconfont icon-right"></i></a>
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2020 - 2020</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://maronghe.github.io/">Logan.Ma</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>

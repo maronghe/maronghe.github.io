@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="Logan.Ma">
+  
+  
+  
+  <link rel="prev" href="https://maronghe.github.io/2020/4.constant/" />
+  <link rel="next" href="https://maronghe.github.io/2020/6.mutex/" />
+  <link rel="canonical" href="https://maronghe.github.io/2020/5.go-gc/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           #5 Go GC | 马荣贺&#39;s Home, You are my Homie!
+       
+  </title>
+  <meta name="title" content="#5 Go GC | 马荣贺&#39;s Home, You are my Homie!">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/maronghe.github.io\/"
+    },
+    "articleSection" : "posts",
+    "name" : "#5 Go GC",
+    "headline" : "#5 Go GC",
+    "description" : "GC分类：追踪式、引用计数式  追踪式，分为多种不同类型，例如：  标记清扫：从根对象出发，将确定存活的对象进行标记，并清扫可以回收的对象。 标记整理：为了解决内存碎片问题而提出，在标记过程中，将对象尽可能整理到一块连续的内存上。 增量式：将标记与清扫的过程分批执行，每次执行很小的部分，从而增量的推进垃圾回收，达到近似实时、几乎无停顿的目的。 增量整理：在增量式的基础上，增加对对象的整理过程。 分代式：将对象根据存活时间的长短进行分类，存活时间小于某个值的为年轻代，存活时间大于某个值的为老年代，永远不会参与回收的对象为永久代。并根据分代假设（如果一个对象存活时间不长则倾向于被回收，如果一个对象已经存活很长时间则倾向于存活更长时间）对对象进行回收。   引用数：根据对象自身的引用计数来回收，当引用计数归零时立即回收。  Go中使用的GC方式 Go使用无分代、不整理、并发的*三色标记清除法*（与用户代码并发执行）\nBecause:(反证法)\n 对象整理的优势是为了解决内存碎片化的问题和顺序内存分配器。但Go采用tcmalloc，基本上是没有碎片化的对象。顺序内存分配器在多线程下不适用。基于tcmalloc的内存分配算法，对于整理发来说，并不能得到实质的提升。 分代回收基于分代假设，分代假设主要将基于回收精力放到新创建的对象上。而Go创建对象时会进行逃逸分析会把对象尽量的分配到栈上，只有长时间存活的对象才会分配到堆上。那么goroutine死亡后，栈也会直接回收，不会参与GC，那么分代回收没有优势。 go采用与用户并发执行，则STW时间与对象的大小和是否分代，并没有直接关系。go团队使用更好的回收方式（部分CPU执行垃圾回收），而不把暂停回收时间作为唯一标准。  三色标记法  三色标记法是一种描述追踪式垃圾回收的机制的一种方式。它描述了由黑、灰和白色组成（仅为概念），从可能要删除的对象列表中（白色列表），通过_根对象_逐步着色成灰色，最终扫描完成后为黑色，当无灰色对象，其余的白色对象即可回收对象，将被删掉的过程。 根对象有哪些？  栈中的对象 全局变量 寄存器    并发标记回收方式实现的难点 难点：回收的准确性：*不能漏掉可回收对象，也不能多删不可回收对象*\n  赋值器的颜色 及 强弱不变性\n  强弱不变性\n当一下两个条件均满足时，会破坏垃圾回收的正确性。（即对象分配为一个有向图）\n条件1：赋值器修改对象图，导致黑对象引用白色对象。\n条件2：从灰色对象出发，到达白色对象的、未经访问过的路径被赋值器破坏。\n译：\n条件1：赋值器修改黑色对象引用白色对象。\n条件2：赋值器破坏了未经访问的，灰色对象到白色对象的路径。\n当避免条件\n避免条件1：则所有白色对象均被引用，没有白色对象会被遗漏。\n避免条件2：则从灰色对象出发，总存在一条没有访问过的路径，从而找到白色对象，而不会遗漏白色存活对象。\n强不变性：同时满足条件1和条件2。即没有对象会被遗漏，没有未访问的路径会被破坏。弱不变性：满足条件1。即没有对象会被破坏。但不能保证黑色对象引用白色对象。  赋值器分为灰色赋值器（Dijkstra插入屏障）和黑色赋值器（Yuasa 屏障）\n1.赋值器的颜色对对象回收的影响\n允许灰色赋值器存在\n 则必须在回收结束之前重新扫描对象图。 如果重新扫描过程中，发现了新的灰色或白色对象。回收期还需要对新发现的对象进行追踪。但是在追踪新对象过程中，赋值器仍然可以在根中插入新的非黑色的引用，如此往复，直到重新扫描过程没发现新的白色或灰色对象。· ·总结·：允许灰色赋值器存在时，最坏情况下，回收期只能将所有的赋值器线程停止才能完成对对象的完整扫描，也就是STW。  GC触发时机：1.14  主动触发：阻塞等待完成 被动触发  使用系统监控，当超过两分钟没有产生任何GC时强制触发GC。 使用步调（Pacing）算法，其核心思想是控制内存增长比例。      GC关注的指标  CPU利用率（因为并发执行） GC停顿时间 GC停顿频率 GC可扩展性，即回收性能。  GC调优方向 : 优化内存的申请速度，尽可能的少申请内存，复用已申请的内存  大量创建Goroutine，对调度器产生很大的压力。可以批量创建部分的goroutine从而降低调度器调度的压力，从而降低GC时间。 字符串的拼接 \u002b 号，即需要内存拷贝，将内容从原来的内存位置拷贝到新的内存位置。造成大量不必要的内存分配。    GC 触发时间顺序：1.",
+    "inLanguage" : "en-us",
+    "author" : "Logan.Ma",
+    "creator" : "Logan.Ma",
+    "publisher": "Logan.Ma",
+    "accountablePerson" : "Logan.Ma",
+    "copyrightHolder" : "Logan.Ma",
+    "copyrightYear" : "2020",
+    "datePublished": "2020-04-11 18:36:00 \u002b0200 \u002b0200",
+    "dateModified" : "2020-04-11 18:36:00 \u002b0200 \u002b0200",
+    "url" : "https:\/\/maronghe.github.io\/2020\/5.go-gc\/",
+    "wordCount" : "77",
+    "keywords" : [ "垃圾回收", "马荣贺\u0027s Home, You are my Homie!"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">#5 Go GC</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://maronghe.github.io/" rel="author">Logan.Ma</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2020-04-11 itemprop="datePublished">April 11, 2020</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://maronghe.github.io/categories/golang/"> golang </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <h2 id="gc分类追踪式引用计数式">GC分类：追踪式、引用计数式</h2>
+<ul>
+<li>追踪式，分为多种不同类型，例如：
+<ul>
+<li>标记清扫：从根对象出发，将确定存活的对象进行标记，并清扫可以回收的对象。</li>
+<li>标记整理：为了解决内存碎片问题而提出，在标记过程中，将对象尽可能整理到一块连续的内存上。</li>
+<li>增量式：将标记与清扫的过程分批执行，每次执行很小的部分，从而增量的推进垃圾回收，达到近似实时、几乎无停顿的目的。</li>
+<li>增量整理：在增量式的基础上，增加对对象的整理过程。</li>
+<li>分代式：将对象根据存活时间的长短进行分类，存活时间小于某个值的为年轻代，存活时间大于某个值的为老年代，永远不会参与回收的对象为永久代。并根据分代假设（如果一个对象存活时间不长则倾向于被回收，如果一个对象已经存活很长时间则倾向于存活更长时间）对对象进行回收。</li>
+</ul>
+</li>
+<li>引用数：根据对象自身的引用计数来回收，当引用计数归零时立即回收。</li>
+</ul>
+<h2 id="go中使用的gc方式">Go中使用的GC方式</h2>
+<p>Go使用无分代、不整理、并发的*<strong>三色标记清除法*</strong>（与用户代码并发执行）</p>
+<p>Because:(反证法)</p>
+<ol>
+<li>对象整理的优势是为了解决内存碎片化的问题和顺序内存分配器。但Go采用<a href="https://maronghe.github.io/post/5/tcmalloc">tcmalloc</a>，基本上是没有碎片化的对象。顺序内存分配器在多线程下不适用。基于tcmalloc的内存分配算法，对于整理发来说，并不能得到实质的提升。</li>
+<li>分代回收基于<em>分代假设</em>，分代假设主要将基于回收精力放到新创建的对象上。而Go创建对象时会进行<a href="https://www.cnblogs.com/itbsl/p/10476674.html">逃逸分析</a>会把对象尽量的分配到栈上，只有长时间存活的对象才会分配到堆上。那么goroutine死亡后，栈也会直接回收，不会参与GC，那么分代回收没有优势。</li>
+<li>go采用与用户并发执行，则STW时间与对象的大小和是否分代，并没有直接关系。go团队使用更好的回收方式（部分CPU执行垃圾回收），而不把暂停回收时间作为唯一标准。</li>
+</ol>
+<h3 id="三色标记法">三色标记法</h3>
+<ol>
+<li>三色标记法是一种描述追踪式垃圾回收的机制的一种方式。它描述了由黑、灰和白色组成（仅为概念），从可能要删除的对象列表中（白色列表），通过_根对象_逐步着色成灰色，最终扫描完成后为黑色，当无灰色对象，其余的白色对象即可回收对象，将被删掉的过程。</li>
+<li>根对象有哪些？
+<ol>
+<li>栈中的对象</li>
+<li>全局变量</li>
+<li>寄存器</li>
+</ol>
+</li>
+</ol>
+<h2 id="并发标记回收方式实现的难点">并发标记回收方式实现的难点</h2>
+<p>难点：回收的准确性：*<strong>不能漏掉可回收对象，也不能多删不可回收对象*</strong></p>
+<ol>
+<li>
+<p>赋值器的颜色 及 强弱不变性</p>
+<ol>
+<li>
+<p>强弱不变性</p>
+<p>当一下两个条件均满足时，会破坏垃圾回收的正确性。（即对象分配为一个<a href="https://maronghe.github.io/post/5/">有向图</a>）</p>
+<p><strong>条件1：赋值器修改对象图，导致黑对象引用白色对象。</strong></p>
+<p><strong>条件2：从灰色对象出发，到达白色对象的、未经访问过的路径被赋值器破坏。</strong></p>
+<p>译：</p>
+<p>条件1：赋值器修改黑色对象引用白色对象。</p>
+<p>条件2：赋值器破坏了<strong>未经访问</strong>的，灰色对象到白色对象的<strong>路径</strong>。</p>
+<p>当避免条件</p>
+<p>避免条件1：则所有白色对象均被引用，没有白色对象会被遗漏。</p>
+<p>避免条件2：则从灰色对象出发，总存在一条没有访问过的路径，从而找到白色对象，而不会遗漏白色存活对象。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-reStructuredText" data-lang="reStructuredText">强不变性：同时满足条件1和条件2。即没有对象会被遗漏，没有未访问的路径会被破坏。<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>弱不变性：满足条件1。即没有对象会被破坏。但不能保证黑色对象引用白色对象。<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div></li>
+<li>
+<p>赋值器分为灰色赋值器（<em>Dijkstra</em>插入屏障）和黑色赋值器（<em>Yuasa 屏障</em>）</p>
+<p>1.赋值器的颜色对对象回收的影响</p>
+<p>允许灰色赋值器存在</p>
+<ol>
+<li>则必须在回收结束之前重新扫描对象图。</li>
+<li>如果重新扫描过程中，发现了新的灰色或白色对象。回收期还需要对新发现的对象进行追踪。但是在追踪新对象过程中，赋值器仍然可以在根中插入新的非黑色的引用，如此往复，直到重新扫描过程没发现新的白色或灰色对象。·</li>
+<li>·总结·：允许灰色赋值器存在时，最坏情况下，回收期只能将所有的赋值器线程停止才能完成对对象的完整扫描，也就是STW。</li>
+</ol>
+<h4 id="gc触发时机114">GC触发时机：1.14</h4>
+<ol>
+<li>主动触发：阻塞等待完成</li>
+<li>被动触发
+<ol>
+<li>使用系统监控，当超过两分钟没有产生任何GC时强制触发GC。</li>
+<li>使用<a href="https://maronghe.github.io/post/5/">步调（Pacing）算法</a>，其核心思想是控制内存增长比例。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h4 id="gc关注的指标">GC关注的指标</h4>
+<ol>
+<li>CPU利用率（因为并发执行）</li>
+<li>GC停顿时间</li>
+<li>GC停顿频率</li>
+<li>GC可扩展性，即回收性能。</li>
+</ol>
+<h4 id="gc调优方向--优化内存的申请速度尽可能的少申请内存复用已申请的内存">GC调优方向 : 优化内存的申请速度，尽可能的少申请内存，复用已申请的内存</h4>
+<ol>
+<li>大量创建Goroutine，对调度器产生很大的压力。可以批量创建部分的goroutine从而降低调度器调度的压力，从而降低GC时间。</li>
+<li>字符串的拼接 + 号，即需要内存拷贝，将内容从原来的内存位置拷贝到新的内存位置。造成大量不必要的内存分配。</li>
+</ol>
+</li>
+</ol>
+<p><strong>GC 触发时间顺序：1.14</strong></p>
+<h2 id="参考文献">参考文献</h2>
+<ol>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MjM5MDUwNTQwMQ==&amp;mid=2257484062&amp;idx=1&amp;sn=40a8cca15b9c215f8a29e60e6d8a3542&amp;scene=21#wechat_redirect">https://mp.weixin.qq.com/s?__biz=MjM5MDUwNTQwMQ==&amp;mid=2257484062&amp;idx=1&amp;sn=40a8cca15b9c215f8a29e60e6d8a3542&amp;scene=21#wechat_redirect</a> [欧长坤的GC 20问，Tips：就这GC够学一个月了]</li>
+<li><a href="https://github.com/golang/proposal/blob/master/design/17503-eliminate-rescan.md">https://github.com/golang/proposal/blob/master/design/17503-eliminate-rescan.md</a> [Proposal: Eliminate STW stack re-scanning]</li>
+<li><a href="https://github.com/golang/go/issues/17503">https://github.com/golang/go/issues/17503</a> [eliminate stack rescanning discussion]</li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Logan.Ma </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://maronghe.github.io/2020/5.go-gc/>https://maronghe.github.io/2020/5.go-gc/</span>
+            </p>
+            
+             
+            <p class="copyright-item lincese">
+                本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+            </p>
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-tag"></i>Tag(s): 
+            
+            <span class="tag"><a href="https://maronghe.github.io/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/">
+                    #垃圾回收</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://maronghe.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://maronghe.github.io/2020/4.constant/" class="prev" rel="prev" title="#4 最终一致性"><i class="iconfont icon-left"></i>&nbsp;#4 最终一致性</a>
+         
+        
+        <a href="https://maronghe.github.io/2020/6.mutex/" class="next" rel="next" title="#6 Golang锁">#6 Golang锁&nbsp;<i class="iconfont icon-right"></i></a>
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2020 - 2020</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://maronghe.github.io/">Logan.Ma</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>

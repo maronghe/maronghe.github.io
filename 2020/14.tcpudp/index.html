@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="Logan.Ma">
+  
+  
+  
+  <link rel="prev" href="https://maronghe.github.io/2020/13.bst/" />
+  <link rel="next" href="https://maronghe.github.io/2020/15.defer/" />
+  <link rel="canonical" href="https://maronghe.github.io/2020/14.tcpudp/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           #14 TCP &amp; UDP | 马荣贺&#39;s Home, You are my Homie!
+       
+  </title>
+  <meta name="title" content="#14 TCP &amp; UDP | 马荣贺&#39;s Home, You are my Homie!">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/maronghe.github.io\/"
+    },
+    "articleSection" : "posts",
+    "name" : "#14 TCP \u0026 UDP",
+    "headline" : "#14 TCP \u0026 UDP",
+    "description" : "TCP   TCP三次握手机制，为什么要三次握手？\n考点：\n  为什么要握手？\nTCP最重要的特性就是可靠性，自己发出去的数据要等到对方去确认，并回复收到了（ack），TCP是支持双工协议，所以双方都要去维护自己的序列号（seq，不从0开始，随机生成的）。因为要获取序列号（和MSS，滑动窗口），所以要握手。\n  为什么要三次？\n因为关闭连接的时候，TCP协议允许连接处于半打开（半关闭）状态。而建立连接不允许连接处于半打开状态，所以Server要把自己的序列号回复过来。\n    HTTP 缓存处理流程？\nRequest 中 Cache-Control: max-age=30 ，告诉代理服务器，如果有缓存的话，如果超过30秒时，就不要给Client返回，让代理服务器去原服务器去取。\nResponse 中的 Cache-Control: max-age=30 ，告诉客户端，只能到30秒，否则将视为过期。\n  地址栏输入URL到底发生了什么?\n考点：\n  应用层\nDNS域名解析-》代理服务器 -》可能缓存-\u0026gt;网关（Nginx、Apache）-》Origin Server 【如上图所示】\n  请求编码\nhttp:\/\/[domain]\/[path] -\u0026gt; 转换成 Method ，Path ，Version Protocol，Header等\n  网络分层\n TCP解决进程到进程之间的通信 IP 解决主机到主机之间的通信 数据链路层 解决 局域网内部的通信      HTTP长链接有哪些优点？\n考点：\n1.长链接和短连接的区分？\nHTTP Header : connect : close \/ keepalive",
+    "inLanguage" : "en-us",
+    "author" : "Logan.Ma",
+    "creator" : "Logan.Ma",
+    "publisher": "Logan.Ma",
+    "accountablePerson" : "Logan.Ma",
+    "copyrightHolder" : "Logan.Ma",
+    "copyrightYear" : "2020",
+    "datePublished": "2020-05-29 18:36:00 \u002b0200 \u002b0200",
+    "dateModified" : "2020-05-29 18:36:00 \u002b0200 \u002b0200",
+    "url" : "https:\/\/maronghe.github.io\/2020\/14.tcpudp\/",
+    "wordCount" : "117",
+    "keywords" : [ "计算机网络", "马荣贺\u0027s Home, You are my Homie!"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">#14 TCP &amp; UDP</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://maronghe.github.io/" rel="author">Logan.Ma</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2020-05-29 itemprop="datePublished">May 29, 2020</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://maronghe.github.io/categories/blog/"> blog </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+            
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <h2 id="tcp">TCP</h2>
+<ol>
+<li>
+<p>TCP三次握手机制，为什么要三次握手？</p>
+<p>考点：</p>
+<ol>
+<li>
+<p>为什么要握手？</p>
+<p>TCP最重要的特性就是<code>可靠性</code>，自己发出去的数据要等到对方去确认，并回复收到了（ack），TCP是支持双工协议，所以双方都要去维护自己的序列号（seq，不从0开始，随机生成的）。因为要获取序列号（和MSS，滑动窗口），所以要握手。</p>
+</li>
+<li>
+<p>为什么要三次？</p>
+<p>因为关闭连接的时候，TCP协议允许连接处于半打开（半关闭）状态。而建立连接不允许连接处于半打开状态，所以Server要把自己的序列号回复过来。</p>
+</li>
+</ol>
+</li>
+<li>
+<p>HTTP 缓存处理流程？</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gdzbc510l7j31100ggjzo.jpg" alt="img"></p>
+<p>Request 中 Cache-Control: max-age=30 ，告诉代理服务器，如果有缓存的话，如果超过30秒时，就不要给Client返回，让代理服务器去原服务器去取。</p>
+<p>Response 中的 Cache-Control: max-age=30 ，告诉客户端，只能到30秒，否则将视为过期。</p>
+</li>
+<li>
+<p>地址栏输入URL到底发生了什么?</p>
+<p>考点：</p>
+<ol>
+<li>
+<p>应用层</p>
+<p>DNS域名解析-》代理服务器 -》可能缓存-&gt;网关（Nginx、Apache）-》Origin Server 【如上图所示】</p>
+</li>
+<li>
+<p>请求编码</p>
+<p>http://[domain]/[path] -&gt; 转换成 Method ，Path ，Version Protocol，Header等</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gdzbqzrj6ej314c0iqtg4.jpg" alt="img"></p>
+</li>
+<li>
+<p>网络分层</p>
+<ol>
+<li>TCP解决进程到进程之间的通信</li>
+<li>IP 解决主机到主机之间的通信</li>
+<li>数据链路层 解决 局域网内部的通信</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>
+<p>HTTP长链接有哪些优点？</p>
+<p>考点：</p>
+<p>1.长链接和短连接的区分？</p>
+<p>HTTP Header : connect : close / keepalive</p>
+<p>2.TCP协议</p>
+<ol>
+<li>
+<p>减少握手建立的消耗</p>
+</li>
+<li>
+<p>降低了慢启动带来了传输效率的影响，支持（1字节-1GB数据大小，<strong>不限于1GB</strong>）</p>
+<p>1.TCP天生代流量控制的，但中间的网络带宽等都是有限制的，所以TCP会从慢到快最终到一个合适的传输状态。</p>
+</li>
+<li>
+<p>缺点：TCP字符流协议，长链接传输多个文件的时候，第一个文件没传递完成时不会传第二个，会导致TCP长链接串行传旭。因为TCP会有一个队头阻塞问题，（只要有一个丢包，即使传了对方应用层不会接收。）</p>
+</li>
+</ol>
+</li>
+<li>
+<p>CLOSE_WAIT产生的原因？（出程序Bug了，可能忘记关闭Socket了，Socket泄露）</p>
+</li>
+<li>
+<p>单播，广播，组播，多播。「TODO」</p>
+</li>
+<li>
+<p>服务器的最大并发连接数是多少？</p>
+<p>考点：TCP四元组，并非是65536个端口号的限制。</p>
+<ol>
+<li>
+<p>TCP四元组包括源IP，源端口，目的IP和目的端口。（不仅受制于端口） 2^48 = 2^16 * 2^32 （理论）</p>
+</li>
+<li>
+<p>Linux更多的并发数可以打开（ip local port range 打开）、配置多网卡，虚拟IP（实践）</p>
+</li>
+<li>
+<p>高并发的限制？怎样处理高并发优化？</p>
+<p>不要处理一个请求时间过长，否则可能会导致超时。（需要用到事件驱动，因其无阻塞）</p>
+</li>
+</ol>
+</li>
+<li>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gdzcswox61j31ci0oi7dr.jpg" alt="img"></p>
+<p>报文传输：TCP Header 过大 20字节 UDP 8字节</p>
+</li>
+<li>
+<p>TLS/SSL怎么保证安全问题？</p>
+<ol>
+<li>PKI证书体系：RSA-非对称加密</li>
+<li>对称加密算法：速度快，不知道秘钥情况下，不能逆推。</li>
+<li>秘钥交换协议：握手阶段协商（DH &amp; ECCDH）</li>
+</ol>
+</li>
+<li>
+<p>HTTP 2.0 优点</p>
+<p>HTTP 1.1 缺点</p>
+<ol>
+<li>Header 太长 ：cookie、user-agent 等 每次都发送，占用带宽</li>
+<li>不支持多路复用</li>
+</ol>
+<p>解决：</p>
+<ol>
+<li>消息推送，访问http//***/index.html 推送css和js。</li>
+<li>多路复用：【Chrome下默认6个TCP连接】</li>
+<li>HPACK编码：（header压缩编码）
+<ol>
+<li>动态表</li>
+<li>静态表 （常用61个）</li>
+<li>静态 Huffman</li>
+<li>证书编码</li>
+</ol>
+</li>
+<li>Stream 优先级
+<ol>
+<li>父子依赖</li>
+<li>权重优先级</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="other">Other</h2>
+<ol>
+<li>大厂更考验的是分析能力，即使不会也应该去分析一下。</li>
+<li>小厂不希望你有太明显的短板，希望全方位能力。</li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Logan.Ma </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://maronghe.github.io/2020/14.tcpudp/>https://maronghe.github.io/2020/14.tcpudp/</span>
+            </p>
+            
+             
+            <p class="copyright-item lincese">
+                本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+            </p>
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-tag"></i>Tag(s): 
+            
+            <span class="tag"><a href="https://maronghe.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+                    #计算机网络</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://maronghe.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://maronghe.github.io/2020/13.bst/" class="prev" rel="prev" title="#13 二叉搜索树（BST）In Go"><i class="iconfont icon-left"></i>&nbsp;#13 二叉搜索树（BST）In Go</a>
+         
+        
+        <a href="https://maronghe.github.io/2020/15.defer/" class="next" rel="next" title="#15 Defer in Golang v1.12 vs v1.13 vs v1.14">#15 Defer in Golang v1.12 vs v1.13 vs v1.14&nbsp;<i class="iconfont icon-right"></i></a>
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2020 - 2020</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://maronghe.github.io/">Logan.Ma</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+     <link href="//lib.baomitu.com/lightgallery/1.6.11/css/lightgallery.min.css" rel="stylesheet">  
+      
+     <script src="/js/vendor_gallery.min.js" async="" ></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>

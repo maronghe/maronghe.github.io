@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="Logan.Ma">
+  
+  
+  
+  <link rel="prev" href="https://maronghe.github.io/2020/19.fe504/" />
+  <link rel="next" href="https://maronghe.github.io/2020/21.leetcode-206-%E9%93%BE%E8%A1%A8%E7%BF%BB%E8%BD%AC/" />
+  <link rel="canonical" href="https://maronghe.github.io/2020/20.tcp%E9%95%BF%E9%93%BE%E6%8E%A5%E9%80%9A%E4%BF%A1/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           #20 TCP长链接解决方案 | 马荣贺&#39;s Home, You are my Homie!
+       
+  </title>
+  <meta name="title" content="#20 TCP长链接解决方案 | 马荣贺&#39;s Home, You are my Homie!">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/maronghe.github.io\/"
+    },
+    "articleSection" : "posts",
+    "name" : "#20 TCP长链接解决方案",
+    "headline" : "#20 TCP长链接解决方案",
+    "description" : "TCP长链接通信解决方案记录 bufio -带有缓存区的io\n指定一个默认大小的缓冲区的io，进行读取，先从缓冲区读取，缓冲区中没数据之后再更新缓冲区。\n默认缓冲区大小为4M，最小为16字节\n其提供了更丰富的操作如\n如Peek，读一行，读固定字节，读rune，读slice等等，丰富了操作。\n我们的系统需要与对方系统同步数据，所以建立TCP长链接进行数据同步比数据轮询来得更有价值些。\nTCP基于数据流协议，直接读取的字符流，相较于HTTP，还需要增加额外的HTTP header等不重要的数据进行传输。\n那么这一过程有什么问题呢？ 之前的思想是建立好连接之后，直接从io.read中进行读取固定字节大小的slice。\n例如从连接中每次读取2M数据。\n但是因为TCP中的数据只要不断开，就是无穷无尽的数据。\n这就引入了，从无边界的数据，读取数据的问题。既然每次都读2M肯定是行不通的。\n因为每次发送的数据不是2M，那么数据就必须要有分隔符。比如加入 \\n \\0等等。\n通过网上的资料来查，这也不是一个好的办法。最终采用了，先传数据大小的header头信息 \u002b body大小，进行计算，再读出指定大小的数据包大小的数据即可。\n原本以为这是件很简单事：\n创建连接 -》 读数据-》 计算body大小-》读body大小的数据-》解析数据（如存入缓存、队列来异步解析）-》再读header…以次类推。\n问题来源：\n  连接的维护：TCP连接不是创建好了之后，就永远不会断开。\n比如有另外一条连接创建了，对方的服务端会主动断开之前的TCP连接。我们线上有有一次发生这个问题，由于某种事情，导致了部署两套实例。导致后面的数据都同步不过来了。\n  粘包等问题：\n  粘包是TCP的常见的问题。由于通信双方每次网卡发送的数据不一致，可能回导致发送的数据不被立即写出或等待一会儿一并写出。\n  go中的io.read方法官方文档上已经明确指出。当我们想读取pack := make([]byte, 2048)读取2M的数据时。可能会返回\n0 \u0026lt;= n \u0026lt;= 2048的读数据大小。也明确指出：当可读区小于想读取的大小数据时，直接返回读到的数据去代替继续等待。所以\n这个地方栽跟头了。\n  那么最终解决的问题是通过bufio和io.readFull进行解决得。\n  bufio会内部会维护一个缓冲区默认为4M，和w和r的变量，作为读到的和使用的指针下标。\n 先从缓冲区中读 缓冲区读取不到的话，就利用被封装了的io.read进行读取。    结合io.read问题，可能读取不全。内部利用了io.read去循环读取读取。\n  TODO 是否可以对内核进行传递参数，如SOCKET_REUSE等\n  ",
+    "inLanguage" : "en-us",
+    "author" : "Logan.Ma",
+    "creator" : "Logan.Ma",
+    "publisher": "Logan.Ma",
+    "accountablePerson" : "Logan.Ma",
+    "copyrightHolder" : "Logan.Ma",
+    "copyrightYear" : "2020",
+    "datePublished": "2020-07-19 18:36:00 \u002b0200 \u002b0200",
+    "dateModified" : "2020-07-19 18:36:00 \u002b0200 \u002b0200",
+    "url" : "https:\/\/maronghe.github.io\/2020\/20.tcp%E9%95%BF%E9%93%BE%E6%8E%A5%E9%80%9A%E4%BF%A1\/",
+    "wordCount" : "48",
+    "keywords" : [ "tcp","长链接通信", "马荣贺\u0027s Home, You are my Homie!"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://maronghe.github.io/">马荣贺&#39;s Home, You are my Homie!</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">#20 TCP长链接解决方案</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://maronghe.github.io/" rel="author">Logan.Ma</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2020-07-19 itemprop="datePublished">July 19, 2020</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://maronghe.github.io/categories/blog/"> blog </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+            
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <h1 id="tcp长链接通信解决方案记录">TCP长链接通信解决方案记录</h1>
+<h2 id="bufio">bufio</h2>
+<p>-带有缓存区的io</p>
+<p>指定一个默认大小的缓冲区的io，进行读取，先从缓冲区读取，缓冲区中没数据之后再更新缓冲区。</p>
+<p>默认缓冲区大小为4M，最小为16字节</p>
+<p>其提供了更丰富的操作如</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfyvg3ei0vj308006mmxm.jpg" alt="img"></p>
+<p>如Peek，读一行，读固定字节，读rune，读slice等等，丰富了操作。</p>
+<p>我们的系统需要与对方系统同步数据，所以建立TCP长链接进行数据同步比数据轮询来得更有价值些。</p>
+<p>TCP基于数据流协议，直接读取的字符流，相较于HTTP，还需要增加额外的HTTP header等不重要的数据进行传输。</p>
+<h2 id="那么这一过程有什么问题呢">那么这一过程有什么问题呢？</h2>
+<p>之前的思想是建立好连接之后，直接从io.read中进行读取固定字节大小的slice。</p>
+<p>例如从连接中每次读取2M数据。</p>
+<p>但是因为TCP中的数据只要不断开，就是无穷无尽的数据。</p>
+<p>这就引入了，从无边界的数据，读取数据的问题。既然每次都读2M肯定是行不通的。</p>
+<p>因为每次发送的数据不是2M，那么数据就必须要有分隔符。比如加入 <code>\n</code> <code>\0</code>等等。</p>
+<p>通过网上的资料来查，这也不是一个好的办法。最终采用了，先传数据大小的header头信息 + body大小，进行计算，再读出指定大小的数据包大小的数据即可。</p>
+<p>原本以为这是件很简单事：</p>
+<p>创建连接 -》 读数据-》 计算body大小-》读body大小的数据-》解析数据（如存入缓存、队列来异步解析）-》再读header…以次类推。</p>
+<p>问题来源：</p>
+<ol>
+<li>
+<p>连接的维护：TCP连接不是创建好了之后，就永远不会断开。</p>
+<p>比如有另外一条连接创建了，对方的服务端会主动断开之前的TCP连接。我们线上有有一次发生这个问题，由于某种事情，导致了部署两套实例。导致后面的数据都同步不过来了。</p>
+</li>
+<li>
+<p>粘包等问题：</p>
+<ol>
+<li>
+<p>粘包是TCP的常见的问题。由于通信双方每次网卡发送的数据不一致，可能回导致发送的数据不被立即写出或等待一会儿一并写出。</p>
+</li>
+<li>
+<p>go中的<code>io.read</code>方法官方文档上已经明确指出。当我们想读取<code>pack := make([]byte, 2048)</code>读取2M的数据时。可能会返回</p>
+<p><code>0 &lt;= n &lt;= 2048</code>的读数据大小。也明确指出：当可读区小于想读取的大小数据时，直接返回读到的数据去代替继续等待。所以</p>
+<p>这个地方栽跟头了。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfyvwc0bmqj30m30j1tdc.jpg" alt="img"></p>
+</li>
+<li>
+<p>那么最终解决的问题是通过<code>bufio</code>和<code>io.readFull</code>进行解决得。</p>
+</li>
+<li>
+<p>bufio会内部会维护一个缓冲区默认为4M，和w和r的变量，作为读到的和使用的指针下标。</p>
+<ol>
+<li>先从缓冲区中读</li>
+<li>缓冲区读取不到的话，就利用被封装了的io.read进行读取。</li>
+</ol>
+</li>
+<li>
+<p>结合io.read问题，可能读取不全。内部利用了io.read去循环读取读取。</p>
+</li>
+</ol>
+<p>TODO 是否可以对内核进行传递参数，如SOCKET_REUSE等</p>
+</li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Logan.Ma </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://maronghe.github.io/2020/20.tcp%E9%95%BF%E9%93%BE%E6%8E%A5%E9%80%9A%E4%BF%A1/>https://maronghe.github.io/2020/20.tcp%E9%95%BF%E9%93%BE%E6%8E%A5%E9%80%9A%E4%BF%A1/</span>
+            </p>
+            
+             
+            <p class="copyright-item lincese">
+                本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+            </p>
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-tag"></i>Tag(s): 
+            
+            <span class="tag"><a href="https://maronghe.github.io/tags/tcp/">
+                    #tcp</a></span>
+            
+            <span class="tag"><a href="https://maronghe.github.io/tags/%E9%95%BF%E9%93%BE%E6%8E%A5%E9%80%9A%E4%BF%A1/">
+                    #长链接通信</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://maronghe.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://maronghe.github.io/2020/19.fe504/" class="prev" rel="prev" title="#19 记一次前端504问题反馈"><i class="iconfont icon-left"></i>&nbsp;#19 记一次前端504问题反馈</a>
+         
+        
+        <a href="https://maronghe.github.io/2020/21.leetcode-206-%E9%93%BE%E8%A1%A8%E7%BF%BB%E8%BD%AC/" class="next" rel="next" title="#21 Leetcode 206 链表翻转">#21 Leetcode 206 链表翻转&nbsp;<i class="iconfont icon-right"></i></a>
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2020 - 2020</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://maronghe.github.io/">Logan.Ma</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+     <link href="//lib.baomitu.com/lightgallery/1.6.11/css/lightgallery.min.css" rel="stylesheet">  
+      
+     <script src="/js/vendor_gallery.min.js" async="" ></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>
